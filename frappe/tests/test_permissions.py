@@ -662,6 +662,24 @@ class TestPermissions(IntegrationTestCase):
 			self.assertTrue(frappe.has_permission("ToDo", "read", todo))
 			self.assertIn(todo, frappe.get_list("ToDo", pluck="name"))
 
+	def test_participant_can_access_event_of_restricted_document(self):
+		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test2@example.com")
+		reference = {"reference_doctype": "Test Blog Post", "reference_docname": "_Test Blog Post"}
+		event = frappe.get_doc(
+			doctype="Event",
+			subject="_Test Participant Event",
+			event_type="Private",
+			starts_on="2026-01-01 10:00:00",
+			event_participants=[{**reference, "email": "test2@example.com"}],
+			**reference,
+		).insert()
+		self.addCleanup(frappe.delete_doc, "Event", event.name, force=True)
+
+		with self.set_user("test2@example.com"):
+			self.assertFalse(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
+			self.assertTrue(frappe.has_permission("Event", "read", event.name))
+			self.assertIn(event.name, frappe.get_list("Event", pluck="name"))
+
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
 		frappe.set_user("test3@example.com")
