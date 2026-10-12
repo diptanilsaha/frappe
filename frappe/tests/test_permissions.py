@@ -534,115 +534,87 @@ class TestPermissions(IntegrationTestCase):
 
 	@staticmethod
 	def make_dynamic_link_doctype(ignore_user_permissions: int) -> str:
-		"""Create a doctype that links to other documents only through a Dynamic Link."""
-		return (
-			new_doctype(
-				fields=[
-					{
-						"fieldname": "reference_type",
-						"fieldtype": "Link",
-						"label": "Reference Type",
-						"options": "DocType",
-					},
-					{
-						"fieldname": "reference_name",
-						"fieldtype": "Dynamic Link",
-						"label": "Reference Name",
-						"options": "reference_type",
-						"ignore_user_permissions": ignore_user_permissions,
-					},
-				],
-				permissions=[{"role": "Blogger", "read": 1}],
-			)
-			.insert()
-			.name
-		)
+		fields = [
+			{"fieldname": "reference_type", "fieldtype": "Link", "label": "Type", "options": "DocType"},
+			{
+				"fieldname": "reference_name",
+				"fieldtype": "Dynamic Link",
+				"label": "Name",
+				"options": "reference_type",
+				"ignore_user_permissions": ignore_user_permissions,
+			},
+		]
+		return new_doctype(fields=fields, permissions=[{"role": "Blogger", "read": 1}]).insert().name
 
 	def make_dynamic_link_docs(self, doctype: str) -> dict:
 		frappe.set_user("Administrator")
 		frappe.db.delete(doctype)
-		docs = {}
-		for key, reference_type, reference_name in (
-			("allowed", "Test Blog Category", "_Test Blog Category 1"),
-			("restricted", "Test Blog Category", "_Test Blog Category 2"),
-			("other_doctype", "Test Blogger", "_Test Blogger"),
-			("empty", None, None),
-		):
-			docs[key] = frappe.get_doc(
-				doctype=doctype, reference_type=reference_type, reference_name=reference_name
-			).insert()
-
+		links = {
+			"allowed": ("Test Blog Category", "_Test Blog Category 1"),
+			"restricted": ("Test Blog Category", "_Test Blog Category 2"),
+			"other_doctype": ("Test Blogger", "_Test Blogger"),
+			"empty": (None, None),
+		}
+		docs = {
+			key: frappe.get_doc(doctype=doctype, reference_type=dt, reference_name=dn).insert()
+			for key, (dt, dn) in links.items()
+		}
 		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test2@example.com")
 		frappe.set_user("test2@example.com")
 		return docs
 
+	def assert_query_results(self, doctype: str, expected: set[str]):
+		from frappe.client import get_list as client_get_list
+		from frappe.desk.reportview import build_match_conditions, execute
+		from frappe.model.db_query import DatabaseQuery
+
+		results = {
+			"get_list": frappe.get_list(doctype, pluck="name"),
+			"client.get_list": [d.name for d in client_get_list(doctype, limit_page_length=0)],
+			"reportview": execute(doctype, pluck="name"),
+			"qb": frappe.qb.get_query(doctype, ignore_permissions=False).run(pluck=True),
+			"db_query": DatabaseQuery(doctype).execute(pluck="name"),
+			"match_conditions": frappe.db.sql_list(
+				f"select name from `tab{doctype}` where {build_match_conditions(doctype) or '1=1'}"
+			),
+		}
+		for query, names in results.items():
+			self.assertEqual(set(names), expected, query)
+
 	def test_user_permissions_on_dynamic_link(self):
-		import frappe.client
-		import frappe.desk.reportview
-		from frappe.desk.reportview import build_match_conditions
-		from frappe.model.db_query import DatabaseQuery
+		docs = self.make_dynamic_link_docs(self.dynamic_link_doctype)
+		restricted = docs.pop("restricted")
+		visible = {doc.name for doc in docs.values()}
 
+		self.assertFalse(frappe.has_permission(restricted.doctype, "read", restricted.name))
+		self.assertRaises(frappe.PermissionError, restricted.check_permission, "read")
+		for doc in docs.values():
+			self.assertTrue(doc.has_permission("read"), doc.reference_name)
+		self.assert_query_results(restricted.doctype, visible)
+
+		with self.set_user("Administrator"):
+			frappe.share.add(restricted.doctype, restricted.name, "test2@example.com")
+		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": restricted.doctype})
+
+		restricted.check_permission("read")
+		self.assert_query_results(restricted.doctype, visible | {restricted.name})
+
+	def test_strict_user_permissions_on_dynamic_link(self):
 		doctype = self.dynamic_link_doctype
 		docs = self.make_dynamic_link_docs(doctype)
-		allowed = {docs["allowed"].name, docs["other_doctype"].name, docs["empty"].name}
+		with self.set_user("Administrator"):
+			frappe.db.set_value(doctype, docs["allowed"].name, "reference_name", None)
+			self.set_strict_user_permissions(1)
+		self.addCleanup(self.set_strict_user_permissions, 0)
 
-		self.assertFalse(docs["restricted"].has_permission("read"))
-		self.assertFalse(frappe.has_permission(doctype, "read", docs["restricted"].name))
-		self.assertRaises(frappe.PermissionError, docs["restricted"].check_permission, "read")
-		for key in ("allowed", "other_doctype", "empty"):
-			self.assertTrue(docs[key].has_permission("read"), key)
+		self.assertFalse(frappe.has_permission(doctype, "read", docs["allowed"].name))
+		self.assert_query_results(doctype, {docs["other_doctype"].name, docs["empty"].name})
 
-		self.assertEqual(set(frappe.get_list(doctype, pluck="name")), allowed)
-		self.assertEqual(
-			{d.name for d in frappe.client.get_list(doctype, fields=["name"], limit_page_length=0)}, allowed
-		)
-		self.assertEqual(set(frappe.desk.reportview.execute(doctype, pluck="name")), allowed)
-		self.assertEqual(
-			set(frappe.qb.get_query(doctype, fields=["name"], ignore_permissions=False).run(pluck=True)),
-			allowed,
-		)
-		self.assertEqual(set(DatabaseQuery(doctype).execute(pluck="name")), allowed)
-
-		match_conditions = build_match_conditions(doctype)
-		self.assertEqual(
-			set(frappe.db.sql_list(f"select name from `tab{doctype}` where {match_conditions}")),
-			allowed,
-		)
-
-	def test_shared_document_ignores_user_permissions_on_dynamic_link(self):
-		import frappe.client
-		import frappe.desk.reportview
-		from frappe.desk.reportview import build_match_conditions
-		from frappe.model.db_query import DatabaseQuery
-
-		doctype = self.dynamic_link_doctype
-		docs = self.make_dynamic_link_docs(doctype)
-		restricted = docs["restricted"].name
-
-		frappe.set_user("Administrator")
-		frappe.share.add(doctype, restricted, "test2@example.com")
-		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": doctype})
-		frappe.set_user("test2@example.com")
+	def test_ignore_user_permissions_on_dynamic_link(self):
+		docs = self.make_dynamic_link_docs(self.ignored_dynamic_link_doctype)
 
 		self.assertTrue(docs["restricted"].has_permission("read"))
-		docs["restricted"].check_permission("read")
-
-		self.assertIn(restricted, frappe.get_list(doctype, pluck="name"))
-		self.assertIn(
-			restricted,
-			[d.name for d in frappe.client.get_list(doctype, fields=["name"], limit_page_length=0)],
-		)
-		self.assertIn(restricted, frappe.desk.reportview.execute(doctype, pluck="name"))
-		self.assertIn(
-			restricted,
-			frappe.qb.get_query(doctype, fields=["name"], ignore_permissions=False).run(pluck=True),
-		)
-		self.assertIn(restricted, DatabaseQuery(doctype).execute(pluck="name"))
-
-		match_conditions = build_match_conditions(doctype)
-		self.assertIn(
-			restricted, frappe.db.sql_list(f"select name from `tab{doctype}` where {match_conditions}")
-		)
+		self.assert_query_results(self.ignored_dynamic_link_doctype, {doc.name for doc in docs.values()})
 
 	def test_update_tags_on_shared_document(self):
 		from frappe.desk.doctype.tag.tag import update_tags
@@ -654,42 +626,14 @@ class TestPermissions(IntegrationTestCase):
 		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": "Test Blog Post"})
 		self.addCleanup(frappe.db.delete, "Tag Link", {"document_type": "Test Blog Post"})
 
-		frappe.set_user("test2@example.com")
-		post = frappe.get_doc("Test Blog Post", "_Test Blog Post")
-		update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
-		update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
-		update_tags(post, "_Test Shared Tag 1")
+		with self.set_user("test2@example.com"):
+			post = frappe.get_doc("Test Blog Post", "_Test Blog Post")
+			update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
+			update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
+			update_tags(post, "_Test Shared Tag 1")
 
-		self.assertEqual(
-			frappe.get_all(
-				"Tag Link",
-				filters={"document_type": "Test Blog Post", "document_name": "_Test Blog Post"},
-				pluck="tag",
-			),
-			["_Test Shared Tag 1"],
-		)
-
-	def test_strict_user_permissions_on_dynamic_link(self):
-		doctype = self.dynamic_link_doctype
-		docs = self.make_dynamic_link_docs(doctype)
-		frappe.set_user("Administrator")
-		frappe.db.set_value(doctype, docs["allowed"].name, "reference_name", None)
-		self.set_strict_user_permissions(1)
-		self.addCleanup(self.set_strict_user_permissions, 0)
-
-		frappe.set_user("test2@example.com")
-		blank_link = frappe.get_doc(doctype, docs["allowed"].name)
-		self.assertFalse(blank_link.has_permission("read"))
-		self.assertEqual(
-			set(frappe.get_list(doctype, pluck="name")), {docs["other_doctype"].name, docs["empty"].name}
-		)
-
-	def test_ignore_user_permissions_on_dynamic_link(self):
-		doctype = self.ignored_dynamic_link_doctype
-		docs = self.make_dynamic_link_docs(doctype)
-
-		self.assertTrue(docs["restricted"].has_permission("read"))
-		self.assertEqual(len(frappe.get_list(doctype)), len(docs))
+		tags = frappe.get_all("Tag Link", filters={"document_type": "Test Blog Post"}, pluck="tag")
+		self.assertEqual(tags, ["_Test Shared Tag 1"])
 
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
