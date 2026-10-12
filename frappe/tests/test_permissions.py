@@ -635,6 +635,22 @@ class TestPermissions(IntegrationTestCase):
 		tags = frappe.get_all("Tag Link", filters={"document_type": "Test Blog Post"}, pluck="tag")
 		self.assertEqual(tags, ["_Test Shared Tag 1"])
 
+	def test_assignee_can_access_todo_of_shared_document(self):
+		from frappe.desk.form.assign_to import add as assign
+
+		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test2@example.com")
+		assign({"assign_to": ["test2@example.com"], "doctype": "Test Blog Post", "name": "_Test Blog Post"})
+		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": "Test Blog Post"})
+		self.addCleanup(frappe.db.delete, "ToDo", {"reference_type": "Test Blog Post"})
+		todo = frappe.db.get_value(
+			"ToDo", {"reference_type": "Test Blog Post", "allocated_to": "test2@example.com"}
+		)
+
+		with self.set_user("test2@example.com"):
+			self.assertTrue(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
+			self.assertTrue(frappe.has_permission("ToDo", "read", todo))
+			self.assertIn(todo, frappe.get_list("ToDo", pluck="name"))
+
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
 		frappe.set_user("test3@example.com")
