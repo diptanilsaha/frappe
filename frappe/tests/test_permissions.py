@@ -611,10 +611,21 @@ class TestPermissions(IntegrationTestCase):
 		self.assert_query_results(doctype, {docs["other_doctype"].name, docs["empty"].name})
 
 	def test_ignore_user_permissions_on_dynamic_link(self):
-		docs = self.make_dynamic_link_docs(self.ignored_dynamic_link_doctype)
+		from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
+		docs = self.make_dynamic_link_docs(self.ignored_dynamic_link_doctype)
 		self.assertTrue(docs["restricted"].has_permission("read"))
 		self.assert_query_results(self.ignored_dynamic_link_doctype, {doc.name for doc in docs.values()})
+
+		doctype = self.dynamic_link_doctype
+		docs = self.make_dynamic_link_docs(doctype)
+		with self.set_user("Administrator"):
+			make_property_setter(doctype, "reference_name", "ignore_user_permissions", 1, "Check")
+		self.addCleanup(frappe.clear_cache, doctype=doctype)
+		self.addCleanup(frappe.db.delete, "Property Setter", {"doc_type": doctype})
+
+		self.assertTrue(docs["restricted"].has_permission("read"))
+		self.assert_query_results(doctype, {doc.name for doc in docs.values()})
 
 	def test_update_tags_on_shared_document(self):
 		from frappe.desk.doctype.tag.tag import update_tags
