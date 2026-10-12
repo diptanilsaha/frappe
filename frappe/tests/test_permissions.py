@@ -546,7 +546,8 @@ class TestPermissions(IntegrationTestCase):
 		]
 		return new_doctype(fields=fields, permissions=[{"role": "Blogger", "read": 1}]).insert().name
 
-	def make_dynamic_link_docs(self, doctype: str) -> dict:
+	@staticmethod
+	def make_dynamic_link_docs(doctype: str) -> dict:
 		frappe.set_user("Administrator")
 		frappe.db.delete(doctype)
 		links = {
@@ -656,6 +657,7 @@ class TestPermissions(IntegrationTestCase):
 		todo = frappe.db.get_value(
 			"ToDo", {"reference_type": "Test Blog Post", "allocated_to": "test2@example.com"}
 		)
+		self.assertTrue(todo)
 
 		with self.set_user("test2@example.com"):
 			self.assertTrue(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
