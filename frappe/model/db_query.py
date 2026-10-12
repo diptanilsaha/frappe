@@ -1271,6 +1271,19 @@ from {tables}
 					match_conditions.append(f"({condition})")
 					match_filters[df.get("options")] = docs
 
+		for df, link_doctype, docs in frappe.permissions.get_dynamic_link_user_permissions(
+			self.doctype, user_permissions
+		):
+			doctype_column = f"ifnull(`tab{self.doctype}`.`{df.options}`, '')"
+			link_column = f"`tab{self.doctype}`.`{df.fieldname}`"
+			values = ", ".join(frappe.db.escape(doc, percent=False) for doc in docs)
+
+			condition = f"{doctype_column} != {frappe.db.escape(link_doctype, percent=False)}"
+			if not frappe.get_system_settings("apply_strict_user_permissions"):
+				condition += f" or ifnull({link_column}, '')=''"
+			condition += f" or {link_column} in ({values})"
+			match_conditions.append(f"({condition})")
+
 		if match_conditions:
 			self._fetch_shared_documents = True
 			self.match_conditions.append(" and ".join(match_conditions))

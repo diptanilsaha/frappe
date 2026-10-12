@@ -1706,16 +1706,26 @@ class Engine:
 						docs.append(permission.get("doc"))
 
 				if docs:
-					field_name = df.get("fieldname")
-					strict_user_permissions = frappe.get_system_settings("apply_strict_user_permissions")
-					if strict_user_permissions:
-						conditions.append(table[field_name].isin(docs))
-					else:
-						empty_value_condition = functions.IfNull(table[field_name], "") == ""
-						value_condition = table[field_name].isin(docs)
-						conditions.append(empty_value_condition | value_condition)
+					conditions.append(
+						self.get_user_permission_value_condition(table[df.get("fieldname")], docs)
+					)
+
+		for df, link_doctype, docs in frappe.permissions.get_dynamic_link_user_permissions(
+			doctype, user_permissions
+		):
+			other_doctype_condition = functions.IfNull(table[df.options], "") != link_doctype
+			value_condition = self.get_user_permission_value_condition(table[df.fieldname], docs)
+			conditions.append(other_doctype_condition | value_condition)
 
 		return conditions
+
+	def get_user_permission_value_condition(self, field: Field, docs: list[str]) -> Criterion:
+		"""Allow only `docs` in `field`; also allow empty values unless strict user permissions apply."""
+		value_condition = field.isin(docs)
+		if frappe.get_system_settings("apply_strict_user_permissions"):
+			return value_condition
+
+		return (functions.IfNull(field, "") == "") | value_condition
 
 	def get_doctype_link_fields(self, doctype: str | None = None):
 		doctype = doctype or self.permission_doctype
