@@ -20,7 +20,13 @@ from frappe.desk.reportview import clean_params, parse_json
 from frappe.model.utils import render_include
 from frappe.modules import get_module_path, scrub
 from frappe.monitor import add_data_to_monitor
-from frappe.permissions import get_role_permissions, get_roles, has_permission
+from frappe.permissions import (
+	get_allowed_docs_by_doctype,
+	get_role_permissions,
+	get_roles,
+	get_user_permissions,
+	has_permission,
+)
 from frappe.utils import cint, cstr, flt, format_datetime, format_duration, formatdate, get_html_format, sbool
 from frappe.utils.caching import request_cache
 
@@ -986,7 +992,9 @@ def get_filtered_data(ref_doctype, columns, data, user):
 	linked_doctypes = get_linked_doctypes(columns, data)
 	match_filters_per_doctype = get_user_match_filters(linked_doctypes, user=user)
 	dynamic_link_columns = get_dynamic_link_columns(columns, data)
-	allowed_docs = get_allowed_docs_by_doctype(ref_doctype, user) if dynamic_link_columns else {}
+	allowed_docs = (
+		get_allowed_docs_by_doctype(get_user_permissions(user), ref_doctype) if dynamic_link_columns else {}
+	)
 	shared = frappe.share.get_shared(ref_doctype, user)
 	columns_dict = get_columns_dict(columns)
 
@@ -1030,7 +1038,7 @@ def get_filtered_data(ref_doctype, columns, data, user):
 	return result
 
 
-def get_dynamic_link_columns(columns, data) -> list[tuple]:
+def get_dynamic_link_columns(columns: list, data: list) -> list[tuple]:
 	"""Return (link column, doctype column) keys for every Dynamic Link column.
 
 	The keys are column indexes for list rows and fieldnames for dict rows."""
@@ -1049,24 +1057,22 @@ def get_dynamic_link_columns(columns, data) -> list[tuple]:
 	return dynamic_link_columns
 
 
-def get_allowed_docs_by_doctype(ref_doctype, user) -> dict[str, list[str]]:
-	"""Return the allowed documents of every doctype that the user permissions restrict for `ref_doctype`."""
-	allowed_docs = {}
-	for doctype, user_permissions in frappe.permissions.get_user_permissions(user).items():
-		if docs := frappe.permissions.get_allowed_docs_for_doctype(user_permissions, ref_doctype):
-			allowed_docs[doctype] = docs
-
-	return allowed_docs
-
-
-def has_dynamic_link_match(row, dynamic_link_columns, allowed_docs) -> bool:
+def has_dynamic_link_match(
+	row: dict | list | tuple, dynamic_link_columns: list[tuple], allowed_docs: dict[str, list[str]]
+) -> bool:
 	for link_key, doctype_key in dynamic_link_columns:
-		value = row.get(link_key) if isinstance(row, dict) else row[link_key]
-		doctype = row.get(doctype_key) if isinstance(row, dict) else row[doctype_key]
+		value, doctype = _get_cell(row, link_key), _get_cell(row, doctype_key)
 		if value and doctype in allowed_docs and str(value) not in allowed_docs[doctype]:
 			return False
 
 	return True
+
+
+def _get_cell(row: dict | list | tuple, key: str | int) -> Any:
+	if isinstance(row, dict):
+		return row.get(key)
+
+	return row[key] if key < len(row) else None
 
 
 def has_match(

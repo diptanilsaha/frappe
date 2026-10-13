@@ -497,19 +497,29 @@ def _get_link_fields_with_doctype(doc, meta):
 			yield field, link_doctype
 
 
+def get_allowed_docs_by_doctype(user_permissions: dict, doctype: str) -> dict[str, list[str]]:
+	"""Return the allowed documents of every doctype that `user_permissions` restrict for `doctype`."""
+	allowed_docs_by_doctype = {}
+	for link_doctype, link_user_permissions in user_permissions.items():
+		if allowed_docs := get_allowed_docs_for_doctype(link_user_permissions, doctype):
+			allowed_docs_by_doctype[link_doctype] = allowed_docs
+
+	return allowed_docs_by_doctype
+
+
 def get_dynamic_link_user_permissions(doctype: str, user_permissions: dict) -> list[tuple]:
 	"""Return (dynamic link field, linked doctype, allowed docs) for every Dynamic Link field
 	of `doctype` that can point to a doctype restricted by `user_permissions`."""
 	meta = frappe.get_meta(doctype)
+	allowed_docs_by_doctype = get_allowed_docs_by_doctype(user_permissions, doctype)
 	restrictions = []
 
 	for field in meta.get_dynamic_link_fields():
 		if field.ignore_user_permissions or not meta.has_field(field.options):
 			continue
 
-		for link_doctype, link_user_permissions in user_permissions.items():
-			if allowed_docs := get_allowed_docs_for_doctype(link_user_permissions, doctype):
-				restrictions.append((field, link_doctype, allowed_docs))
+		for link_doctype, allowed_docs in allowed_docs_by_doctype.items():
+			restrictions.append((field, link_doctype, allowed_docs))
 
 	return restrictions
 

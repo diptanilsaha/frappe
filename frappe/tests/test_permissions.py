@@ -564,7 +564,7 @@ class TestPermissions(IntegrationTestCase):
 		frappe.set_user("test2@example.com")
 		return docs
 
-	def assert_query_results(self, doctype: str, expected: set[str]):
+	def assert_query_results(self, doctype: str, expected: set[str]) -> None:
 		from frappe.client import get_list as client_get_list
 		from frappe.desk.reportview import build_match_conditions, execute
 		from frappe.model.db_query import DatabaseQuery
@@ -739,9 +739,9 @@ class TestPermissions(IntegrationTestCase):
 			result = get_filtered_data("Test Blog Post", columns, rows, "test2@example.com")
 			self.assertEqual(result, allowed)
 
-			list_rows = [list(row.values()) for row in rows]
+			list_rows = [list(row.values()) for row in rows] + [[], ["Total"]]
 			result = get_filtered_data("Test Blog Post", columns, list_rows, "test2@example.com")
-			self.assertEqual(result, [list(row.values()) for row in allowed])
+			self.assertEqual(result, [list(row.values()) for row in allowed] + [[], ["Total"]])
 
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
