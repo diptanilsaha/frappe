@@ -696,6 +696,24 @@ class TestPermissions(IntegrationTestCase):
 			self.assertTrue(frappe.has_permission("Contact", "read", contact.name))
 			self.assertIn(contact.name, frappe.get_list("Contact", pluck="name"))
 
+	def test_email_linked_to_allowed_and_restricted_documents(self):
+		email = frappe.get_doc(
+			doctype="Communication",
+			communication_medium="Email",
+			subject="_Test Timeline Email",
+			reference_doctype="Test Blog Category",
+			reference_name="_Test Blog Category 1",
+			timeline_links=[
+				{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 1"},
+				{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 2"},
+			],
+		).insert()
+		self.addCleanup(frappe.delete_doc, "Communication", email.name, force=True)
+		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test1@example.com")
+
+		self.assertTrue(frappe.has_permission("Communication", "read", email.name))
+		self.assertIn(email.name, frappe.get_list("Communication", pluck="name"))
+
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
 		frappe.set_user("test3@example.com")
