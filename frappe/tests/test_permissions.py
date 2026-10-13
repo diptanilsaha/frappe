@@ -673,6 +673,7 @@ class TestPermissions(IntegrationTestCase):
 			event_type="Private",
 			starts_on="2026-01-01 10:00:00",
 			event_participants=[{**reference, "email": "test2@example.com"}],
+			links=[{"link_doctype": "Test Blog Post", "link_name": "_Test Blog Post"}],
 			**reference,
 		).insert()
 		self.addCleanup(frappe.delete_doc, "Event", event.name, force=True)
@@ -681,6 +682,19 @@ class TestPermissions(IntegrationTestCase):
 			self.assertFalse(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
 			self.assertTrue(frappe.has_permission("Event", "read", event.name))
 			self.assertIn(event.name, frappe.get_list("Event", pluck="name"))
+
+	def test_contact_linked_to_allowed_and_restricted_documents(self):
+		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test3@example.com")
+		links = [
+			{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 1"},
+			{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 2"},
+		]
+		contact = frappe.get_doc(doctype="Contact", first_name="_Test Shared Contact", links=links).insert()
+		self.addCleanup(frappe.delete_doc, "Contact", contact.name, force=True)
+
+		with self.set_user("test3@example.com"):
+			self.assertTrue(frappe.has_permission("Contact", "read", contact.name))
+			self.assertIn(contact.name, frappe.get_list("Contact", pluck="name"))
 
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
