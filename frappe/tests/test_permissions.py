@@ -54,6 +54,7 @@ class TestPermissions(IntegrationTestCase):
 
 		cls.dynamic_link_doctype = cls.make_dynamic_link_doctype(ignore_user_permissions=0)
 		cls.ignored_dynamic_link_doctype = cls.make_dynamic_link_doctype(ignore_user_permissions=1)
+		cls.tree_doctype = new_doctype(is_tree=True, autoname="field:some_fieldname").insert().name
 		cls.dynamic_link_parent_doctype, cls.dynamic_link_child_doctype = (
 			cls.make_child_dynamic_link_doctype()
 		)
@@ -64,6 +65,7 @@ class TestPermissions(IntegrationTestCase):
 		frappe.set_user("Administrator")
 		frappe.delete_doc("DocType", cls.dynamic_link_doctype, force=True)
 		frappe.delete_doc("DocType", cls.ignored_dynamic_link_doctype, force=True)
+		frappe.delete_doc("DocType", cls.tree_doctype, force=True)
 		frappe.delete_doc("DocType", cls.dynamic_link_parent_doctype, force=True)
 		frappe.delete_doc("DocType", cls.dynamic_link_child_doctype, force=True)
 		frappe.db.commit()
@@ -570,10 +572,15 @@ class TestPermissions(IntegrationTestCase):
 		]
 
 	@staticmethod
-	def make_dynamic_link_docs(doctype: str) -> dict:
+	def make_dynamic_link_docs(
+		doctype: str,
+		links: dict | None = None,
+		allow: tuple[str, str] = ("Test Blog Category", "_Test Blog Category 1"),
+		**permission,
+	) -> dict:
 		frappe.set_user("Administrator")
 		frappe.db.delete(doctype)
-		links = {
+		links = links or {
 			"allowed": ("Test Blog Category", "_Test Blog Category 1"),
 			"restricted": ("Test Blog Category", "_Test Blog Category 2"),
 			"other_doctype": ("Test Blogger", "_Test Blogger"),
@@ -583,9 +590,44 @@ class TestPermissions(IntegrationTestCase):
 			key: frappe.get_doc(doctype=doctype, reference_type=dt, reference_name=dn).insert()
 			for key, (dt, dn) in links.items()
 		}
-		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test2@example.com")
+		add_user_permission(*allow, "test2@example.com", **permission)
 		frappe.set_user("test2@example.com")
 		return docs
+
+	@staticmethod
+	def make_tree(doctype: str, tree: dict[str, str | None]) -> None:
+		parent_field = f"parent_{frappe.scrub(doctype)}"
+		for name, parent in tree.items():
+			frappe.get_doc(
+				doctype=doctype, some_fieldname=name, is_group=1, **{parent_field: parent}
+			).insert()
+
+	def assert_dynamic_link_access(self, docs: dict, visible: set[str]) -> None:
+		from frappe.desk.query_report import get_filtered_data
+
+		doctype = next(iter(docs.values())).doctype
+		expected = {docs[key].name for key in visible}
+		for key, doc in docs.items():
+			self.assertEqual(doc.has_permission("read"), key in visible, key)
+
+		self.assert_query_results(doctype, expected)
+
+		columns = [
+			{"fieldname": "name", "fieldtype": "Data", "label": "Name"},
+			{"fieldname": "reference_type", "fieldtype": "Link", "options": "DocType", "label": "Type"},
+			{
+				"fieldname": "reference_name",
+				"fieldtype": "Dynamic Link",
+				"options": "reference_type",
+				"label": "Reference",
+			},
+		]
+		rows = [
+			{field: doc.get(field) for field in ("name", "reference_type", "reference_name")}
+			for doc in docs.values()
+		]
+		result = get_filtered_data(doctype, columns, rows, frappe.session.user)
+		self.assertEqual({row["name"] for row in result}, expected, "query_report")
 
 	def assert_query_results(self, doctype: str, expected: set[str]) -> None:
 		from frappe.client import get_list as client_get_list
@@ -741,6 +783,49 @@ class TestPermissions(IntegrationTestCase):
 
 		self.assertTrue(docs["restricted"].has_permission("read"))
 		self.assert_query_results(doctype, {doc.name for doc in docs.values()})
+
+	def test_apply_to_all_doctypes_on_dynamic_link(self):
+		docs = self.make_dynamic_link_docs(self.dynamic_link_doctype)
+		permission = {"user": "test2@example.com", "allow": "Test Blog Category"}
+		self.assertEqual(frappe.db.get_value("User Permission", permission, "apply_to_all_doctypes"), 1)
+
+		self.assert_dynamic_link_access(docs, visible=set(docs) - {"restricted"})
+
+	def test_applicable_for_on_dynamic_link(self):
+		doctype = self.dynamic_link_doctype
+		docs = self.make_dynamic_link_docs(doctype, applicable_for="Test Blog Post")
+		self.assert_dynamic_link_access(docs, visible=set(docs))
+
+		with self.set_user("Administrator"):
+			add_user_permission(
+				"Test Blog Category", "_Test Blog Category 1", "test2@example.com", applicable_for=doctype
+			)
+		self.assert_dynamic_link_access(docs, visible=set(docs) - {"restricted"})
+
+	def test_strict_user_permissions_applicable_for_other_doctype_on_dynamic_link(self):
+		links = {
+			"restricted": ("Test Blog Category", "_Test Blog Category 2"),
+			"no_name": ("Test Blog Category", None),
+		}
+		docs = self.make_dynamic_link_docs(self.dynamic_link_doctype, links, applicable_for="Test Blog Post")
+		with self.set_user("Administrator"):
+			self.set_strict_user_permissions(1)
+		self.addCleanup(self.set_strict_user_permissions, 0)
+
+		self.assert_dynamic_link_access(docs, visible=set(docs))
+
+	def test_hide_descendants_on_dynamic_link(self):
+		tree = self.tree_doctype
+		with self.set_user("Administrator"):
+			self.make_tree(tree, {"_Test Root": None, "_Test Child": "_Test Root", "_Test Other": None})
+		links = {"root": (tree, "_Test Root"), "child": (tree, "_Test Child"), "other": (tree, "_Test Other")}
+		docs = self.make_dynamic_link_docs(self.dynamic_link_doctype, links, allow=(tree, "_Test Root"))
+		self.assert_dynamic_link_access(docs, visible={"root", "child"})
+
+		with self.set_user("Administrator"):
+			clear_user_permissions_for_doctype(tree, "test2@example.com")
+			add_user_permission(tree, "_Test Root", "test2@example.com", hide_descendants=1)
+		self.assert_dynamic_link_access(docs, visible={"root"})
 
 	def test_update_tags_on_shared_document(self):
 		from frappe.desk.doctype.tag.tag import update_tags
