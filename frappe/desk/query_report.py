@@ -21,7 +21,13 @@ from frappe.desk.reportview import clean_params, parse_json
 from frappe.model.utils import render_include
 from frappe.modules import get_module_path, scrub
 from frappe.monitor import add_data_to_monitor
-from frappe.permissions import get_role_permissions, get_roles, has_permission
+from frappe.permissions import (
+	get_allowed_docs_by_doctype,
+	get_role_permissions,
+	get_roles,
+	get_user_permissions,
+	has_permission,
+)
 from frappe.utils import cint, cstr, flt, format_datetime, format_duration, formatdate, get_html_format, sbool
 from frappe.utils.caching import request_cache
 
@@ -1025,6 +1031,16 @@ def get_filtered_data(ref_doctype, columns, data, user):
 	result = []
 	linked_doctypes = get_linked_doctypes(columns, data)
 	match_filters_per_doctype = get_user_match_filters(linked_doctypes, user=user)
+	dynamic_link_columns = get_dynamic_link_columns(columns, data)
+	allowed_docs = (
+		{
+			doctype: set(docs)
+			for doctype, docs in get_allowed_docs_by_doctype(get_user_permissions(user), ref_doctype).items()
+		}
+		if dynamic_link_columns
+		else {}
+	)
+	strict = bool(allowed_docs) and frappe.get_system_settings("apply_strict_user_permissions")
 	shared = frappe.share.get_shared(ref_doctype, user)
 	columns_dict = get_columns_dict(columns)
 
@@ -1042,7 +1058,7 @@ def get_filtered_data(ref_doctype, columns, data, user):
 				val = row.get(field.fieldname)
 				row[field.fieldname] = mask_field_value(field, val)
 
-	if match_filters_per_doctype:
+	if match_filters_per_doctype or allowed_docs:
 		for row in data:
 			# Why linked_doctypes.get(ref_doctype)? because if column is empty, linked_doctypes[ref_doctype] is removed
 			if (
@@ -1060,12 +1076,55 @@ def get_filtered_data(ref_doctype, columns, data, user):
 				if_owner,
 				columns_dict,
 				user,
-			):
+			) and has_dynamic_link_match(row, dynamic_link_columns, allowed_docs, strict):
 				result.append(row)
 	else:
 		result = list(data)
 
 	return result
+
+
+def get_dynamic_link_columns(columns: list, data: list) -> list[tuple]:
+	"""Return (link column, doctype column) keys for every Dynamic Link column.
+
+	The keys are column indexes for list rows and fieldnames for dict rows."""
+	columns = [get_column_as_dict(col) for col in columns]
+	fieldnames = [col.fieldname for col in columns]
+	by_index = bool(data) and isinstance(data[0], list | tuple)
+
+	dynamic_link_columns = []
+	for idx, col in enumerate(columns):
+		if col.get("fieldtype") != "Dynamic Link" or col.get("options") not in fieldnames:
+			continue
+
+		doctype_idx = fieldnames.index(col.options)
+		dynamic_link_columns.append((idx, doctype_idx) if by_index else (col.fieldname, col.options))
+
+	return dynamic_link_columns
+
+
+def has_dynamic_link_match(
+	row: dict | list | tuple,
+	dynamic_link_columns: list[tuple],
+	allowed_docs: dict[str, set[str]],
+	strict: bool = False,
+) -> bool:
+	for link_key, doctype_key in dynamic_link_columns:
+		value, doctype = _get_cell(row, link_key), _get_cell(row, doctype_key)
+		if doctype not in allowed_docs or (not value and not strict):
+			continue
+
+		if str(value) not in allowed_docs[doctype]:
+			return False
+
+	return True
+
+
+def _get_cell(row: dict | list | tuple, key: str | int) -> Any:
+	if isinstance(row, dict):
+		return row.get(key)
+
+	return row[key] if key < len(row) else None
 
 
 def has_match(

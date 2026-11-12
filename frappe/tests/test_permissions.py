@@ -828,6 +828,44 @@ class TestPermissions(IntegrationTestCase):
 		self.assertTrue(frappe.has_permission("Communication", "read", email.name))
 		self.assertIn(email.name, frappe.get_list("Communication", pluck="name"))
 
+	def test_report_rows_with_dynamic_link_column(self):
+		from frappe.desk.query_report import get_filtered_data
+
+		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test2@example.com")
+		columns = [
+			{"fieldname": "reference_type", "fieldtype": "Link", "options": "DocType", "label": "Type"},
+			{
+				"fieldname": "reference_name",
+				"fieldtype": "Dynamic Link",
+				"options": "reference_type",
+				"label": "Name",
+			},
+		]
+		rows = [
+			{"reference_type": "Test Blog Category", "reference_name": "_Test Blog Category 1"},
+			{"reference_type": "Test Blog Category", "reference_name": "_Test Blog Category 2"},
+			{"reference_type": "Test Blogger", "reference_name": "_Test Blogger"},
+			{"reference_type": None, "reference_name": None},
+		]
+		allowed = [rows[0], rows[2], rows[3]]
+
+		with self.set_user("test2@example.com"):
+			result = get_filtered_data("Test Blog Post", columns, rows, "test2@example.com")
+			self.assertEqual(result, allowed)
+
+			list_rows = [list(row.values()) for row in rows] + [[], ["Total"]]
+			result = get_filtered_data("Test Blog Post", columns, list_rows, "test2@example.com")
+			self.assertEqual(result, [list(row.values()) for row in allowed] + [[], ["Total"]])
+
+			rows.append({"reference_type": "Test Blog Category", "reference_name": None})
+			self.assertIn(rows[-1], get_filtered_data("Test Blog Post", columns, rows, "test2@example.com"))
+
+			with self.set_user("Administrator"):
+				self.set_strict_user_permissions(1)
+			self.addCleanup(self.set_strict_user_permissions, 0)
+			result = get_filtered_data("Test Blog Post", columns, rows, "test2@example.com")
+			self.assertEqual(result, [rows[0], rows[2], rows[3]])
+
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
 		frappe.set_user("test3@example.com")
