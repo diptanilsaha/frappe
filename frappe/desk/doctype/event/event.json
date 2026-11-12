@@ -321,6 +321,7 @@
   {
    "fieldname": "reference_docname",
    "fieldtype": "Dynamic Link",
+   "ignore_user_permissions": 1,
    "label": "Reference Doc",
    "options": "reference_doctype"
   },
@@ -365,7 +366,7 @@
  "icon": "calendar-check",
  "idx": 1,
  "links": [],
- "modified": "2025-10-07 08:53:24.732646",
+ "modified": "2026-10-12 15:37:33.864759",
  "modified_by": "Administrator",
  "module": "Desk",
  "name": "Event",

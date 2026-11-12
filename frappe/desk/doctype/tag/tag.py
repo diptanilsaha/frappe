@@ -160,7 +160,7 @@ def update_tags(doc, tags):
 	new_tags = {tag.strip() for tag in tags.split(",") if tag}
 	existing_tags = [
 		tag.tag
-		for tag in frappe.get_list(
+		for tag in frappe.get_all(
 			"Tag Link", filters={"document_type": doc.doctype, "document_name": doc.name}, fields=["tag"]
 		)
 	]

@@ -742,6 +742,92 @@ class TestPermissions(IntegrationTestCase):
 		self.assertTrue(docs["restricted"].has_permission("read"))
 		self.assert_query_results(doctype, {doc.name for doc in docs.values()})
 
+	def test_update_tags_on_shared_document(self):
+		from frappe.desk.doctype.tag.tag import update_tags
+
+		for tag in ("_Test Shared Tag 1", "_Test Shared Tag 2"):
+			frappe.get_doc(doctype="Tag", name=tag).insert(ignore_if_duplicate=True)
+		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test2@example.com")
+		frappe.share.add("Test Blog Post", "_Test Blog Post", "test2@example.com", write=1)
+		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": "Test Blog Post"})
+		self.addCleanup(frappe.db.delete, "Tag Link", {"document_type": "Test Blog Post"})
+
+		with self.set_user("test2@example.com"):
+			post = frappe.get_doc("Test Blog Post", "_Test Blog Post")
+			update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
+			update_tags(post, "_Test Shared Tag 1,_Test Shared Tag 2")
+			update_tags(post, "_Test Shared Tag 1")
+
+		tags = frappe.get_all("Tag Link", filters={"document_type": "Test Blog Post"}, pluck="tag")
+		self.assertEqual(tags, ["_Test Shared Tag 1"])
+
+	def test_assignee_can_access_todo_of_shared_document(self):
+		from frappe.desk.form.assign_to import add as assign
+
+		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test2@example.com")
+		assign({"assign_to": ["test2@example.com"], "doctype": "Test Blog Post", "name": "_Test Blog Post"})
+		self.addCleanup(frappe.db.delete, "DocShare", {"share_doctype": "Test Blog Post"})
+		self.addCleanup(frappe.db.delete, "ToDo", {"reference_type": "Test Blog Post"})
+		todo = frappe.db.get_value(
+			"ToDo", {"reference_type": "Test Blog Post", "allocated_to": "test2@example.com"}
+		)
+		self.assertTrue(todo)
+
+		with self.set_user("test2@example.com"):
+			self.assertTrue(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
+			self.assertTrue(frappe.has_permission("ToDo", "read", todo))
+			self.assertIn(todo, frappe.get_list("ToDo", pluck="name"))
+
+	def test_participant_can_access_event_of_restricted_document(self):
+		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test2@example.com")
+		reference = {"reference_doctype": "Test Blog Post", "reference_docname": "_Test Blog Post"}
+		event = frappe.get_doc(
+			doctype="Event",
+			subject="_Test Participant Event",
+			event_type="Private",
+			starts_on="2026-01-01 10:00:00",
+			event_participants=[{**reference, "email": "test2@example.com"}],
+			links=[{"link_doctype": "Test Blog Post", "link_name": "_Test Blog Post"}],
+			**reference,
+		).insert()
+		self.addCleanup(frappe.delete_doc, "Event", event.name, force=True)
+
+		with self.set_user("test2@example.com"):
+			self.assertFalse(frappe.has_permission("Test Blog Post", "read", "_Test Blog Post"))
+			self.assertTrue(frappe.has_permission("Event", "read", event.name))
+			self.assertIn(event.name, frappe.get_list("Event", pluck="name"))
+
+	def test_contact_linked_to_allowed_and_restricted_documents(self):
+		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test3@example.com")
+		links = [
+			{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 1"},
+			{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 2"},
+		]
+		contact = frappe.get_doc(doctype="Contact", first_name="_Test Shared Contact", links=links).insert()
+		self.addCleanup(frappe.delete_doc, "Contact", contact.name, force=True)
+
+		with self.set_user("test3@example.com"):
+			self.assertTrue(frappe.has_permission("Contact", "read", contact.name))
+			self.assertIn(contact.name, frappe.get_list("Contact", pluck="name"))
+
+	def test_email_linked_to_allowed_and_restricted_documents(self):
+		email = frappe.get_doc(
+			doctype="Communication",
+			communication_medium="Email",
+			subject="_Test Timeline Email",
+			reference_doctype="Test Blog Category",
+			reference_name="_Test Blog Category 1",
+			timeline_links=[
+				{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 1"},
+				{"link_doctype": "Test Blog Category", "link_name": "_Test Blog Category 2"},
+			],
+		).insert()
+		self.addCleanup(frappe.delete_doc, "Communication", email.name, force=True)
+		add_user_permission("Test Blog Category", "_Test Blog Category 1", "test1@example.com")
+
+		self.assertTrue(frappe.has_permission("Communication", "read", email.name))
+		self.assertIn(email.name, frappe.get_list("Communication", pluck="name"))
+
 	def test_user_permission_is_not_applied_if_user_roles_does_not_have_permission(self):
 		add_user_permission("Test Blog Post", "_Test Blog Post 1", "test3@example.com")
 		frappe.set_user("test3@example.com")
