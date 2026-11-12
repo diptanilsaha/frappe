@@ -2,6 +2,8 @@
 # License: MIT. See LICENSE
 import copy
 import functools
+from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
 import frappe
 import frappe.share
@@ -10,6 +12,11 @@ from frappe.app_state import is_module_disabled
 from frappe.core.doctype.permission_type.permission_type import get_doctype_ptype_map
 from frappe.query_builder import DocType
 from frappe.utils import cint, cstr
+
+if TYPE_CHECKING:
+	from frappe.core.doctype.docfield.docfield import DocField
+	from frappe.model.document import Document
+	from frappe.model.meta import Meta
 
 std_rights = (
 	"select",
@@ -431,8 +438,8 @@ def has_user_permission(doc, user=None, debug=False, *, ptype=None, strict=True)
 
 		meta = frappe.get_meta(d.doctype)
 
-		# check all link fields for user permissions
-		for field in meta.get_link_fields():
+		# check all link and dynamic link fields for user permissions
+		for field, link_doctype in _get_link_fields_with_doctype(d, meta):
 			if field.ignore_user_permissions:
 				continue
 
@@ -440,11 +447,11 @@ def has_user_permission(doc, user=None, debug=False, *, ptype=None, strict=True)
 			if not d.get(field.fieldname) and not apply_strict_user_permissions:
 				continue
 
-			if field.options not in user_permissions:
+			if link_doctype not in user_permissions:
 				continue
 
 			# get the list of all allowed values for this link
-			allowed_docs = get_allowed_docs_for_doctype(user_permissions.get(field.options, []), doctype)
+			allowed_docs = get_allowed_docs_for_doctype(user_permissions.get(link_doctype, []), doctype)
 
 			if allowed_docs and str(d.get(field.fieldname)) not in allowed_docs:
 				# restricted for this link field, and no matching values found
@@ -456,7 +463,7 @@ def has_user_permission(doc, user=None, debug=False, *, ptype=None, strict=True)
 						"You are not allowed to access this {0} record because it is linked to {1} '{2}' in row {3}, field {4}"
 					).format(
 						_(meta.name),
-						_(field.options),
+						_(link_doctype),
 						d.get(field.fieldname) or _("empty"),
 						d.idx,
 						_(field.label, context=field.parent) if field.label else field.fieldname,
@@ -467,7 +474,7 @@ def has_user_permission(doc, user=None, debug=False, *, ptype=None, strict=True)
 						"You are not allowed to access this {0} record because it is linked to {1} '{2}' in field {3}"
 					).format(
 						_(meta.name),
-						_(field.options),
+						_(link_doctype),
 						d.get(field.fieldname) or _("empty"),
 						_(field.label, context=field.parent) if field.label else field.fieldname,
 					)
@@ -486,6 +493,68 @@ def has_user_permission(doc, user=None, debug=False, *, ptype=None, strict=True)
 			return False
 
 	return True
+
+
+def _get_link_fields_with_doctype(doc: "Document", meta: "Meta") -> Iterator[tuple["DocField", str]]:
+	"""Yield (field, linked doctype) for every Link and Dynamic Link field of `doc`.
+
+	A Dynamic Link field gets its doctype from the field named in its options."""
+	for field in meta.get_link_fields():
+		yield field, field.options
+
+	for field in meta.get_dynamic_link_fields():
+		if link_doctype := doc.get(field.options):
+			yield field, link_doctype
+
+
+def get_allowed_docs_by_doctype(user_permissions: dict, doctype: str) -> dict[str, list[str]]:
+	"""Return the allowed documents of every doctype that `user_permissions` restrict for `doctype`."""
+	allowed_docs_by_doctype = {}
+	for link_doctype, link_user_permissions in user_permissions.items():
+		if allowed_docs := get_allowed_docs_for_doctype(link_user_permissions, doctype):
+			allowed_docs_by_doctype[link_doctype] = allowed_docs
+
+	return allowed_docs_by_doctype
+
+
+def get_dynamic_link_user_permissions(
+	doctype: str, user_permissions: dict
+) -> list[tuple["DocField", dict[str, list[str]]]]:
+	"""Return (dynamic link field, allowed docs by doctype) for every Dynamic Link field
+	of `doctype` that user permissions can restrict."""
+	allowed_docs = get_allowed_docs_by_doctype(user_permissions, doctype)
+	if not allowed_docs:
+		return []
+
+	return [(field, allowed_docs) for field in _get_restrictable_dynamic_link_fields(doctype)]
+
+
+def get_child_dynamic_link_user_permissions(
+	doctype: str, user_permissions: dict
+) -> list[tuple["DocField", "DocField", dict[str, list[str]]]]:
+	"""Return (table field, dynamic link field, allowed docs by doctype) for every Dynamic Link
+	field in the child tables of `doctype`.
+
+	The user permissions applicable for the parent `doctype` apply to its child rows."""
+	allowed_docs = get_allowed_docs_by_doctype(user_permissions, doctype)
+	if not allowed_docs:
+		return []
+
+	restrictions = []
+	for table_field in frappe.get_meta(doctype).get_table_fields():
+		for field in _get_restrictable_dynamic_link_fields(table_field.options):
+			restrictions.append((table_field, field, allowed_docs))
+
+	return restrictions
+
+
+def _get_restrictable_dynamic_link_fields(doctype: str) -> list["DocField"]:
+	meta = frappe.get_meta(doctype)
+	return [
+		field
+		for field in meta.get_dynamic_link_fields()
+		if not field.ignore_user_permissions and meta.has_field(field.options)
+	]
 
 
 def has_controller_permissions(doc, ptype, user=None, debug=False) -> bool:

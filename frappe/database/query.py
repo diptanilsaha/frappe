@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from pypika.enums import Arithmetic
 from pypika.queries import QueryBuilder, Table
-from pypika.terms import AggregateFunction, ArithmeticExpression, Star, Term, ValueWrapper
+from pypika.terms import AggregateFunction, ArithmeticExpression, ExistsCriterion, Star, Term, ValueWrapper
 
 import frappe
 from frappe import _
@@ -163,6 +163,7 @@ def _apply_datetime_field_filter_conversion(between_values: tuple | list, doctyp
 
 
 if TYPE_CHECKING:
+	from frappe.core.doctype.docfield.docfield import DocField
 	from frappe.query_builder import DocType
 
 TAB_PATTERN = re.compile("^tab")
@@ -1740,16 +1741,70 @@ class Engine:
 						docs.append(permission.get("doc"))
 
 				if docs:
-					field_name = df.get("fieldname")
-					strict_user_permissions = frappe.get_system_settings("apply_strict_user_permissions")
-					if strict_user_permissions:
-						conditions.append(table[field_name].isin(docs))
-					else:
-						empty_value_condition = functions.IfNull(table[field_name], "") == ""
-						value_condition = table[field_name].isin(docs)
-						conditions.append(empty_value_condition | value_condition)
+					conditions.append(
+						self.get_user_permission_value_condition(table[df.get("fieldname")], docs)
+					)
+
+		for df, allowed_docs in frappe.permissions.get_dynamic_link_user_permissions(
+			doctype, user_permissions
+		):
+			conditions.append(self.get_dynamic_link_condition(table, df, allowed_docs))
+
+		for table_field, df, allowed_docs in frappe.permissions.get_child_dynamic_link_user_permissions(
+			doctype, user_permissions
+		):
+			conditions.append(
+				self.get_child_dynamic_link_condition(table, doctype, table_field, df, allowed_docs)
+			)
 
 		return conditions
+
+	def get_dynamic_link_condition(
+		self, table: Table, df: "DocField", allowed_docs: dict[str, list[str]]
+	) -> Criterion:
+		"""Allow a Dynamic Link value only if it points to an allowed record or an unrestricted doctype."""
+		link_doctype = functions.IfNull(table[df.options], "")
+		condition = link_doctype.notin(list(allowed_docs))
+		for doctype, docs in allowed_docs.items():
+			condition |= (link_doctype == doctype) & self.get_user_permission_value_condition(
+				table[df.fieldname], docs
+			)
+
+		return condition
+
+	def get_child_dynamic_link_condition(
+		self,
+		table: Table,
+		doctype: str,
+		table_field: "DocField",
+		df: "DocField",
+		allowed_docs: dict[str, list[str]],
+	) -> Criterion:
+		"""Exclude documents with a child row that links to a restricted record."""
+		child = frappe.qb.DocType(table_field.options).as_("user_permission_child")
+		value = functions.IfNull(child[df.fieldname], "")
+		restricted_value = Criterion.any(
+			(child[df.options] == link_doctype) & value.notin(docs)
+			for link_doctype, docs in allowed_docs.items()
+		)
+		restricted_row = (
+			(child["parent"] == table["name"])
+			& (child["parenttype"] == doctype)
+			& (child["parentfield"] == table_field.fieldname)
+			& restricted_value
+		)
+		if not frappe.get_system_settings("apply_strict_user_permissions"):
+			restricted_row &= value != ""
+
+		return ExistsCriterion(frappe.qb.from_(child).select(1).where(restricted_row)).negate()
+
+	def get_user_permission_value_condition(self, field: Field, docs: list[str]) -> Criterion:
+		"""Allow only `docs` in `field`; also allow empty values unless strict user permissions apply."""
+		value_condition = field.isin(docs)
+		if frappe.get_system_settings("apply_strict_user_permissions"):
+			return value_condition
+
+		return (functions.IfNull(field, "") == "") | value_condition
 
 	def get_doctype_link_fields(self, doctype: str | None = None):
 		doctype = doctype or self.permission_doctype

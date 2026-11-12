@@ -8,7 +8,8 @@ import json
 import re
 from collections import Counter
 from collections.abc import Sequence
-from functools import cached_property, lru_cache
+from functools import cached_property, lru_cache, partial
+from typing import TYPE_CHECKING
 
 import sqlparse
 from sqlparse import tokens
@@ -43,6 +44,9 @@ from frappe.utils import (
 	get_timespan_date_range,
 )
 from frappe.utils.data import convert_type_for_between_filters, sbool
+
+if TYPE_CHECKING:
+	from frappe.core.doctype.docfield.docfield import DocField
 
 _convert_type_for_between_filters = convert_type_for_between_filters  # bw compatibility
 
@@ -1278,6 +1282,16 @@ from {tables}
 					match_conditions.append(f"({condition})")
 					match_filters[df.get("options")] = docs
 
+		for df, allowed_docs in frappe.permissions.get_dynamic_link_user_permissions(
+			self.doctype, user_permissions
+		):
+			match_conditions.append(self.get_dynamic_link_condition(df, allowed_docs))
+
+		for table_field, df, allowed_docs in frappe.permissions.get_child_dynamic_link_user_permissions(
+			self.doctype, user_permissions
+		):
+			match_conditions.append(self.get_child_dynamic_link_condition(table_field, df, allowed_docs))
+
 		if match_conditions:
 			self._fetch_shared_documents = True
 			self.match_conditions.append(" and ".join(match_conditions))
@@ -1285,6 +1299,48 @@ from {tables}
 		if match_filters:
 			self._fetch_shared_documents = True
 			self.match_filters.append(match_filters)
+
+	def get_dynamic_link_condition(self, df: "DocField", allowed_docs: dict[str, list[str]]) -> str:
+		"""Allow a Dynamic Link value only if it points to an allowed record or an unrestricted doctype."""
+		escape = partial(frappe.db.escape, percent=False)
+		link_doctype = f"ifnull(`tab{self.doctype}`.`{df.options}`, '')"
+		link_name = f"`tab{self.doctype}`.`{df.fieldname}`"
+		strict = frappe.get_system_settings("apply_strict_user_permissions")
+
+		conditions = [f"{link_doctype} not in ({', '.join(escape(dt) for dt in allowed_docs)})"]
+		if not strict:
+			conditions.append(f"ifnull({link_name}, '')=''")
+		for doctype, docs in allowed_docs.items():
+			values = ", ".join(escape(doc) for doc in docs)
+			conditions.append(f"({link_doctype} = {escape(doctype)} and {link_name} in ({values}))")
+
+		return "(" + " or ".join(conditions) + ")"
+
+	def get_child_dynamic_link_condition(
+		self, table_field: "DocField", df: "DocField", allowed_docs: dict[str, list[str]]
+	) -> str:
+		"""Exclude documents with a child row that links to a restricted record."""
+		escape = partial(frappe.db.escape, percent=False)
+		child = "`user_permission_child`"
+		value = f"ifnull({child}.`{df.fieldname}`, '')"
+		restricted_rows = []
+		for doctype, docs in allowed_docs.items():
+			values = ", ".join(escape(doc) for doc in docs)
+			restricted_rows.append(
+				f"({child}.`{df.options}` = {escape(doctype)} and {value} not in ({values}))"
+			)
+
+		condition = (
+			f"not exists (select 1 from `tab{table_field.options}` {child}"
+			f" where {child}.parent = `tab{self.doctype}`.name"
+			f" and {child}.parenttype = {escape(self.doctype)}"
+			f" and {child}.parentfield = {escape(table_field.fieldname)}"
+			f" and ({' or '.join(restricted_rows)})"
+		)
+		if not frappe.get_system_settings("apply_strict_user_permissions"):
+			condition += f" and {value} != ''"
+
+		return condition + ")"
 
 	def get_permission_query_conditions(self) -> str:
 		conditions = []
