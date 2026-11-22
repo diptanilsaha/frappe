@@ -99,7 +99,7 @@ curl -b cookies.txt "http://frappe.localhost:8001/api/v2/doctype/ToDo/count"
 
 ## Login, logout and files
 
-These work on `/api/method/...` (v1).
+These work on `/api/method/...` (v1). In this table, "any" means `GET`, `POST`, `PUT` and `DELETE`, the default of `@frappe.whitelist`. v1 rejects other methods, for example `PATCH`.
 
 | Method path | HTTP methods | Guest | Description |
 |---|---|---|---|

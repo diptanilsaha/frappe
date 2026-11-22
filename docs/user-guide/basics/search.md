@@ -62,7 +62,7 @@ Global search shows only documents that you can read.
 
 ### What global search finds
 
-- Only DocTypes in **Global Search Settings** > **Search Priorities** (`allowed_in_global_search`). The order of the table is the order of the results.
+- Only DocTypes in **Global Search Settings** > **Search Priorities** (`allowed_in_global_search`). The order of the table does not change the order of the results: `search()` in `frappe/utils/global_search.py` puts the allowed DocTypes in a set before it sorts.
 - Only fields with **In Global Search** (`in_global_search`) set. Set it in the DocType or in **Customize Form**. Fields of child tables also count.
 - The document name too, if the DocType has **Make "name" searchable in Global Search** (`show_name_in_global_search`).
 - Not cancelled documents, and not documents with `disabled` set or `enabled` not set.

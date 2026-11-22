@@ -137,8 +137,9 @@ Each user can open their settings from the gear icon in the bell menu, or at `/a
 |---|---|---|
 | Enable System Notification (`enabled`) | 1 | Turn off all in-app notifications for this user. |
 | Enable Email Notifications | 1 | Receive notification emails. |
-| Email me for these notification types | | Types that send an email. |
-| Mentions / Assignments / Energy Points / Document Share / Event Reminders | 1 | Email for these events. |
+| Email me for these notification types (`email_notification_types`) | | Types that send an email. An empty table sends no email for any type. |
+| Event Reminders (`enable_email_event_reminders`) | 1 | Email for event reminders. |
+| Mentions / Assignments / Energy Points / Document Share | 1 | Not read by Frappe code. The **Email me for these notification types** table decides these emails. |
 | Email Threads on Assigned Document | 1 | Email when a reply arrives on a document assigned to you. |
 | Energy Points (`energy_points_system_notifications`) | 1 | In-app notifications for energy points. |
 | Open Documents (`subscribed_documents`) | | DocTypes to follow in the notifications panel. |

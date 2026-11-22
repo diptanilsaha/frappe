@@ -142,7 +142,7 @@ Client API (`frappe.realtime`, also `frappe.socketio`):
 | Method | Description |
 |---|---|
 | `on(event, callback)` | Listen for an event. Does nothing if the socket was not created. |
-| `off(event, callback)` | Stop listening. Without `callback`, removes all listeners for the event. |
+| `off(event, callback)` | Stop listening. Without `callback`, it removes only one listener for the event, because Frappe passes `undefined` on to the Socket.IO emitter. |
 | `emit(event, ...args)` | Send an event to the server. |
 | `publish(event, message)` | Same as `emit` with one argument. |
 | `doctype_subscribe(doctype)` / `doctype_unsubscribe(doctype)` | Join or leave `doctype:<doctype>`. |

@@ -44,7 +44,7 @@ AUTH="Authorization: token <api_key>:<api_secret>"
 | Call a whitelisted method | `/api/method/<dotted.path>` | `/api/v2/method/<dotted.path>` |
 | Call a function in a DocType module | | `/api/v2/method/<doctype>/<function>` |
 
-URL-encode spaces in DocType names (`Sample%20Item`). A trailing slash after the document name is accepted. v15 has no bulk routes. The full list is in [REST endpoints](../../reference/api/rest-endpoints.md).
+URL-encode spaces in DocType names (`Sample%20Item`). A trailing slash after the document name is accepted. v15 has no bulk routes. The full list is in [REST endpoints](../../reference/http/rest-endpoints.md).
 
 ## List documents
 
@@ -236,11 +236,11 @@ v2 error:
   "title": "Message"}]}
 ```
 
-The traceback (`exc` in v1, `exception` in v2) is sent only when **Show Full Error and Allow Reporting of Issues to the Developer** (`allow_error_traceback`) is on in System Settings and the user is a system user (`is_traceback_allowed` in `frappe/utils/response.py`). It is not sent for HTTP 404 unless the `logging` site config is set.
+The traceback (`exc` in v1, `exception` in v2) is sent only when **Show Full Error and Allow Reporting of Issues to the Developer** (`allow_error_traceback`) is on in System Settings and the user is a system user (`is_traceback_allowed` in `frappe/utils/response.py`). It is not sent for HTTP 404 unless the `logging` site config is set. Without that permission, a v1 error has only `exc_type` and `_server_messages`: the `exception` line and the `exc` traceback are both left out. The v1 example above is from a user who can see tracebacks.
 
 ## Transactions
 
-A `POST`, `PUT`, `PATCH` or `DELETE` request commits on success. A `GET` request is always rolled back. Any error rolls back the request. See [Transactions](../database/database.md#transactions).
+A `POST`, `PUT`, `PATCH` or `DELETE` request commits on success. A `GET` request is rolled back, unless the code sets `frappe.local.flags.commit` or calls `frappe.db.commit()`. Any error rolls back the request. See [Transactions](../database/database.md#transactions).
 
 ## Pitfalls
 
@@ -257,4 +257,7 @@ A `POST`, `PUT`, `PATCH` or `DELETE` request commits on success. A `GET` request
 - [Database API](../database/database.md)
 - [Permissions](../security/permissions.md)
 - [Files](../data-model/files.md)
-- [REST endpoints reference](../../reference/api/rest-endpoints.md)
+- [REST endpoints reference](../../reference/http/rest-endpoints.md)
+- [Request lifecycle](request-lifecycle.md)
+- [API internals](api-internals.md)
+- [Customizing APIs](customizing-apis.md)

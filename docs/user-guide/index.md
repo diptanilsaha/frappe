@@ -1,6 +1,6 @@
 ---
 title: "User Guide"
-description: "Use and administer the desk: navigation, users and permissions, customization, automation, reports, website and system administration."
+description: "Use and administer the desk: navigation, users and permissions, customization, automation, reports, website, settings and system administration."
 version: v15
 ---
 
@@ -8,14 +8,15 @@ version: v15
 
 # User Guide
 
-Use and administer the desk: navigation, users and permissions, customization, automation, reports, website and system administration.
+Use and administer the desk: navigation, users and permissions, customization, automation, reports, website, settings and system administration.
 
 | Topic | What it covers |
 |---|---|
-| [Desk Basics](basics/index.md) | Move around the desk and work with lists, views, forms, search and collaboration tools. |
+| [Desk Basics](basics/index.md) | Move around the desk and work with lists, views, forms, fields, search and collaboration tools. |
 | [Users and Permissions](users-and-permissions/index.md) | Manage users and roles, role permissions and user permissions. |
 | [Customization](customization/index.md) | Change forms and fields without code, and define document workflows. |
 | [Automation and Email](automation/index.md) | Automate work with rules, notifications and email. |
 | [Data, Reports and Printing](data-and-reports/index.md) | Import and export data, run reports, build dashboards and print documents. |
 | [Website and Integrations](website-and-integrations/index.md) | Publish web pages and web forms, and connect Frappe to other services. |
-| [System Administration](system-administration/index.md) | Configure the system, take backups and monitor logs and jobs. |
+| [Settings](settings/index.md) | Every settings page in Frappe: what each field does, its default and where it takes effect. |
+| [System Administration](system-administration/index.md) | Take backups and monitor logs and jobs. |

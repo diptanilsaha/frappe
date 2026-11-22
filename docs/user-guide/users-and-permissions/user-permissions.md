@@ -109,5 +109,5 @@ add_user_permission(
 
 - [Role Permissions](permissions.md)
 - [Users and Roles](users-and-roles.md)
-- [System Settings](../system-administration/system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Permissions for developers](../../developer-guide/security/permissions.md)

@@ -34,7 +34,7 @@ This page lists the changes in version 15 since version 14. The base for the com
 
 | Area | Change | Docs |
 |---|---|---|
-| REST API | Versioned routes `/api/v1/*` and `/api/v2/*`. `/api/*` stays on v1. v2 adds `/api/v2/document/<doctype>/...`, `/api/v2/doctype/<doctype>/meta` and `/api/v2/doctype/<doctype>/count`. `frappe/api.py` is now the `frappe/api` package. | [REST API](developer-guide/api/rest-api.md), [REST Endpoints](reference/api/rest-endpoints.md) |
+| REST API | Versioned routes `/api/v1/*` and `/api/v2/*`. `/api/*` stays on v1. v2 adds `/api/v2/document/<doctype>/...`, `/api/v2/doctype/<doctype>/meta` and `/api/v2/doctype/<doctype>/count`. `frappe/api.py` is now the `frappe/api` package. | [REST API](developer-guide/api/rest-api.md), [REST Endpoints](reference/http/rest-endpoints.md) |
 | DocType | Form Builder in the DocType form (`frappe/public/js/form_builder`). New DocType options `queue_in_background`, `protect_attached_files`, `grid_page_length`, `rows_threshold_for_grid_search`. | [DocTypes](developer-guide/data-model/doctypes.md) |
 | Workflow | Workflow Builder page at `/app/workflow-builder`. | [Workflow](user-guide/customization/workflow.md) |
 | Submission | Submission Queue DocType runs submit in a background job when the DocType has `queue_in_background` set. | [Background Jobs](developer-guide/runtime/background-jobs.md) |
@@ -53,7 +53,7 @@ This page lists the changes in version 15 since version 14. The base for the com
 | Translations | Gettext PO files in `frappe/locale` and the `frappe/gettext` package. Hook `ignore_translatable_strings_from`. | [Translations](developer-guide/building-apps/translations.md) |
 | Typing | Hook `export_python_type_annotations` writes field type hints into controllers. Package `frappe/types`. | [Controllers](developer-guide/data-model/controllers.md) |
 | Other hooks | `after_build`, `after_app_build`, `default_log_clearing_doctypes`, `never_skip_patches`, `persistent_cache_keys`, `standard_navbar_items`, `standard_help_items`. | [Hooks](reference/configuration/hooks.md) |
-| Python API | `frappe.get_single_value`, `frappe.is_setup_complete`, `frappe.get_app_source_path`, `frappe.get_common_site_config`, `frappe._lt` (lazy translation), `frappe.N_`, `frappe.job`. `frappe.get_lazy_doc` is an alias of `frappe.get_doc`. | [Python API](reference/api/python-api.md) |
+| Python API | `frappe.get_single_value`, `frappe.is_setup_complete`, `frappe.get_app_source_path`, `frappe.get_common_site_config`, `frappe._lt` (lazy translation), `frappe.N_`, `frappe.job`. `frappe.get_lazy_doc` is an alias of `frappe.get_doc`. | [Python API](reference/python/frappe.md) |
 | Cache | `frappe.cache` is a `RedisWrapper` object. `frappe.cache()` still works. | [Caching](developer-guide/runtime/caching.md) |
 | CLI | `worker-pool`, `generate-pot-file`, `compile-po-to-mo`, `migrate-csv-to-po`, `update-po-files`, `create-po-file`, `update-csv-from-po`. | [CLI](reference/configuration/cli.md) |
 | Tests | `MockedRequestTestCase` in `frappe/tests/utils.py`. `FrappeTestCase` stays the base class. | [Testing](developer-guide/testing-and-performance/testing.md) |

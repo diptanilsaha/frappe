@@ -188,3 +188,4 @@ In a child table:
 - [Workflow](../customization/workflow.md)
 - [Form scripts](../../developer-guide/desk-ui/form-scripts.md)
 - [Controllers](../../developer-guide/data-model/controllers.md)
+- [Fields](fields.md)

@@ -237,11 +237,12 @@ Click **Take Backup Now** to run a backup at once.
 2. Go to `/app/google-drive`.
 3. Enter the **Backup Folder Name**.
 4. Select the **Frequency** (`Daily` or `Weekly`).
-5. Optional: turn on **File Backup** and **Send Email for Successful backup**.
-6. Save.
-7. Click **Authorize Google Drive Access**.
-8. Turn on **Enable**.
-9. Save.
+5. Enter **Send Notification To**. This field is mandatory.
+6. Optional: turn on **File Backup** and **Send Email for Successful backup**.
+7. Save.
+8. Click **Authorize Google Drive Access**.
+9. Turn on **Enable**.
+10. Save.
 
 Click **Take Backup** to run a backup at once. **Last Backup On** shows the time of the last upload.
 
@@ -249,7 +250,7 @@ All three send an email to the notification address when a backup fails. **Send 
 
 ## Push notifications
 
-Turn on **Enable Push Notification Relay** in Push Notification Settings. Frappe registers with the relay server and saves the **API Key** and **API Secret**. The relay server URL comes from `push_relay_server_url` in the site config. Frappe does not let you turn on the relay without it.
+Turn on **Enable Push Notification Relay** in Push Notification Settings. On the first call to the relay server, Frappe registers the site and saves the **API Key** and **API Secret**. The relay server URL comes from `push_relay_server_url` in the site config. Frappe does not let you turn on the relay without it.
 
 ## For developers
 
@@ -273,3 +274,4 @@ Turn on **Enable Push Notification Relay** in Push Notification Settings. Frappe
 - [Authentication](../../developer-guide/security/authentication.md)
 - [REST API](../../developer-guide/api/rest-api.md)
 - [Background Jobs](../../developer-guide/runtime/background-jobs.md)
+- [Integration settings](../settings/integration-settings.md)

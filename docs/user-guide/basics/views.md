@@ -51,7 +51,7 @@ The switcher shows only the views that the DocType supports:
 | Calendar View, Gantt View | The DocType has calendar settings (`frappe.views.calendar["<DocType>"]`), for example from `<doctype>_calendar.js`. |
 | Image View | The DocType has an **Image Field**. |
 | Tree View | The DocType is a tree (**Is Tree**), or has tree settings in `<doctype>_tree.js`. |
-| Map View | The DocType has a Geolocation field named `location`, or fields named `latitude` and `longitude`, or list settings with `get_coords_method`. |
+| Map View | The DocType has a Geolocation field named `location`, or fields named `latitude` and `longitude`, or list settings with `get_coords_method`. The Map view calls that method (default `frappe.geo.utils.get_coords`) to get the coordinates. |
 | Inbox View | DocType `Communication`, and you have an email account. |
 
 If **View Switcher** (`view_switcher`) is off on your User, the switcher does not show.
@@ -164,10 +164,10 @@ Inbox View shows `Communication` documents of your email account as an inbox. Se
 |---|---|
 | List, Report | `frappe.listview_settings` in `<doctype>_list.js` and the `doctype_list_js` hook. |
 | Kanban | `Kanban Board` documents. `frappe.desk.doctype.kanban_board.kanban_board.quick_kanban_board(doctype, board_name, field_name)` makes a board with one column per Select option. |
-| Calendar, Gantt | `frappe.views.calendar["<DocType>"]` in `<doctype>_calendar.js` (`field_map`, `filters`, `get_events_method`, `gantt`). Other apps use the `doctype_calendar_js` hook. |
+| Calendar, Gantt | `frappe.views.calendar["<DocType>"]` in `<doctype>_calendar.js` (`field_map`, `get_events_method`, `gantt`). The calendar does not read a `filters` key. Other apps use the `doctype_calendar_js` hook. |
 | Tree | `frappe.treeview_settings["<DocType>"]` in `<doctype>_tree.js`, and the `doctype_tree_js` hook. The DocType has `is_tree` set. |
 | Image | `image_field` on the DocType. |
-| Map | `get_coords_method` in list settings, or the location fields. |
+| Map | `get_coords_method` in list settings (a whitelisted method that returns GeoJSON), or the location fields. |
 
 This example is the calendar of `ToDo` in `frappe/desk/doctype/todo/todo_calendar.js`:
 
@@ -187,7 +187,7 @@ frappe.views.calendar["ToDo"] = {
 };
 ```
 
-The file also sets `filters`. Refer to [List view settings](../../developer-guide/desk-ui/list-view-settings.md).
+Refer to [List view settings](../../developer-guide/desk-ui/list-view-settings.md).
 
 ## Related
 

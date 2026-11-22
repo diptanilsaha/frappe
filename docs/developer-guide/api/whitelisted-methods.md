@@ -240,3 +240,5 @@ See [Extending apps](../building-apps/extending-apps.md).
 - [Client API](../desk-ui/client-api.md)
 - [Server and client scripts](../low-code-and-ai/server-and-client-scripts.md)
 - [Security](../security/security.md)
+- [API internals](api-internals.md)
+- [Customizing APIs](customizing-apis.md)

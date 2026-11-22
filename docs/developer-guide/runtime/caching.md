@@ -23,7 +23,7 @@ Use a cache when your code reads the same data many times and the data changes r
 |---|---|---|---|
 | `@request_cache` | `frappe.local.request_cache` | One request or job | No |
 | `@site_cache` | Process memory | Until `ttl` or `clear_cache()` | No |
-| `frappe.cache` / `@redis_cache` | Redis (`redis_cache` URL) | Until expiry or delete | Yes |
+| `frappe.cache` / `@redis_cache` | Redis (`redis_cache` URL) | Until expiry or delete | Yes for `frappe.cache`. `@redis_cache` builds its key with Python `hash()`, which differs per process for strings, so calls with string arguments do not share results across workers. |
 | `frappe.get_cached_doc` / `get_cached_value` | Redis | Until the document is saved or deleted, or the cache is cleared | Yes |
 
 ## frappe.cache
@@ -137,7 +137,7 @@ get_open_order_count.clear_cache()
 | `user` | `None` | `True` caches one result for each session user. |
 | `shared` | `False` | `True` shares the results across sites. |
 
-The cache key is `<module>.<function>::<hash of arguments>`. `clear_cache()` deletes every result of the function. A `None` result is cached too.
+The cache key is `<module>.<function>::<hash of arguments>`. The hash is Python `hash()`, which differs per process for strings. `clear_cache()` deletes every result of the function, except results cached with `user` or `shared` set. A `None` result is cached too.
 
 ## Clear the cache
 

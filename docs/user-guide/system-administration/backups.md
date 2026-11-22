@@ -214,7 +214,7 @@ print(odb.backup_path_db)
 
 ## Related
 
-- [System Settings](system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Integrations](../website-and-integrations/integrations.md)
 - [Logs and Monitoring](logs-and-monitoring.md)
 - [Deployment](../../developer-guide/operations/deployment.md)

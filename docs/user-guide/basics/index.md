@@ -1,6 +1,6 @@
 ---
 title: "Desk Basics"
-description: "Move around the desk and work with lists, views, forms, search and collaboration tools."
+description: "Move around the desk and work with lists, views, forms, fields, search and collaboration tools."
 version: v15
 ---
 
@@ -8,7 +8,7 @@ version: v15
 
 # Desk Basics
 
-Move around the desk and work with lists, views, forms, search and collaboration tools.
+Move around the desk and work with lists, views, forms, fields, search and collaboration tools.
 
 | Page | What it covers |
 |---|---|
@@ -16,5 +16,6 @@ Move around the desk and work with lists, views, forms, search and collaboration
 | [List View](list-view.md) | Find, filter, sort and select documents in the Frappe v15 list view, use the group-by sidebar and saved filters, run bulk actions and set list settings. |
 | [Views](views.md) | Show the documents of a DocType in Frappe v15 as a report, kanban board, calendar, gantt chart, tree, dashboard, image grid, map or email inbox. |
 | [Form View](form-view.md) | Read and change one document in the Frappe v15 desk form - layout, save, submit, cancel and amend, timeline, attachments, sharing, print, email, links, duplicate, rename and form shortcuts. |
+| [Fields](fields.md) | Fill each kind of field in a desk form - text, numbers, check boxes, selects, links, dates, child tables, attachments, editors, signature, map, rating, duration, color and phone. |
 | [Search](search.md) | Find pages and documents in Frappe v15 with the awesomebar, global search, list filters and tags, and control what global search indexes. |
 | [Collaboration](collaboration.md) | Work on documents with other users in Frappe v15 - assignments and ToDo, sharing, comments and mentions, likes, follow, tags, energy points, activity and the notification log. |

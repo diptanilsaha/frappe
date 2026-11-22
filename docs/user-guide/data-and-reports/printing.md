@@ -212,3 +212,4 @@ pdf = frappe.get_print("Sample Order", "SO-00001", as_pdf=True)  # bytes
 - [Reports](reports.md)
 - [Print Formats (developer)](../../developer-guide/output/print-formats.md)
 - [Email](../automation/email.md)
+- [Print settings](../settings/print-settings.md)

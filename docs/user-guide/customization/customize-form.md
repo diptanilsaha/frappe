@@ -159,3 +159,5 @@ def after_install():
 - [Form View](../basics/form-view.md)
 - [Extending Apps](../../developer-guide/building-apps/extending-apps.md)
 - [DocTypes](../../developer-guide/data-model/doctypes.md)
+- [Field properties](../../developer-guide/fields/field-properties.md)
+- [DocField properties](../../reference/data-model/docfield-properties.md)

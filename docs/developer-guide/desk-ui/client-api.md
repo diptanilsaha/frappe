@@ -20,7 +20,7 @@ sources:
 
 # Client API
 
-The desk loads a global `frappe` object in the browser. Form scripts, list settings, desk pages and Client Scripts use it to call the server, read documents, show messages and move between pages. All examples on this page were run in the v15 desk (`/app`) as Administrator. For a full list of functions, see the [JavaScript API reference](../../reference/api/js-api.md).
+The desk loads a global `frappe` object in the browser. Form scripts, list settings, desk pages and Client Scripts use it to call the server, read documents, show messages and move between pages. All examples on this page were run in the v15 desk (`/app`) as Administrator. For a full list of functions, see the [JavaScript API reference](../../reference/javascript/frappe.md).
 
 ## Call the server
 
@@ -52,8 +52,8 @@ The short form is `frappe.call(method, args, callback)`. The return value is a j
 | `doc` | object | | Run a whitelisted controller method on this document (`run_doc_method`). |
 | `async` | bool | `true` | Set `false` for a blocking request. Avoid it. |
 | `headers` | object | `{}` | Extra HTTP headers. |
-| `quiet` | bool | `false` | Do not show the request spinner. |
-| `silent` | bool | `false` | Do not show error messages. |
+| `quiet` | bool | `false` | No effect. It sets `no_spinner`, which `frappe.call` does not read. |
+| `silent` | bool | `false` | Do not show the server messages (`_server_messages`). Status-code dialogs still show, for example the HTTP 404 "Not found" message. |
 | `api_version` | string | | Call `/api/<version>/method/<method>`, for example `"v2"`. |
 | `url` | string | | Call this URL instead of `/api/method/<method>`. |
 
@@ -260,4 +260,5 @@ To add your own keys to `frappe.boot`, use the `boot_session` hook. See [Extendi
 - [Desk Pages](desk-pages.md)
 - [Whitelisted Methods](../api/whitelisted-methods.md)
 - [Realtime](../runtime/realtime.md)
-- [JavaScript API reference](../../reference/api/js-api.md)
+- [JavaScript API reference](../../reference/javascript/frappe.md)
+- [Controls](../fields/controls.md)

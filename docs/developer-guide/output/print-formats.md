@@ -90,7 +90,7 @@ class SampleOrder(Document):
 
 ## Render from code
 
-`frappe.get_print()` (from `frappe/utils/print_utils.py`) returns HTML, or PDF bytes with `as_pdf=True`. It renders the `printview` page, so the print permission check applies to the current user.
+`frappe.get_print()` (from `frappe/utils/print_utils.py`) returns HTML, or PDF bytes with `as_pdf=True`. It renders the `printview` page. It checks that the current user has `read` or `print` permission on the document (`validate_print_permission` in `frappe/www/printview.py`). `read` alone is enough.
 
 ```python
 html = frappe.get_print("Sample Order", "SO-00001")
@@ -128,7 +128,7 @@ with open("/tmp/so-00001.pdf", "wb") as f:
 | `/api/method/frappe.utils.print_format.download_multi_pdf` | One PDF for many documents |
 | `/api/method/frappe.utils.weasyprint.download_pdf` | PDF of a Print Format Builder (Beta) format |
 
-`download_pdf` takes `doctype`, `name`, `format`, `no_letterhead`, `language`, `letterhead` and `pdf_generator`. It checks print permission on the document.
+`download_pdf` takes `doctype`, `name`, `format`, `no_letterhead`, `language`, `letterhead` and `pdf_generator`. It checks `read` or `print` permission on the document.
 
 ## PDF generation
 
@@ -197,3 +197,4 @@ A raw format sends printer commands (for example ESC/POS or ZPL) instead of HTML
 - [Hooks](../building-apps/hooks.md)
 - [Translations](../building-apps/translations.md)
 - [Printing (user guide)](../../user-guide/data-and-reports/printing.md)
+- [Print settings](../../user-guide/settings/print-settings.md)
