@@ -1,0 +1,46 @@
+name: Docs
+
+on:
+  push:
+    branches: [develop, version-16-hotfix, version-15-hotfix]
+    paths: ["docs/**", "mkdocs.yml", ".github/workflows/docs.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'diptanilsaha/frappe'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install MkDocs
+        run: pip install mkdocs-material mike
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages --depth=1 || true
+
+      - name: Deploy version
+        run: |
+          case "$GITHUB_REF_NAME" in
+            develop) mike deploy --push --title "develop (unreleased)" develop ;;
+            version-16-hotfix) mike deploy --push --update-aliases --title "v16 (stable)" v16 stable ;;
+            version-15-hotfix) mike deploy --push --title "v15 (stable)" v15 ;;
+            *) echo "No docs version for $GITHUB_REF_NAME"; exit 1 ;;
+          esac
+          if mike list | grep -q stable; then mike set-default --push stable; fi
