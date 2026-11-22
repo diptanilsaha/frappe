@@ -1,0 +1,179 @@
+site_name: Frappe Framework
+site_description: Technical documentation of Frappe Framework develop for app developers, desk users and AI agents
+site_url: https://diptanilsaha.github.io/frappe/
+repo_url: https://github.com/diptanilsaha/frappe
+repo_name: diptanilsaha/frappe
+edit_uri: edit/develop/docs/
+docs_dir: docs
+extra:
+  version:
+    provider: mike
+    default: stable
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+  palette:
+    - scheme: default
+      toggle: {icon: material/brightness-7, name: Dark mode}
+    - scheme: slate
+      toggle: {icon: material/brightness-4, name: Light mode}
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+validation:
+  links:
+    not_found: warn
+    anchors: warn
+nav:
+  - Home: index.md
+  - What's New: changes.md
+  - For AI Agents: AGENTS.md
+  - Getting Started:
+      - getting-started/index.md
+      - "Installation": getting-started/installation.md
+      - "Architecture": getting-started/architecture.md
+      - "Quickstart": getting-started/quickstart.md
+      - "Glossary": getting-started/glossary.md
+  - User Guide:
+      - user-guide/index.md
+      - "Desk Basics":
+          - user-guide/basics/index.md
+          - "Desk": user-guide/basics/desk.md
+          - "List View": user-guide/basics/list-view.md
+          - "Views": user-guide/basics/views.md
+          - "Form View": user-guide/basics/form-view.md
+          - "Search": user-guide/basics/search.md
+          - "Collaboration": user-guide/basics/collaboration.md
+      - "Users and Permissions":
+          - user-guide/users-and-permissions/index.md
+          - "Users and Roles": user-guide/users-and-permissions/users-and-roles.md
+          - "Role Permissions": user-guide/users-and-permissions/permissions.md
+          - "User Permissions": user-guide/users-and-permissions/user-permissions.md
+      - "Customization":
+          - user-guide/customization/index.md
+          - "Customize Form": user-guide/customization/customize-form.md
+          - "Workflow": user-guide/customization/workflow.md
+      - "Automation and Email":
+          - user-guide/automation/index.md
+          - "Automation": user-guide/automation/automation.md
+          - "Automation Flow": user-guide/automation/automation-flow.md
+          - "Notifications": user-guide/automation/notifications.md
+          - "Email": user-guide/automation/email.md
+      - "Data, Reports and Printing":
+          - user-guide/data-and-reports/index.md
+          - "Data Import and Export": user-guide/data-and-reports/data-import-export.md
+          - "Reports": user-guide/data-and-reports/reports.md
+          - "Dashboards": user-guide/data-and-reports/dashboards.md
+          - "Printing": user-guide/data-and-reports/printing.md
+      - "Website and Integrations":
+          - user-guide/website-and-integrations/index.md
+          - "Website": user-guide/website-and-integrations/website.md
+          - "Integrations": user-guide/website-and-integrations/integrations.md
+      - "AI and App Builder":
+          - user-guide/ai-and-app-builder/index.md
+          - "Flow": user-guide/ai-and-app-builder/flow.md
+          - "Studio": user-guide/ai-and-app-builder/studio.md
+      - "System Administration":
+          - user-guide/system-administration/index.md
+          - "System Settings": user-guide/system-administration/system-settings.md
+          - "Backups": user-guide/system-administration/backups.md
+          - "Logs and Monitoring": user-guide/system-administration/logs-and-monitoring.md
+  - Developer Guide:
+      - developer-guide/index.md
+      - "Building Apps":
+          - developer-guide/building-apps/index.md
+          - "Apps": developer-guide/building-apps/apps.md
+          - "Hooks": developer-guide/building-apps/hooks.md
+          - "Extending Other Apps": developer-guide/building-apps/extending-apps.md
+          - "Fixtures and Patches": developer-guide/building-apps/fixtures-and-patches.md
+          - "Translations": developer-guide/building-apps/translations.md
+          - "App State": developer-guide/building-apps/app-state.md
+      - "Data Model":
+          - developer-guide/data-model/index.md
+          - "DocTypes": developer-guide/data-model/doctypes.md
+          - "Naming": developer-guide/data-model/naming.md
+          - "Controllers": developer-guide/data-model/controllers.md
+          - "Files": developer-guide/data-model/files.md
+      - "Database":
+          - developer-guide/database/index.md
+          - "Database API": developer-guide/database/database.md
+          - "Query Builder": developer-guide/database/query-builder.md
+      - "Permissions and Security":
+          - developer-guide/security/index.md
+          - "Permissions": developer-guide/security/permissions.md
+          - "Authentication": developer-guide/security/authentication.md
+          - "Security": developer-guide/security/security.md
+      - "APIs":
+          - developer-guide/api/index.md
+          - "Whitelisted Methods": developer-guide/api/whitelisted-methods.md
+          - "REST API": developer-guide/api/rest-api.md
+          - "MCP and API Discovery": developer-guide/api/mcp-and-discovery.md
+      - "Jobs, Realtime and Caching":
+          - developer-guide/runtime/index.md
+          - "Background Jobs": developer-guide/runtime/background-jobs.md
+          - "Scheduler": developer-guide/runtime/scheduler.md
+          - "Realtime": developer-guide/runtime/realtime.md
+          - "Caching": developer-guide/runtime/caching.md
+      - "Desk UI":
+          - developer-guide/desk-ui/index.md
+          - "Form Scripts": developer-guide/desk-ui/form-scripts.md
+          - "List View Settings": developer-guide/desk-ui/list-view-settings.md
+          - "Client API": developer-guide/desk-ui/client-api.md
+          - "Desk Pages": developer-guide/desk-ui/desk-pages.md
+          - "Workspaces, Sidebar and Dock": developer-guide/desk-ui/workspaces-sidebar-dock.md
+          - "Islands": developer-guide/desk-ui/islands.md
+      - "Website and Portal":
+          - developer-guide/website/index.md
+          - "Website": developer-guide/website/website.md
+          - "Web Forms": developer-guide/website/web-forms.md
+      - "Reports, Printing and Email":
+          - developer-guide/output/index.md
+          - "Reports": developer-guide/output/reports.md
+          - "Print Formats": developer-guide/output/print-formats.md
+          - "Email and Notifications": developer-guide/output/email-and-notifications.md
+      - "Low-Code and AI":
+          - developer-guide/low-code-and-ai/index.md
+          - "Server Scripts and Client Scripts": developer-guide/low-code-and-ai/server-and-client-scripts.md
+          - "Automation Engine": developer-guide/low-code-and-ai/automation-engine.md
+          - "Flow Development": developer-guide/low-code-and-ai/flow-development.md
+          - "Studio Development": developer-guide/low-code-and-ai/studio-development.md
+      - "Testing and Performance":
+          - developer-guide/testing-and-performance/index.md
+          - "Testing": developer-guide/testing-and-performance/testing.md
+          - "Performance": developer-guide/testing-and-performance/performance.md
+      - "Configuration and Operations":
+          - developer-guide/operations/index.md
+          - "Configuration": developer-guide/operations/configuration.md
+          - "Deployment": developer-guide/operations/deployment.md
+          - "Upgrading": developer-guide/operations/upgrading.md
+  - Reference:
+      - reference/index.md
+      - "API Reference":
+          - reference/api/index.md
+          - "Python API": reference/api/python-api.md
+          - "Database API": reference/api/database-api.md
+          - "Utilities": reference/api/utils.md
+          - "JavaScript API": reference/api/js-api.md
+          - "REST Endpoints Reference": reference/api/rest-endpoints.md
+      - "Configuration Reference":
+          - reference/configuration/index.md
+          - "Hooks Reference": reference/configuration/hooks.md
+          - "Site Config Reference": reference/configuration/site-config.md
+          - "CLI Reference": reference/configuration/cli.md
+      - "Data Model Reference":
+          - reference/data-model/index.md
+          - "Field Types": reference/data-model/field-types.md
+          - "DocTypes Reference": reference/data-model/doctypes.md
