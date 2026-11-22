@@ -1,6 +1,6 @@
 ---
 title: "Developer Guide"
-description: "Build and extend Frappe apps: app structure, data model, database, security, APIs, background work, desk UI, website, output, low-code tools, testing and operations."
+description: "Build and extend Frappe apps: app structure, data model, fields and controls, database, security, APIs, background work, desk UI, website, output, low-code tools, testing and operations."
 version: v16
 ---
 
@@ -8,15 +8,16 @@ version: v16
 
 # Developer Guide
 
-Build and extend Frappe apps: app structure, data model, database, security, APIs, background work, desk UI, website, output, low-code tools, testing and operations.
+Build and extend Frappe apps: app structure, data model, fields and controls, database, security, APIs, background work, desk UI, website, output, low-code tools, testing and operations.
 
 | Topic | What it covers |
 |---|---|
 | [Building Apps](building-apps/index.md) | Create an app, use hooks, extend other apps, ship fixtures and patches, and translate. |
 | [Data Model](data-model/index.md) | Define DocTypes, naming rules, controllers and the document lifecycle, and handle files. |
+| [Fields and Controls](fields/index.md) | How each field type works in the desk, its properties, its stored value, and the JavaScript control API. |
 | [Database](database/index.md) | Read and write data with frappe.db and frappe.qb, and control transactions. |
 | [Permissions and Security](security/index.md) | Control access with permissions, authenticate clients and write secure code. |
-| [APIs](api/index.md) | Expose whitelisted methods, use the REST API and connect AI clients over MCP. |
+| [Requests and APIs](api/index.md) | Follow a request through the framework, expose whitelisted methods, use and customize the REST API, and connect AI clients over MCP. |
 | [Jobs, Realtime and Caching](runtime/index.md) | Run background jobs and scheduled tasks, push realtime events and cache data. |
 | [Desk UI](desk-ui/index.md) | Script forms and lists, call the server from JavaScript, and build desk pages and navigation. |
 | [Website and Portal](website/index.md) | Build website pages, portal pages, routes and web forms. |

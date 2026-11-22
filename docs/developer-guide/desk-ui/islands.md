@@ -215,4 +215,4 @@ Desk charts use the framework island `frappe.chart`. Draw a chart with `frappe.u
 - [Client API](client-api.md)
 - [Apps](../building-apps/apps.md)
 - [Studio Development](../low-code-and-ai/studio-development.md)
-- [JavaScript API reference](../../reference/api/js-api.md)
+- [JavaScript API reference](../../reference/javascript/frappe.md)

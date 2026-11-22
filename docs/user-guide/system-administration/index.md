@@ -1,6 +1,6 @@
 ---
 title: "System Administration"
-description: "Configure the system, take backups and monitor logs and jobs."
+description: "Take backups and monitor logs and jobs."
 version: v16
 ---
 
@@ -8,10 +8,9 @@ version: v16
 
 # System Administration
 
-Configure the system, take backups and monitor logs and jobs.
+Take backups and monitor logs and jobs.
 
 | Page | What it covers |
 |---|---|
-| [System Settings](system-settings.md) | Site-wide settings in System Settings (formats, login, password, email, files, backups, scheduler), plus the basics of Website Settings and Navbar Settings. |
 | [Backups](backups.md) | Take, download, schedule, encrypt and restore site backups with bench and the Download Backups page. |
 | [Logs and Monitoring](logs-and-monitoring.md) | Find errors and check site health with Error Log, Activity Log, Access Log, Scheduled Job Log, RQ Job, RQ Worker, Recorder, System Health Report, System Console and Log Settings. |

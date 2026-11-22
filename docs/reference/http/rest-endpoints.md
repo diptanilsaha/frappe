@@ -62,7 +62,7 @@ curl -b cookies.txt "http://frappe.localhost:8006/api/resource/ToDo?fields=%5B%2
 
 | Route | HTTP methods | Does | Permission check |
 |---|---|---|---|
-| `/api/v2/method/login` | any | Log in with `usr` and `pwd`. The login runs in `LoginManager` before the route. | none |
+| `/api/v2/method/login` | any | Does not log in by itself. `LoginManager` logs in only on the path `/api/method/login` or when the form has `cmd=login`. A plain call returns `{}` and the session stays Guest. Use `/api/method/login`, or add `"cmd": "login"` to the body. | none |
 | `/api/v2/method/logout` | `POST` | Log out the session. | none |
 | `/api/v2/method/ping` | any | Returns `"pong"`. | none |
 | `/api/v2/method/upload_file` | `POST` | Upload a file. Same as `frappe.handler.upload_file`. | see [Files](../../developer-guide/data-model/files.md) |

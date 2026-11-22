@@ -157,7 +157,7 @@ Go to **System Settings > Login**.
 | Label | Fieldname | Default | Description |
 |---|---|---|---|
 | Session Expiry (idle timeout) | `session_expiry` | `170:00` | Idle time in `hh:mm` after which a user is logged out. |
-| Allow only one session per user | `deny_multiple_sessions` | 0 | Ends the older session when the user logs in again. |
+| Allow only one session per user | `deny_multiple_sessions` | 0 | On login, ends the older sessions beyond the user's **Simultaneous Sessions** (`simultaneous_sessions` on User, default 2). With the default, one other session stays open. |
 | Disable Username/Password Login | `disable_user_pass_login` | 0 | Needs an enabled Social Login Key, LDAP, or login with email link first. |
 | Allow Login using Mobile Number | `allow_login_using_mobile_number` | 0 | |
 | Allow Login using User Name | `allow_login_using_user_name` | 0 | |
@@ -201,5 +201,5 @@ frappe.get_roles("user1@example.com")
 
 - [Permissions](permissions.md)
 - [User Permissions](user-permissions.md)
-- [System Settings](../system-administration/system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Authentication](../../developer-guide/security/authentication.md)

@@ -220,3 +220,4 @@ Turn on **Enable Push Notification Relay** in Push Notification Settings. Frappe
 - [Authentication](../../developer-guide/security/authentication.md)
 - [REST API](../../developer-guide/api/rest-api.md)
 - [Background Jobs](../../developer-guide/runtime/background-jobs.md)
+- [Integration settings](../settings/integration-settings.md)

@@ -25,9 +25,9 @@ Read this page before you write or change code for a Frappe app on version 16. E
 |---|---|
 | Which hooks exist and what shape they take | [Hooks reference](reference/configuration/hooks.md) |
 | Run order of controller methods and `doc_events` | [Controllers](developer-guide/data-model/controllers.md) |
-| Signatures of `frappe.*`, `frappe.db.*`, `frappe.utils.*` | [Python API](reference/api/python-api.md), [Database API](reference/api/database-api.md), [Utils](reference/api/utils.md) |
-| Client-side `frappe.*` and `frm` API | [JavaScript API](reference/api/js-api.md), [Form Scripts](developer-guide/desk-ui/form-scripts.md) |
-| REST routes | [REST Endpoints](reference/api/rest-endpoints.md) |
+| Signatures of `frappe.*`, `frappe.db.*`, `frappe.utils.*` | [Python API](reference/python/frappe.md), [Database API](reference/python/database.md), [Utils](reference/python/utils.md) |
+| Client-side `frappe.*` and `frm` API | [JavaScript API](reference/javascript/frappe.md), [Form Scripts](developer-guide/desk-ui/form-scripts.md) |
+| REST routes | [REST Endpoints](reference/http/rest-endpoints.md) |
 | CLI commands and flags | [CLI](reference/configuration/cli.md) |
 | Config keys | [Site Config](reference/configuration/site-config.md) |
 | Field types and DB columns | [Field Types](reference/data-model/field-types.md) |

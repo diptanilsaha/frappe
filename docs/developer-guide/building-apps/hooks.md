@@ -311,3 +311,4 @@ An entry is a DocType name or a dict with `dt` (or `doctype`), `filters`, `or_fi
 - [Controllers](../data-model/controllers.md)
 - [Extending Apps](extending-apps.md)
 - [Apps](apps.md)
+- [Customizing APIs](../api/customizing-apis.md)

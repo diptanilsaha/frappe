@@ -47,7 +47,7 @@ This page lists the changes in version 16 since version 15. Each item was checke
 | Workflow | Workflow Transition Tasks. Hook `workflow_methods`. | [Workflow](user-guide/customization/workflow.md) |
 | Website | UTM Source, UTM Medium and UTM Campaign DocTypes. | [Website](user-guide/website-and-integrations/website.md) |
 | Tests | New test runner in `frappe/testing`. Test classes `IntegrationTestCase` and `UnitTestCase` (`frappe/tests/classes`). | [Testing](developer-guide/testing-and-performance/testing.md) |
-| Python API | `frappe.toast`, `frappe.throw_permission_error`, `frappe.site_cache`, `frappe.concurrent_limit`. `frappe.get_lazy_doc` loads child tables on access (in v15 it was an alias of `get_doc`). | [Python API](reference/api/python-api.md) |
+| Python API | `frappe.toast`, `frappe.throw_permission_error`, `frappe.site_cache`, `frappe.concurrent_limit`. `frappe.get_lazy_doc` loads child tables on access (in v15 it was an alias of `get_doc`). | [Python API](reference/python/frappe.md) |
 | CLI | `list-sites`, `bypass-patch`, `convert-sidebar-fixtures`, `setup-chrome`, `sqlite`, `sync-desktop-icons`, `build-studio-app`, `watch-studio`, `flow-server`. | [CLI](reference/configuration/cli.md) |
 | Realtime | A Python Socket.IO server in `frappe/realtime`. `bench socketio` picks it when `socketio_backend` is set. `frappe/asgi.py` exists. | [Realtime](developer-guide/runtime/realtime.md) |
 | Security | Session IDs are stored hashed. | [Authentication](developer-guide/security/authentication.md) |

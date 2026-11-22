@@ -236,4 +236,4 @@ Environment variables win over both JSON files.
 - [CLI reference](../../reference/configuration/cli.md)
 - [Deployment](deployment.md)
 - [Security](../security/security.md)
-- [System Settings](../../user-guide/system-administration/system-settings.md)
+- [System Settings](../../user-guide/settings/system-settings.md)

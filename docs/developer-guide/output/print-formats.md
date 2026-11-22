@@ -94,7 +94,7 @@ class SampleOrder(Document):
 
 ## Render from code
 
-`frappe.get_print()` returns HTML, or PDF bytes with `as_pdf=True`. It checks print permission for the current user.
+`frappe.get_print()` returns HTML, or PDF bytes with `as_pdf=True`. It checks that the current user has `read` or `print` permission on the document (`validate_print_permission` in `frappe/www/printview.py`). `read` alone is enough.
 
 ```python
 html = frappe.get_print("Sample Order", "SO-00001")
@@ -223,3 +223,4 @@ A raw format sends printer commands (for example ESC/POS or ZPL) instead of HTML
 - [Hooks](../building-apps/hooks.md)
 - [Translations](../building-apps/translations.md)
 - [Printing (user guide)](../../user-guide/data-and-reports/printing.md)
+- [Print settings](../../user-guide/settings/print-settings.md)

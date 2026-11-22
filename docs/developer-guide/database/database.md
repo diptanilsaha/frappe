@@ -20,7 +20,7 @@ sources:
 
 `frappe.db` is the connection to the site database for the current request or job. `frappe.get_list` and `frappe.get_all` query many rows of a DocType with filters. Use the document API (`frappe.get_doc`, `doc.save()`) when you need validation, hooks and permission checks. Use the functions on this page when you only need values, or when you need a fast write without controller logic.
 
-All examples on this page were run in `bench --site frappe.localhost console`. The full list of methods is in the [Database API reference](../../reference/api/database-api.md).
+All examples on this page were run in `bench --site frappe.localhost console`. The full list of methods is in the [Database API reference](../../reference/python/database.md).
 
 ## Read values
 
@@ -240,7 +240,7 @@ Table names are `tab` plus the DocType name. `frappe.db.sql` also accepts a quer
 | `frappe.db.set_value(dt, dn, field, val=None, modified=None, modified_by=None, update_modified=True, debug=False)` | Updates columns with SQL. `field` can be a dict of field values. |
 | `frappe.db.set_single_value(doctype, fieldname, value=None, *, modified=None, modified_by=None, update_modified=True, debug=False)` | Updates a Single DocType. |
 | `frappe.db.delete(doctype, filters=None)` | Deletes matching rows. |
-| `frappe.db.bulk_insert(...)` | Inserts many rows in one statement. |
+| `frappe.db.bulk_insert(...)` | Inserts many rows, one `INSERT` statement per chunk of 1,000 rows (`chunk_size`). |
 
 ```python
 frappe.db.set_value("Sample Item", "Keyboard", "rate", 50)
@@ -318,8 +318,8 @@ A rollback to a savepoint undoes database changes only. Callbacks and files are 
 - `frappe.get_all` and `frappe.db.*` do not check permissions.
 - `frappe.get_list` returns all rows when you do not pass `limit`.
 - `frappe.db.get_value` returns `None` when nothing matches. A tuple unpack of the result then fails.
-- `frappe.db.exists` with filters returns the first name in the default sort order, not a boolean.
-- DDL statements (`CREATE`, `ALTER`) commit the open transaction on MariaDB.
+- `frappe.db.exists` with filters returns the name of a matching row, not a boolean. It adds no `ORDER BY`, so do not depend on which row it returns.
+- On MariaDB and SQLite, a DDL statement (`CREATE`, `ALTER`, `DROP`, `TRUNCATE`) after writes in the same transaction raises `frappe.exceptions.ImplicitCommitError`. Commit first, run DDL before writes, or use `frappe.db.sql_ddl`.
 - The `ilike` and `regex` filter operators fail on MariaDB in v16. Use `like` instead.
 
 ## Related
@@ -329,4 +329,4 @@ A rollback to a savepoint undoes database changes only. Callbacks and files are 
 - [Controllers](../data-model/controllers.md)
 - [Background jobs](../runtime/background-jobs.md)
 - [Performance](../testing-and-performance/performance.md)
-- [Database API reference](../../reference/api/database-api.md)
+- [Database API reference](../../reference/python/database.md)

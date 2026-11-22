@@ -3,6 +3,7 @@ title: Hooks Reference
 description: Every hooks.py key that the Frappe Framework reads, with its shape, the file that reads it, and what it does.
 version: v16
 sources:
+  - frappe/website/web_template/primary_navbar/primary_navbar.html
   - frappe/__init__.py
   - frappe/hooks.py
   - frappe/app.py
@@ -273,6 +274,7 @@ standard_queries = {"Sample Item": "sample_app.queries.sample_item_query"}
 | `update_website_context` | list of dotted paths | `frappe/website/page_renderers/base_template_page.py` | Called with `context`. A returned dict updates the context. |
 | `website_context` | dict | `frappe/website/doctype/website_settings/website_settings.py` | Static values added to the website context. |
 | `web_include_js`, `web_include_css`, `web_include_icons` | list of str | `frappe/website/doctype/website_settings/website_settings.py` | Assets on every website page. |
+| `brand_html` | str (HTML) | `frappe/website/web_template/primary_navbar/primary_navbar.html` | First value wins (app install order). Shown as the website navbar brand only when Website Settings **Brand HTML** and **Banner Image** are empty. Frappe does not set it. |
 | `webform_include_js`, `webform_include_css` | dict: DocType or `"*"` -> path | `frappe/website/doctype/web_form/web_form.py` | Extra script or style for standard Web Forms. |
 | `webform_list_context` | dotted path | `frappe/www/list.py` | First wins. Called with the module. Returns list context for a DocType. |
 | `portal_menu_items` | list of dict | `frappe/website/utils.py` | Portal sidebar items, added to the items in Portal Settings. |

@@ -1,6 +1,6 @@
 ---
 title: "Data Model Reference"
-description: "Every field type and every DocType shipped with Frappe."
+description: "Every field type, every DocField property and every DocType shipped with Frappe."
 version: v16
 ---
 
@@ -8,9 +8,10 @@ version: v16
 
 # Data Model Reference
 
-Every field type and every DocType shipped with Frappe.
+Every field type, every DocField property and every DocType shipped with Frappe.
 
 | Page | What it covers |
 |---|---|
 | [Field Types](field-types.md) | Every DocField fieldtype with its database column type on MariaDB, Postgres and SQLite, what Options means, and validation rules. |
+| [DocField Properties](docfield-properties.md) | Every DocField property from docfield.json with its type, default, the fieldtypes it applies to, its effect, and whether Customize Form and Custom Field can set it. |
 | [DocTypes Reference](doctypes.md) | Every DocType shipped with the frappe app, grouped by module, with flags and a one-line description. |

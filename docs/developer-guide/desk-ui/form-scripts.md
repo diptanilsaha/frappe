@@ -245,4 +245,6 @@ Older code puts handlers on `frm.cscript` (also `cur_frm.cscript`), for example 
 - [Controllers](../data-model/controllers.md)
 - [Server and Client Scripts](../low-code-and-ai/server-and-client-scripts.md)
 - [Extending Apps](../building-apps/extending-apps.md)
-- [JavaScript API reference](../../reference/api/js-api.md)
+- [JavaScript API reference](../../reference/javascript/frappe.md)
+- [Controls](../fields/controls.md)
+- [Table fields](../fields/table-fields.md)

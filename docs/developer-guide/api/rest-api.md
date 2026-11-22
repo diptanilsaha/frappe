@@ -44,7 +44,7 @@ AUTH="Authorization: token <api_key>:<api_secret>"
 | Call a whitelisted method | `/api/method/<dotted.path>` | `/api/v2/method/<dotted.path>` |
 | Call a function in a DocType module | | `/api/v2/method/<doctype>/<function>` |
 
-URL-encode spaces in DocType names (`Sample%20Item`). Trailing slashes are optional. The v2 routes for discovery and MCP are described in [MCP and discovery](mcp-and-discovery.md). The full list is in [REST endpoints](../../reference/api/rest-endpoints.md).
+URL-encode spaces in DocType names (`Sample%20Item`). Trailing slashes are optional. The v2 routes for discovery and MCP are described in [MCP and discovery](mcp-and-discovery.md). The full list is in [REST endpoints](../../reference/http/rest-endpoints.md).
 
 ## List documents
 
@@ -132,7 +132,7 @@ class SampleOrder(Document):
         return query.where(Order.status != "Cancelled")
 ```
 
-The method gets the query builder object and returns a query or `None`. Virtual DocTypes use their own `get_list`.
+The method gets the query builder object and returns a query or `None`. The v2 list does not handle virtual DocTypes. For a virtual DocType, use the v1 `/api/resource` route, which goes through `frappe.get_list` and the controller's `get_list`.
 
 ### Count
 
@@ -260,7 +260,7 @@ v2 error:
   "as_table": false, "title": "Permission Error", "indicator": "red"}]}
 ```
 
-The traceback (`exc` in v1, `exception` in v2) is sent when the `DEV_SERVER` environment variable is set, or when System Settings `allow_error_traceback` is on and the user is a system user. A 404 response has no traceback.
+The traceback (`exc` in v1, `exception` in v2) is sent when the `DEV_SERVER` environment variable is set, or when System Settings `allow_error_traceback` is on and the user is a system user. A 404 response has no traceback. Without that permission, a v1 error has only `exc_type` and `_server_messages`: the `exception` line and the `exc` traceback are both left out. The v1 example above is from a user who can see tracebacks.
 
 ## Transactions
 
@@ -280,4 +280,7 @@ A `POST`, `PUT`, `PATCH` or `DELETE` request commits on success. A `GET` request
 - [Database API](../database/database.md)
 - [Permissions](../security/permissions.md)
 - [Files](../data-model/files.md)
-- [REST endpoints reference](../../reference/api/rest-endpoints.md)
+- [REST endpoints reference](../../reference/http/rest-endpoints.md)
+- [Request lifecycle](request-lifecycle.md)
+- [API internals](api-internals.md)
+- [Customizing APIs](customizing-apis.md)

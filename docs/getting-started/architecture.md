@@ -72,7 +72,7 @@ The WSGI entry point is `application()` in `frappe/app.py`. Gunicorn runs it in 
     | any other `GET`, `HEAD`, `POST` | `frappe.website.serve.get_response()` (website and desk pages) |
 
 4. If no exception occurs, `sync_database()` commits for `POST`, `PUT`, `DELETE` and `PATCH`. It rolls back for other methods, unless `frappe.local.flags.commit` is set.
-5. If an exception occurs, Frappe makes an error response and rolls back the transaction. A database deadlock or lock timeout returns HTTP status `508`.
+5. If an exception occurs, Frappe makes an error response and rolls back the transaction. For a JSON or `/api/` request, a database deadlock or lock timeout returns HTTP status `500`. For other requests, Frappe sets status `508`.
 6. The `after_request` hooks run. Then the response gets its headers and cookies.
 7. Callbacks added to `frappe.request.after_response` run after the response is sent.
 
@@ -179,3 +179,4 @@ A new app gets one module with the same name as the app title. `bench new-app` w
 - [Glossary](glossary.md)
 - [Hooks](../developer-guide/building-apps/hooks.md)
 - [Deployment](../developer-guide/operations/deployment.md)
+- [Request lifecycle](../developer-guide/api/request-lifecycle.md)

@@ -152,7 +152,7 @@ print(odb.backup_path_db)
 
 ## Related
 
-- [System Settings](system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Logs and Monitoring](logs-and-monitoring.md)
 - [Deployment](../../developer-guide/operations/deployment.md)
 - [CLI reference](../../reference/configuration/cli.md)
