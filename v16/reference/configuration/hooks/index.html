@@ -1,0 +1,6463 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Every hooks.py key that the Frappe Framework reads, with its shape, the file that reads it, and what it does.">
+      
+      
+      
+        <link rel="canonical" href="https://diptanilsaha.github.io/frappe/v16/reference/configuration/hooks/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../site-config/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Hooks Reference - Frappe Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hooks-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Frappe Framework" class="md-header__button md-logo" aria-label="Frappe Framework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Frappe Framework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hooks Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/diptanilsaha/frappe" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    diptanilsaha/frappe
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Frappe Framework" class="md-nav__button md-logo" aria-label="Frappe Framework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Frappe Framework
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/diptanilsaha/frappe" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    diptanilsaha/frappe
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What's New
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AGENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/basics/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk Basics
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desk Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/desk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/list-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/views/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Views
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/form-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Collaboration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/users-and-permissions/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users and Permissions
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Users and Permissions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/users-and-roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users and Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/user-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/customization/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customization
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Customization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/customization/customize-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customize Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/customization/workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/automation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation and Email
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automation and Email
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/automation-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/email/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/data-and-reports/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data, Reports and Printing
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data, Reports and Printing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/data-import-export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Import and Export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/printing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Printing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/website-and-integrations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website and Integrations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Website and Integrations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/website-and-integrations/website/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/website-and-integrations/integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/ai-and-app-builder/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI and App Builder
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI and App Builder
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/ai-and-app-builder/flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/ai-and-app-builder/studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/system-administration/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Administration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Administration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/system-administration/system-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/system-administration/backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/system-administration/logs-and-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs and Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/building-apps/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Building Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/extending-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending Other Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/fixtures-and-patches/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fixtures and Patches
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/translations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Translations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/data-model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/doctypes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DocTypes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/naming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Naming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/controllers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controllers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/database/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/database/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/database/query-builder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/security/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions and Security
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Permissions and Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    APIs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    APIs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/whitelisted-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Whitelisted Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/mcp-and-discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP and API Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/runtime/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jobs, Realtime and Caching
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Jobs, Realtime and Caching
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/background-jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/realtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/desk-ui/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk UI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desk UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/form-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/list-view-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List View Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/client-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/desk-pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk Pages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/workspaces-sidebar-dock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspaces, Sidebar and Dock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/islands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Islands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/website/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website and Portal
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Website and Portal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/website/website/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/website/web-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/output/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports, Printing and Email
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reports, Printing and Email
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/print-formats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/email-and-notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email and Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/low-code-and-ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Low-Code and AI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Low-Code and AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/server-and-client-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server Scripts and Client Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/automation-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/flow-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/studio-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Studio Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/testing-and-performance/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and Performance
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_12" id="__nav_6_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing and Performance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/testing-and-performance/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/testing-and-performance/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/operations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration and Operations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_13" id="__nav_6_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration and Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/upgrading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/python-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/database-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/js-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JavaScript API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/rest-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-read-this-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to read this page
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-lifecycle-install-migrate-enable-build-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App lifecycle (install, migrate, enable, build, tests)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-and-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request and session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documents-and-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documents and models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desk-boot-and-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desk, boot and assets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#website-and-portal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Website and portal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background-jobs-and-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background jobs and scheduler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#email-sms-and-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email, SMS and notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printing-and-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing and PDF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-flow-and-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation, Flow and Studio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-translation-import-and-api-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search, translation, import and API discovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keys-that-frappe-declares-but-does-not-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keys that frappe declares but does not read
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../data-model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Model Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-model/field-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-model/doctypes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DocTypes Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-read-this-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to read this page
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-lifecycle-install-migrate-enable-build-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App lifecycle (install, migrate, enable, build, tests)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-and-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request and session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documents-and-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documents and models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desk-boot-and-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desk, boot and assets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#website-and-portal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Website and portal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background-jobs-and-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Background jobs and scheduler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#email-sms-and-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email, SMS and notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printing-and-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing and PDF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-flow-and-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation, Flow and Studio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-translation-import-and-api-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search, translation, import and API discovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keys-that-frappe-declares-but-does-not-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keys that frappe declares but does not read
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hooks-reference">Hooks Reference<a class="headerlink" href="#hooks-reference" title="Permanent link">&para;</a></h1>
+<p>This page lists every key in an app's <code>hooks.py</code> that the framework reads in this version.
+Use it to look up the shape of a hook value and the code that reads it.
+For how hooks work and how values from many apps merge, see <a href="../../../developer-guide/building-apps/hooks/">Hooks</a>.</p>
+<h2 id="how-to-read-this-page">How to read this page<a class="headerlink" href="#how-to-read-this-page" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>frappe.get_hooks("key")</code> collects the key from all active apps and returns a list. A single string value becomes a one-item list.</li>
+<li>A dict value is merged key by key. Each inner value also becomes a list. For example, <code>doc_events["*"]["on_update"]</code> is a list of dotted paths from all apps.</li>
+<li>"Last wins" means the framework uses only the last item (<code>[-1]</code>). Apps load in install order, so the app installed last wins.</li>
+<li>"All run" means the framework calls every dotted path in the list, in app order.</li>
+<li>"Per app" means the framework reads the key with <code>app_name=&lt;app&gt;</code> and uses only that app's value.</li>
+<li>Paths in the "Read in" column are relative to <code>apps/frappe</code>.</li>
+</ul>
+<p>The <strong>Audit System Hooks</strong> report (<code>frappe/custom/report/audit_system_hooks</code>) shows the merged value of each hook on a site.
+In code, check a value from the console:</p>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">get_hooks</span><span class="p">(</span><span class="s2">"calendars"</span><span class="p">)</span>   <span class="c1"># ['Event']</span>
+</code></pre></div>
+<h2 id="app-metadata">App metadata<a class="headerlink" href="#app-metadata" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app_name</code></td>
+<td>str</td>
+<td><code>frappe/utils/boilerplate.py</code></td>
+<td>Python package name of the app. Written by <code>bench new-app</code>.</td>
+</tr>
+<tr>
+<td><code>app_title</code></td>
+<td>str</td>
+<td><code>frappe/boot.py</code>, <code>frappe/utils/change_log.py</code>, <code>frappe/email/email_body.py</code>, <code>frappe/gettext/translate.py</code></td>
+<td>Display name. Used on the apps screen, in version info, in <code>.pot</code> headers and as the email header title (last wins).</td>
+</tr>
+<tr>
+<td><code>app_publisher</code></td>
+<td>str</td>
+<td><code>frappe/modules/utils.py</code>, <code>frappe/gettext/translate.py</code></td>
+<td>Copyright holder in boilerplate files and <code>.pot</code> headers. Per app.</td>
+</tr>
+<tr>
+<td><code>app_description</code></td>
+<td>str</td>
+<td><code>frappe/utils/change_log.py</code></td>
+<td>Description shown in version info. Per app.</td>
+</tr>
+<tr>
+<td><code>app_email</code></td>
+<td>str</td>
+<td><code>frappe/gettext/translate.py</code></td>
+<td>Bug report address in the <code>.pot</code> catalog header. Per app.</td>
+</tr>
+<tr>
+<td><code>app_license</code></td>
+<td>str</td>
+<td><code>frappe/utils/boilerplate.py</code></td>
+<td>License name. Only the boilerplate generator uses it.</td>
+</tr>
+<tr>
+<td><code>app_color</code></td>
+<td>str</td>
+<td><code>frappe/utils/change_log.py</code></td>
+<td>App color in version info. Per app.</td>
+</tr>
+<tr>
+<td><code>app_logo_url</code></td>
+<td>str</td>
+<td><code>frappe/boot.py</code>, <code>frappe/core/doctype/navbar_settings/navbar_settings.py</code>, <code>frappe/utils/change_log.py</code></td>
+<td>Logo of the app. The navbar uses the second logo when exactly two apps set one.</td>
+</tr>
+<tr>
+<td><code>app_home</code></td>
+<td>str</td>
+<td><code>frappe/boot.py</code></td>
+<td>Route of the app home, for example <code>/desk/build</code>. Per app.</td>
+</tr>
+<tr>
+<td><code>&lt;branch&gt;_version</code></td>
+<td>str</td>
+<td><code>frappe/utils/change_log.py</code></td>
+<td>Version label for a branch, for example <code>develop_version</code>. Shown when the app is not on <code>master</code>.</td>
+</tr>
+<tr>
+<td><code>add_to_apps_screen</code></td>
+<td>list of dict</td>
+<td><code>frappe/apps.py</code>, <code>frappe/boot.py</code>, <code>frappe/desk/doctype/desktop_icon/desktop_icon.py</code>, <code>frappe/desk/doctype/dock/dock.py</code></td>
+<td>Adds the app to the apps screen. Keys: <code>name</code>, <code>logo</code>, <code>title</code>, <code>route</code>, <code>desk_route</code>, <code>has_permission</code> (dotted path), <code>sequence_id</code>, <code>setup_wizard_text</code>.</td>
+</tr>
+<tr>
+<td><code>required_apps</code></td>
+<td>list of str</td>
+<td><code>frappe/installer.py</code>, <code>frappe/core/doctype/installed_applications/installed_applications.py</code></td>
+<td>Apps to install before this app. <code>bench install-app</code> installs them first.</td>
+</tr>
+<tr>
+<td><code>code_only_modules</code></td>
+<td>dict: module -&gt; list of modules</td>
+<td><code>frappe/utils/modules.py</code></td>
+<td>Modules that hold code only. They are kept out of the dock, and their navigation goes to the listed heir modules.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">app_name</span> <span class="o">=</span> <span class="s2">"sample_app"</span>
+<span class="n">app_title</span> <span class="o">=</span> <span class="s2">"Sample App"</span>
+<span class="n">app_publisher</span> <span class="o">=</span> <span class="s2">"Example Corp"</span>
+<span class="n">required_apps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"frappe"</span><span class="p">]</span>
+<span class="n">add_to_apps_screen</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"sample_app"</span><span class="p">,</span>
+        <span class="s2">"logo"</span><span class="p">:</span> <span class="s2">"/assets/sample_app/logo.svg"</span><span class="p">,</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Sample App"</span><span class="p">,</span>
+        <span class="s2">"route"</span><span class="p">:</span> <span class="s2">"/desk/sample-item"</span><span class="p">,</span>
+        <span class="s2">"has_permission"</span><span class="p">:</span> <span class="s2">"sample_app.api.check_app_permission"</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h2 id="app-lifecycle-install-migrate-enable-build-tests">App lifecycle (install, migrate, enable, build, tests)<a class="headerlink" href="#app-lifecycle-install-migrate-enable-build-tests" title="Permanent link">&para;</a></h2>
+<p>All keys in this table are lists of dotted paths. "Per app" keys run only the hooks of the app that the event is about.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Read in</th>
+<th>Called with</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>before_install</code></td>
+<td><code>frappe/installer.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs before the app is installed. If a function returns <code>False</code>, the install stops.</td>
+</tr>
+<tr>
+<td><code>after_install</code></td>
+<td><code>frappe/installer.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs after the app's DocTypes and fixtures sync.</td>
+</tr>
+<tr>
+<td><code>after_sync</code></td>
+<td><code>frappe/installer.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs at the end of <code>install_app</code>.</td>
+</tr>
+<tr>
+<td><code>before_app_install</code></td>
+<td><code>frappe/installer.py</code></td>
+<td><code>app_name</code></td>
+<td>All apps. Runs before any app is installed.</td>
+</tr>
+<tr>
+<td><code>after_app_install</code></td>
+<td><code>frappe/installer.py</code></td>
+<td><code>app_name</code></td>
+<td>All apps. Runs after any app is installed.</td>
+</tr>
+<tr>
+<td><code>before_uninstall</code></td>
+<td><code>frappe/installer.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs before the app is removed.</td>
+</tr>
+<tr>
+<td><code>after_uninstall</code></td>
+<td><code>frappe/installer.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs after the app is removed.</td>
+</tr>
+<tr>
+<td><code>before_app_uninstall</code></td>
+<td><code>frappe/installer.py</code></td>
+<td><code>app_name</code></td>
+<td>All apps. Runs before any app is removed.</td>
+</tr>
+<tr>
+<td><code>after_app_uninstall</code></td>
+<td><code>frappe/installer.py</code></td>
+<td><code>app_name</code></td>
+<td>All apps. Runs after any app is removed.</td>
+</tr>
+<tr>
+<td><code>before_migrate</code></td>
+<td><code>frappe/migrate.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs at the start of <code>bench migrate</code>.</td>
+</tr>
+<tr>
+<td><code>after_migrate</code></td>
+<td><code>frappe/migrate.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs at the end of <code>bench migrate</code>.</td>
+</tr>
+<tr>
+<td><code>after_build</code></td>
+<td><code>frappe/commands/utils.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs after <code>bench build</code> for the apps that were built.</td>
+</tr>
+<tr>
+<td><code>after_app_build</code></td>
+<td><code>frappe/commands/utils.py</code></td>
+<td>list of built apps</td>
+<td>Per app, for every app on the bench. Runs after a build.</td>
+</tr>
+<tr>
+<td><code>before_tests</code></td>
+<td><code>frappe/testing/environment.py</code>, <code>frappe/parallel_test_runner.py</code></td>
+<td>nothing</td>
+<td>Per app. Runs before the tests of the app.</td>
+</tr>
+<tr>
+<td><code>never_skip_patches</code></td>
+<td><code>frappe/modules/patch_handler.py</code></td>
+<td>not called</td>
+<td>Patch paths (or prefixes) that <code>bench migrate --skip-failing</code> cannot skip. A failure in one stops the migrate.</td>
+</tr>
+<tr>
+<td><code>fixtures</code></td>
+<td><code>frappe/utils/fixtures.py</code>, <code>frappe/translate.py</code></td>
+<td>not called</td>
+<td>Records to export with <code>bench export-fixtures</code> and import on migrate. Items are DocType names or dicts with <code>doctype</code>, <code>filters</code>, <code>or_filters</code>.</td>
+</tr>
+<tr>
+<td><code>fixture_auto_order</code></td>
+<td><code>frappe/utils/fixtures.py</code></td>
+<td>not called</td>
+<td><code>True</code> adds a numeric prefix to exported fixture files, in the order of <code>fixtures</code>. Per app.</td>
+</tr>
+<tr>
+<td><code>importable_doctypes</code></td>
+<td><code>frappe/model/sync.py</code></td>
+<td>not called</td>
+<td>Extra DocTypes whose records in module folders (<code>&lt;module&gt;/&lt;doctype&gt;/&lt;name&gt;/&lt;name&gt;.json</code>) import on migrate.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">after_install</span> <span class="o">=</span> <span class="s2">"sample_app.setup.install.after_install"</span>
+<span class="n">after_migrate</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sample_app.setup.install.sync_defaults"</span><span class="p">]</span>
+<span class="n">fixtures</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"doctype"</span><span class="p">:</span> <span class="s2">"Custom Field"</span><span class="p">,</span> <span class="s2">"filters"</span><span class="p">:</span> <span class="p">[[</span><span class="s2">"module"</span><span class="p">,</span> <span class="s2">"="</span><span class="p">,</span> <span class="s2">"Sample App"</span><span class="p">]]}]</span>
+</code></pre></div>
+<h2 id="request-and-session">Request and session<a class="headerlink" href="#request-and-session" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>before_request</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/app.py</code></td>
+<td>All run before each HTTP request is handled. No arguments.</td>
+</tr>
+<tr>
+<td><code>after_request</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/app.py</code></td>
+<td>All run after each request. Called with <code>response=</code> and <code>request=</code>.</td>
+</tr>
+<tr>
+<td><code>auth_hooks</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/auth.py</code></td>
+<td>All run while Frappe validates the request auth. Use them to set the user from a custom header. No arguments.</td>
+</tr>
+<tr>
+<td><code>before_login</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/auth.py</code></td>
+<td>Runs before username and password are checked. Called with <code>login_manager=</code>.</td>
+</tr>
+<tr>
+<td><code>on_login</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/auth.py</code></td>
+<td>Runs after a successful login. Called with <code>login_manager=</code>.</td>
+</tr>
+<tr>
+<td><code>on_session_creation</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/auth.py</code></td>
+<td>Runs after a new session is made. Called with <code>login_manager=</code>.</td>
+</tr>
+<tr>
+<td><code>on_logout</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/auth.py</code></td>
+<td>Runs on logout, before the session is deleted. Called with <code>login_manager=</code>.</td>
+</tr>
+<tr>
+<td><code>on_social_login</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/oauth.py</code></td>
+<td>Runs after a social login, before the user is logged in. Called with <code>user=</code>, <code>provider=</code>, <code>claims=</code>.</td>
+</tr>
+<tr>
+<td><code>override_whitelisted_methods</code></td>
+<td>dict: dotted path -&gt; dotted path</td>
+<td><code>frappe/__init__.py</code></td>
+<td>Replaces a whitelisted method for <code>/api/method/&lt;path&gt;</code>. Last wins.</td>
+</tr>
+<tr>
+<td><code>send_token_via_sms</code></td>
+<td>dotted path</td>
+<td><code>frappe/twofactor.py</code></td>
+<td>Last wins. Sends the 2FA OTP by SMS. Called with <code>otpsecret, token, phone_no</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">before_request</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sample_app.utils.request.log_path"</span><span class="p">]</span>
+<span class="n">override_whitelisted_methods</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"frappe.desk.doctype.event.event.get_events"</span><span class="p">:</span> <span class="s2">"sample_app.api.get_events"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="documents-and-models">Documents and models<a class="headerlink" href="#documents-and-models" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doc_events</code></td>
+<td>dict: DocType (or <code>"*"</code>, or tuple of DocTypes) -&gt; event -&gt; dotted paths</td>
+<td><code>frappe/__init__.py</code>, <code>frappe/model/document.py</code></td>
+<td>Runs functions on document events (<code>validate</code>, <code>on_update</code>, <code>on_submit</code>, ...). Called with <code>doc, method</code>. See <a href="../../../developer-guide/data-model/controllers/">Controllers</a>.</td>
+</tr>
+<tr>
+<td><code>override_doctype_class</code></td>
+<td>dict: DocType -&gt; dotted class path</td>
+<td><code>frappe/model/document.py</code></td>
+<td>Replaces the controller class of a DocType. Last wins. Install and migrate warn when two apps override the same DocType.</td>
+</tr>
+<tr>
+<td><code>extend_doctype_class</code></td>
+<td>dict: DocType -&gt; list of dotted class paths</td>
+<td><code>frappe/model/document.py</code></td>
+<td>Adds mixin classes to the controller. All classes combine with the base class (later apps first in the MRO).</td>
+</tr>
+<tr>
+<td><code>override_doctype_dashboards</code></td>
+<td>dict: DocType -&gt; dotted paths</td>
+<td><code>frappe/model/meta.py</code></td>
+<td>Changes the connections dashboard. Called with <code>data=</code>. Must return the new data.</td>
+</tr>
+<tr>
+<td><code>naming_series_variables</code></td>
+<td>dict: variable -&gt; dotted path</td>
+<td><code>frappe/model/naming.py</code></td>
+<td>Custom parts in naming series, for example <code>.{branch}.</code> Last wins per variable.</td>
+</tr>
+<tr>
+<td><code>ignore_links_on_delete</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/model/delete_doc.py</code></td>
+<td>Links from these DocTypes do not block delete or cancel.</td>
+</tr>
+<tr>
+<td><code>auto_cancel_exempted_doctypes</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/desk/form/linked_with.py</code></td>
+<td>DocTypes that "cancel all linked documents" does not cancel.</td>
+</tr>
+<tr>
+<td><code>workflow_methods</code></td>
+<td>list of dict (<code>name</code>, <code>method</code>)</td>
+<td><code>frappe/model/workflow.py</code>, <code>frappe/workflow/doctype/workflow/workflow.py</code></td>
+<td>Adds tasks to choose in a Workflow transition.</td>
+</tr>
+<tr>
+<td><code>export_python_type_annotations</code></td>
+<td>bool</td>
+<td><code>frappe/core/doctype/doctype/doctype.py</code></td>
+<td>Per app. <code>True</code> writes type hints into the controller when a DocType is saved in developer mode.</td>
+</tr>
+<tr>
+<td><code>domains</code></td>
+<td>dict: domain -&gt; dotted module</td>
+<td><code>frappe/__init__.py</code>, <code>frappe/core/doctype/domain/domain.py</code></td>
+<td>Domain setup data. The module must have a <code>data</code> attribute.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">doc_events</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"Sample Order"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"validate"</span><span class="p">:</span> <span class="s2">"sample_app.events.sample_order.validate"</span><span class="p">,</span>
+        <span class="s2">"on_submit"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.events.sample_order.notify"</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s2">"*"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"on_trash"</span><span class="p">:</span> <span class="s2">"sample_app.events.audit.log_delete"</span><span class="p">},</span>
+<span class="p">}</span>
+<span class="n">override_doctype_class</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"ToDo"</span><span class="p">:</span> <span class="s2">"sample_app.overrides.todo.SampleToDo"</span><span class="p">}</span>
+<span class="n">extend_doctype_class</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"User"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.overrides.user.UserMixin"</span><span class="p">]}</span>
+</code></pre></div>
+<h2 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>has_permission</code></td>
+<td>dict: DocType or <code>"*"</code> -&gt; dotted paths</td>
+<td><code>frappe/permissions.py</code></td>
+<td>Called with <code>doc, ptype, user, debug</code>. A falsy return denies access. It cannot grant access.</td>
+</tr>
+<tr>
+<td><code>permission_query_conditions</code></td>
+<td>dict: DocType or <code>"*"</code> -&gt; dotted paths</td>
+<td><code>frappe/model/db_query.py</code>, <code>frappe/database/query.py</code></td>
+<td>Called with <code>user, doctype=</code>. Returns an SQL condition string that <code>get_list</code> adds to the query.</td>
+</tr>
+<tr>
+<td><code>has_website_permission</code></td>
+<td>dict: DocType -&gt; dotted paths</td>
+<td><code>frappe/__init__.py</code></td>
+<td>Permission check for portal pages of a DocType, when the controller has no <code>has_website_permission</code> method.</td>
+</tr>
+<tr>
+<td><code>has_comment_permission</code></td>
+<td>dict with <code>doctype</code> and <code>method</code></td>
+<td><code>frappe/templates/includes/comments/comments.py</code></td>
+<td>Lets Guest post web comments on one more DocType. <code>method</code> is called with <code>ref_doctype=</code>.</td>
+</tr>
+<tr>
+<td><code>user_invitation</code></td>
+<td>dict</td>
+<td><code>frappe/core/doctype/user_invitation/user_invitation.py</code>, <code>frappe/core/api/user_invitation.py</code></td>
+<td>Per app. Keys: <code>allowed_roles</code> (role -&gt; roles it can invite), <code>extra_invite_params</code> (list), <code>after_accept</code> (dotted paths).</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">has_permission</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Sample Order"</span><span class="p">:</span> <span class="s2">"sample_app.permissions.sample_order_has_permission"</span><span class="p">}</span>
+<span class="n">permission_query_conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Sample Order"</span><span class="p">:</span> <span class="s2">"sample_app.permissions.sample_order_query"</span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/permissions.py</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_order_query</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">doctype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"`tabSample Order`.owner_user = </span><span class="si">{</span><span class="n">frappe</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+<h2 id="desk-boot-and-assets">Desk, boot and assets<a class="headerlink" href="#desk-boot-and-assets" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app_include_js</code></td>
+<td>list of str</td>
+<td><code>frappe/www/desk.py</code></td>
+<td>JS bundles or paths loaded in desk. Also read from site config.</td>
+</tr>
+<tr>
+<td><code>app_include_css</code></td>
+<td>list of str</td>
+<td><code>frappe/www/desk.py</code></td>
+<td>CSS loaded in desk. Also read from site config.</td>
+</tr>
+<tr>
+<td><code>app_include_icons</code></td>
+<td>list of str</td>
+<td><code>frappe/www/desk.py</code></td>
+<td>SVG sprite files loaded in desk.</td>
+</tr>
+<tr>
+<td><code>doctype_js</code></td>
+<td>dict: DocType -&gt; path</td>
+<td><code>frappe/desk/form/meta.py</code></td>
+<td>Extra form script for a DocType of another app. Path is relative to the app package.</td>
+</tr>
+<tr>
+<td><code>doctype_list_js</code></td>
+<td>dict: DocType -&gt; path</td>
+<td><code>frappe/desk/form/meta.py</code></td>
+<td>Extra list view script.</td>
+</tr>
+<tr>
+<td><code>doctype_tree_js</code></td>
+<td>dict: DocType -&gt; path</td>
+<td><code>frappe/desk/form/meta.py</code></td>
+<td>Extra tree view script.</td>
+</tr>
+<tr>
+<td><code>doctype_calendar_js</code></td>
+<td>dict: DocType -&gt; path</td>
+<td><code>frappe/desk/form/meta.py</code></td>
+<td>Extra calendar view script.</td>
+</tr>
+<tr>
+<td><code>doctype_kanban_js</code></td>
+<td>dict: DocType -&gt; path</td>
+<td><code>frappe/desk/form/meta.py</code></td>
+<td>Extra kanban view script.</td>
+</tr>
+<tr>
+<td><code>page_js</code></td>
+<td>dict: page name -&gt; path</td>
+<td><code>frappe/core/doctype/page/page.py</code></td>
+<td>Extra script for a desk Page.</td>
+</tr>
+<tr>
+<td><code>boot_session</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/boot.py</code></td>
+<td>Called with <code>bootinfo</code> while desk boot data is built.</td>
+</tr>
+<tr>
+<td><code>extend_bootinfo</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/sessions.py</code></td>
+<td>Called with <code>bootinfo=</code> after the boot data is built.</td>
+</tr>
+<tr>
+<td><code>calendars</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/boot.py</code></td>
+<td>DocTypes shown as calendars.</td>
+</tr>
+<tr>
+<td><code>treeviews</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/boot.py</code></td>
+<td>DocTypes that open in tree view.</td>
+</tr>
+<tr>
+<td><code>filters_config</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/boot.py</code></td>
+<td>Each returns a dict of custom filter operators.</td>
+</tr>
+<tr>
+<td><code>standard_queries</code></td>
+<td>dict: DocType -&gt; dotted path</td>
+<td><code>frappe/desk/search.py</code></td>
+<td>Default Link field search query for a DocType. Last wins.</td>
+</tr>
+<tr>
+<td><code>awesomebar_search</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/desk/search.py</code>, <code>frappe/boot.py</code></td>
+<td>Extra awesomebar results. Called with the search text. Returns a list of items.</td>
+</tr>
+<tr>
+<td><code>additional_timeline_content</code></td>
+<td>dict: DocType or <code>"*"</code> -&gt; dotted paths</td>
+<td><code>frappe/desk/form/load.py</code></td>
+<td>Extra timeline items. Called with <code>doctype, docname</code>. Returns a list.</td>
+</tr>
+<tr>
+<td><code>notification_config</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/desk/notifications.py</code></td>
+<td>Each returns a dict with <code>for_doctype</code>, <code>for_module</code>, <code>for_other</code>, <code>targets</code> for open counts.</td>
+</tr>
+<tr>
+<td><code>notification_skip_email_types</code></td>
+<td>list of str</td>
+<td><code>frappe/desk/doctype/notification_log/notification_log.py</code></td>
+<td>Notification Log types that do not send their own email.</td>
+</tr>
+<tr>
+<td><code>notification_self_notify_types</code></td>
+<td>list of str</td>
+<td><code>frappe/desk/doctype/notification_log/notification_log.py</code></td>
+<td>Notification Log types that reach the user who caused them.</td>
+</tr>
+<tr>
+<td><code>standard_navbar_items</code></td>
+<td>list of dict</td>
+<td><code>frappe/utils/install.py</code>, <code>frappe/core/doctype/navbar_settings/navbar_settings.py</code></td>
+<td>Items for the user (settings) dropdown in Navbar Settings.</td>
+</tr>
+<tr>
+<td><code>standard_help_items</code></td>
+<td>list of dict</td>
+<td><code>frappe/utils/install.py</code>, <code>frappe/core/doctype/navbar_settings/navbar_settings.py</code></td>
+<td>Items for the help dropdown. Keys: <code>item_label</code>, <code>item_type</code>, <code>route</code> or <code>action</code>, <code>is_standard</code>.</td>
+</tr>
+<tr>
+<td><code>sounds</code></td>
+<td>list of dict (<code>name</code>, <code>src</code>, <code>volume</code>)</td>
+<td><code>frappe/www/desk.py</code></td>
+<td>Sounds that desk can play.</td>
+</tr>
+<tr>
+<td><code>global_search_doctypes</code></td>
+<td>dict: domain -&gt; list of dict</td>
+<td><code>frappe/desk/doctype/global_search_settings/global_search_settings.py</code></td>
+<td>Default DocTypes for global search. Per app.</td>
+</tr>
+<tr>
+<td><code>clear_cache</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/cache_manager.py</code></td>
+<td>Runs on <code>frappe.clear_cache()</code>.</td>
+</tr>
+<tr>
+<td><code>persistent_cache_keys</code></td>
+<td>list of str (glob)</td>
+<td><code>frappe/cache_manager.py</code></td>
+<td>Redis keys that <code>clear_cache</code> keeps.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_requires</code></td>
+<td>list of str</td>
+<td><code>frappe/boot.py</code></td>
+<td>Assets the setup wizard loads first.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_stages</code></td>
+<td>dotted path</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td>Per app. Returns the stages and tasks of the setup wizard.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_complete</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td>Run when the setup wizard completes. Called with the wizard args.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_success</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td>Run after setup succeeds. Called with the args.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_exception</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td>Run when setup fails. Called with <code>traceback, args</code>.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_url</code></td>
+<td>str</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td>Last wins. Route of a custom setup wizard.</td>
+</tr>
+<tr>
+<td><code>setup_wizard_auto_complete</code></td>
+<td>bool</td>
+<td><code>frappe/desk/page/setup_wizard/setup_wizard.py</code></td>
+<td><code>True</code> lets Frappe complete a prefilled setup without the wizard.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">app_include_js</span> <span class="o">=</span> <span class="s2">"sample_app.bundle.js"</span>
+<span class="n">doctype_js</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"ToDo"</span><span class="p">:</span> <span class="s2">"public/js/todo.js"</span><span class="p">}</span>
+<span class="n">standard_queries</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Sample Item"</span><span class="p">:</span> <span class="s2">"sample_app.queries.sample_item_query"</span><span class="p">}</span>
+</code></pre></div>
+<h2 id="website-and-portal">Website and portal<a class="headerlink" href="#website-and-portal" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>home_page</code></td>
+<td>str</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Last wins. Website home page route.</td>
+</tr>
+<tr>
+<td><code>role_home_page</code></td>
+<td>dict: role -&gt; route</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Home page for users with a role.</td>
+</tr>
+<tr>
+<td><code>website_user_home_page</code></td>
+<td>str</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Last wins. Home page for logged-in website users.</td>
+</tr>
+<tr>
+<td><code>get_website_user_home_page</code></td>
+<td>dotted path</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Last wins. Called with the user. Returns the home page route.</td>
+</tr>
+<tr>
+<td><code>website_route_rules</code></td>
+<td>list of dict (<code>from_route</code>, <code>to_route</code>, <code>defaults</code>)</td>
+<td><code>frappe/website/path_resolver.py</code></td>
+<td>Maps URL patterns to pages.</td>
+</tr>
+<tr>
+<td><code>website_redirects</code></td>
+<td>list of dict (<code>source</code>, <code>target</code>, <code>forward_query_parameters</code>, <code>match_with_query_string</code>)</td>
+<td><code>frappe/website/path_resolver.py</code></td>
+<td>Regex redirects.</td>
+</tr>
+<tr>
+<td><code>website_path_resolver</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/website/path_resolver.py</code></td>
+<td>Replaces the path to endpoint lookup. Called with the path.</td>
+</tr>
+<tr>
+<td><code>page_renderer</code></td>
+<td>list of dotted class paths</td>
+<td><code>frappe/website/path_resolver.py</code></td>
+<td>Custom renderers. The class needs <code>can_render</code> and <code>render</code>.</td>
+</tr>
+<tr>
+<td><code>website_generators</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/website/router.py</code></td>
+<td>DocTypes that make web pages, in addition to DocTypes with <code>has_web_view</code>.</td>
+</tr>
+<tr>
+<td><code>base_template</code></td>
+<td>str</td>
+<td><code>frappe/website/page_renderers/base_template_page.py</code></td>
+<td>Last wins. Base template for web pages. Default <code>templates/base.html</code>.</td>
+</tr>
+<tr>
+<td><code>base_template_map</code></td>
+<td>dict: regex -&gt; template</td>
+<td><code>frappe/website/router.py</code></td>
+<td>Base template per route pattern. The longest pattern is tried first.</td>
+</tr>
+<tr>
+<td><code>update_website_context</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/website/page_renderers/base_template_page.py</code></td>
+<td>Called with <code>context</code>. A returned dict updates the context.</td>
+</tr>
+<tr>
+<td><code>website_context</code></td>
+<td>dict</td>
+<td><code>frappe/website/doctype/website_settings/website_settings.py</code></td>
+<td>Static values added to the website context.</td>
+</tr>
+<tr>
+<td><code>web_include_js</code>, <code>web_include_css</code>, <code>web_include_icons</code></td>
+<td>list of str</td>
+<td><code>frappe/website/doctype/website_settings/website_settings.py</code></td>
+<td>Assets on every website page.</td>
+</tr>
+<tr>
+<td><code>webform_include_js</code>, <code>webform_include_css</code></td>
+<td>dict: DocType or <code>"*"</code> -&gt; path</td>
+<td><code>frappe/website/doctype/web_form/web_form.py</code></td>
+<td>Extra script or style for standard Web Forms.</td>
+</tr>
+<tr>
+<td><code>webform_list_context</code></td>
+<td>dotted path</td>
+<td><code>frappe/www/list.py</code></td>
+<td>First wins. Called with the module. Returns list context for a DocType.</td>
+</tr>
+<tr>
+<td><code>portal_menu_items</code></td>
+<td>list of dict</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Portal sidebar items, added to the items in Portal Settings.</td>
+</tr>
+<tr>
+<td><code>standard_portal_menu_items</code></td>
+<td>list of dict (<code>title</code>, <code>route</code>, <code>reference_doctype</code>, <code>role</code>)</td>
+<td><code>frappe/website/doctype/portal_settings/portal_settings.py</code></td>
+<td>Standard items synced into Portal Settings. A missing <code>role</code> is made.</td>
+</tr>
+<tr>
+<td><code>look_for_sidebar_json</code></td>
+<td>bool</td>
+<td><code>frappe/website/utils.py</code></td>
+<td><code>True</code> loads <code>_sidebar.json</code> files for www pages.</td>
+</tr>
+<tr>
+<td><code>website_clear_cache</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/website/utils.py</code></td>
+<td>Called with <code>path</code> when the website cache is cleared.</td>
+</tr>
+<tr>
+<td><code>get_web_pages_with_dynamic_routes</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/website/doctype/web_page/web_page.py</code></td>
+<td>Each returns extra Web Pages with dynamic routes.</td>
+</tr>
+<tr>
+<td><code>signup_form_template</code></td>
+<td>str</td>
+<td><code>frappe/www/login.py</code></td>
+<td>Last wins. Template path (or dotted path) for the signup form.</td>
+</tr>
+<tr>
+<td><code>template_apps</code></td>
+<td>list of str</td>
+<td><code>frappe/utils/jinja.py</code></td>
+<td>App order for the Jinja template loader. Default: installed apps, reversed.</td>
+</tr>
+<tr>
+<td><code>jinja</code></td>
+<td>dict with <code>methods</code> and <code>filters</code> (dotted paths)</td>
+<td><code>frappe/utils/jinja.py</code></td>
+<td>Adds functions and filters to Jinja. A path to a module adds all its functions.</td>
+</tr>
+<tr>
+<td><code>comment_rate_limit</code></td>
+<td>dotted path</td>
+<td><code>frappe/templates/includes/comments/comments.py</code></td>
+<td>Returns the max web comments per hour. Default 5.</td>
+</tr>
+<tr>
+<td><code>user_data_fields</code></td>
+<td>list of dict (<code>doctype</code>, <code>filter_by</code>, <code>redact_fields</code>, <code>partial</code>, <code>rename</code>, <code>strict</code>)</td>
+<td><code>frappe/website/doctype/personal_data_deletion_request/personal_data_deletion_request.py</code>, <code>frappe/website/doctype/personal_data_download_request/personal_data_download_request.py</code></td>
+<td>Where user data lives, for personal data download and delete.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">website_route_rules</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"from_route"</span><span class="p">:</span> <span class="s2">"/orders/&lt;name&gt;"</span><span class="p">,</span> <span class="s2">"to_route"</span><span class="p">:</span> <span class="s2">"orders/order"</span><span class="p">}]</span>
+<span class="n">website_redirects</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"source"</span><span class="p">:</span> <span class="s2">"/old-items"</span><span class="p">,</span> <span class="s2">"target"</span><span class="p">:</span> <span class="s2">"/items"</span><span class="p">}]</span>
+<span class="n">jinja</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"methods"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.jinja.get_rate"</span><span class="p">],</span> <span class="s2">"filters"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.jinja.money"</span><span class="p">]}</span>
+</code></pre></div>
+<h2 id="background-jobs-and-scheduler">Background jobs and scheduler<a class="headerlink" href="#background-jobs-and-scheduler" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scheduler_events</code></td>
+<td>dict: event -&gt; dotted paths, <code>cron</code> -&gt; dict: cron string -&gt; dotted paths</td>
+<td><code>frappe/core/doctype/scheduled_job_type/scheduled_job_type.py</code></td>
+<td>Makes Scheduled Job Type records on migrate. Events: <code>all</code>, <code>hourly</code>, <code>hourly_long</code>, <code>hourly_maintenance</code>, <code>daily</code>, <code>daily_long</code>, <code>daily_maintenance</code>, <code>weekly</code>, <code>weekly_long</code>, <code>monthly</code>, <code>monthly_long</code>, <code>yearly</code>, <code>annual</code>, <code>cron</code>.</td>
+</tr>
+<tr>
+<td><code>before_job</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/background_jobs.py</code></td>
+<td>Runs before each background job. Called with <code>method=</code>, <code>kwargs=</code>, <code>transaction_type="job"</code>.</td>
+</tr>
+<tr>
+<td><code>after_job</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/background_jobs.py</code></td>
+<td>Runs after each job. Called with <code>method=</code>, <code>kwargs=</code>, <code>result=</code>.</td>
+</tr>
+<tr>
+<td><code>default_log_clearing_doctypes</code></td>
+<td>dict: DocType -&gt; days</td>
+<td><code>frappe/core/doctype/log_settings/log_settings.py</code>, <code>frappe/commands/site.py</code></td>
+<td>Default retention days added to Log Settings.</td>
+</tr>
+<tr>
+<td><code>get_site_info</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/__init__.py</code></td>
+<td>Called with <code>site_info</code>. A returned dict adds data to site usage info.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample_app/hooks.py</span>
+<span class="n">scheduler_events</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"daily"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.tasks.close_old_orders"</span><span class="p">],</span>
+    <span class="s2">"cron"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"0/30 * * * *"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sample_app.tasks.sync_rates"</span><span class="p">]},</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>See <a href="../../../developer-guide/runtime/scheduler/">Scheduler</a> and <a href="../../../developer-guide/runtime/background-jobs/">Background Jobs</a>.</p>
+<h2 id="email-sms-and-notifications">Email, SMS and notifications<a class="headerlink" href="#email-sms-and-notifications" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email_css</code></td>
+<td>list of str</td>
+<td><code>frappe/email/email_body.py</code></td>
+<td>CSS inlined into outgoing email.</td>
+</tr>
+<tr>
+<td><code>default_mail_footer</code></td>
+<td>str</td>
+<td><code>frappe/email/email_body.py</code></td>
+<td>Footer HTML passed to the <code>email_footer</code> template.</td>
+</tr>
+<tr>
+<td><code>make_email_body_message</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/email/email_body.py</code></td>
+<td>Called with the <code>EMail</code> object before the message is built.</td>
+</tr>
+<tr>
+<td><code>override_email_send</code></td>
+<td>dotted path</td>
+<td><code>frappe/email/doctype/email_queue/email_queue.py</code></td>
+<td>First wins. Replaces SMTP send. Called with <code>email_queue, sender, recipient, message</code>.</td>
+</tr>
+<tr>
+<td><code>get_sender_details</code></td>
+<td>dotted path</td>
+<td><code>frappe/utils/__init__.py</code></td>
+<td>First wins. Returns <code>(sender_name, email)</code> for the default sender.</td>
+</tr>
+<tr>
+<td><code>welcome_email</code></td>
+<td>dotted path</td>
+<td><code>frappe/core/doctype/user/user.py</code></td>
+<td>Last wins. Returns the subject of the welcome email.</td>
+</tr>
+<tr>
+<td><code>send_sms</code></td>
+<td>dotted path</td>
+<td><code>frappe/core/doctype/sms_settings/sms_settings.py</code></td>
+<td>Last wins. Replaces SMS sending. Called with <code>receiver_list, msg, sender_name, success_msg</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>before_write_file</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/file_manager.py</code>, <code>frappe/core/doctype/file/file.py</code></td>
+<td>Called with <code>file_size=</code> before a file is written.</td>
+</tr>
+<tr>
+<td><code>write_file</code></td>
+<td>dotted path</td>
+<td><code>frappe/utils/file_manager.py</code>, <code>frappe/core/doctype/file/file.py</code></td>
+<td>First wins. Custom file writer, for example to store files outside the site folder.</td>
+</tr>
+<tr>
+<td><code>delete_file_data_content</code></td>
+<td>dotted path</td>
+<td><code>frappe/utils/file_manager.py</code>, <code>frappe/core/doctype/file/file.py</code></td>
+<td>First wins. Custom file delete. Pair it with <code>write_file</code>.</td>
+</tr>
+<tr>
+<td><code>write_file_keys</code></td>
+<td>list of str</td>
+<td><code>frappe/utils/file_manager.py</code></td>
+<td>File fields copied when a duplicate content hash is found.</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../../../developer-guide/data-model/files/">Files</a>.</p>
+<h2 id="printing-and-pdf">Printing and PDF<a class="headerlink" href="#printing-and-pdf" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pdf_generator</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/print_utils.py</code>, <code>frappe/utils/print_format_generator.py</code></td>
+<td>All are tried. Called with <code>print_format, html, options, output, pdf_generator</code>. The first non-empty result is the PDF.</td>
+</tr>
+<tr>
+<td><code>pdf_header_html</code>, <code>pdf_footer_html</code></td>
+<td>dotted path</td>
+<td><code>frappe/utils/pdf.py</code>, <code>frappe/utils/pdf_generator/browser.py</code></td>
+<td>Last wins. Renders the header or footer for wkhtmltopdf and for the Chrome PDF generator.</td>
+</tr>
+<tr>
+<td><code>pdf_body_html</code></td>
+<td>dotted path</td>
+<td><code>frappe/www/printview.py</code></td>
+<td>Last wins. Renders the print body. Called with <code>jenv, template, print_format, args</code>.</td>
+</tr>
+<tr>
+<td><code>get_print_format_template</code></td>
+<td>dotted path</td>
+<td><code>frappe/www/printview.py</code></td>
+<td>Last wins. Called with <code>jenv, print_format</code>. Returns a Jinja template or <code>None</code>.</td>
+</tr>
+<tr>
+<td><code>on_print_pdf</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/utils/print_utils.py</code></td>
+<td>Called with <code>doctype, name, print_format</code> before a PDF is made.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="automation-flow-and-studio">Automation, Flow and Studio<a class="headerlink" href="#automation-flow-and-studio" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>automation_events</code></td>
+<td>list of str or dict: name -&gt; schema</td>
+<td><code>frappe/automation_engine/events.py</code></td>
+<td>Custom events for automation flows.</td>
+</tr>
+<tr>
+<td><code>automation_actions</code></td>
+<td>list of dotted class paths</td>
+<td><code>frappe/automation_engine/actions/base.py</code></td>
+<td>Extra action classes. <code>action_type</code> must be unique.</td>
+</tr>
+<tr>
+<td><code>automation_relationships</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/automation_engine/relationships.py</code></td>
+<td>Relationship providers (class or instance).</td>
+</tr>
+<tr>
+<td><code>automation_relationship_ignore</code></td>
+<td>list of DocTypes</td>
+<td><code>frappe/automation_engine/schema_relationships.py</code></td>
+<td>DocTypes left out of schema relationships.</td>
+</tr>
+<tr>
+<td><code>flow_agents</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/flow/lib/agent.py</code></td>
+<td>Each returns a list of Flow agents to sync.</td>
+</tr>
+<tr>
+<td><code>flow_tools</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/flow/lib/agent.py</code></td>
+<td>Functions synced as Flow tools.</td>
+</tr>
+<tr>
+<td><code>flow_triggers</code></td>
+<td>list of dotted paths</td>
+<td><code>frappe/flow/lib/trigger.py</code></td>
+<td>Each returns Flow triggers to sync.</td>
+</tr>
+<tr>
+<td><code>studio_app_boot</code></td>
+<td>dict: Studio App name -&gt; dotted path</td>
+<td><code>frappe/studio/doctype/studio_app/studio_app.py</code></td>
+<td>Last wins. Returns boot data for a Studio app.</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../../../developer-guide/low-code-and-ai/automation-engine/">Automation Engine</a> and <a href="../../../developer-guide/low-code-and-ai/flow-development/">Flow Development</a>.</p>
+<h2 id="search-translation-import-and-api-discovery">Search, translation, import and API discovery<a class="headerlink" href="#search-translation-import-and-api-discovery" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Read in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sqlite_search</code></td>
+<td>list of dotted class paths</td>
+<td><code>frappe/search/sqlite_search.py</code></td>
+<td>Full text search classes. Each must extend <code>SQLiteSearch</code>.</td>
+</tr>
+<tr>
+<td><code>ignore_translatable_strings_from</code></td>
+<td>list of app names</td>
+<td><code>frappe/gettext/translate.py</code></td>
+<td>Per app. Strings from these apps are left out of this app's <code>.pot</code> file.</td>
+</tr>
+<tr>
+<td><code>data_import_providers</code></td>
+<td>dict: DocType -&gt; dotted class path</td>
+<td><code>frappe/core/doctype/data_import/import_provider.py</code></td>
+<td>Last wins. Custom import provider for a DocType.</td>
+</tr>
+<tr>
+<td><code>expose_discovery_source</code></td>
+<td>bool</td>
+<td><code>frappe/api/discovery.py</code></td>
+<td>Per app. <code>True</code> lets API discovery endpoints show method source code.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="keys-that-frappe-declares-but-does-not-read">Keys that frappe declares but does not read<a class="headerlink" href="#keys-that-frappe-declares-but-does-not-read" title="Permanent link">&para;</a></h2>
+<p><code>frappe/hooks.py</code> sets <code>email_append_to</code>, <code>otp_methods</code> and <code>require_type_annotated_api_methods</code>. No code in this version reads them through <code>get_hooks</code>.
+<code>jenv</code> is deprecated. A v13 patch only prints a warning when an app sets it. Use <code>jinja</code>.</p>
+<h2 id="pitfalls">Pitfalls<a class="headerlink" href="#pitfalls" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A key with a typo does nothing and gives no error. Check the value with <code>frappe.get_hooks("&lt;key&gt;")</code>.</li>
+<li>Merged hooks are cached. Run <code>bench --site &lt;site&gt; clear-cache</code> after you change <code>hooks.py</code>.</li>
+<li>For "last wins" keys, the app install order decides which app wins.</li>
+</ul>
+<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../../developer-guide/building-apps/hooks/">Hooks</a></li>
+<li><a href="../../../developer-guide/building-apps/extending-apps/">Extending Apps</a></li>
+<li><a href="../../../developer-guide/data-model/controllers/">Controllers</a></li>
+<li><a href="../../../developer-guide/website/website/">Website</a></li>
+<li><a href="../../../developer-guide/operations/configuration/">Configuration</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
