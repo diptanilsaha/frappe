@@ -21,7 +21,19 @@
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/api/api-internals/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/api/customizing-apis/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
          <loc>https://www.dptnl.sh/frappe/develop/developer-guide/api/mcp-and-discovery/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/api/request-lifecycle/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
@@ -118,6 +130,46 @@
     </url>
     <url>
          <loc>https://www.dptnl.sh/frappe/develop/developer-guide/desk-ui/workspaces-sidebar-dock/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/controls/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/date-and-time-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/field-properties/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/layout-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/link-and-select-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/media-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/number-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/table-fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/developer-guide/fields/text-fields/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
@@ -257,30 +309,6 @@
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/database-api/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/js-api/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/python-api/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/rest-endpoints/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/reference/api/utils/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
          <loc>https://www.dptnl.sh/frappe/develop/reference/configuration/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
@@ -301,11 +329,91 @@
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/data-model/docfield-properties/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
          <loc>https://www.dptnl.sh/frappe/develop/reference/data-model/doctypes/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
          <loc>https://www.dptnl.sh/frappe/develop/reference/data-model/field-types/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/http/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/http/rest-endpoints/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/form/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/frappe/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/list-and-report-views/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/model-and-db/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/ui-components/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/javascript/utils-and-formatting/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/database/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/document/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/email-files-and-printing/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/frappe/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/jobs-cache-and-realtime/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/permissions-and-sessions/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/query-builder/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/testing/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/reference/python/utils/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
@@ -357,6 +465,10 @@
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/basics/fields/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
          <loc>https://www.dptnl.sh/frappe/develop/user-guide/basics/form-view/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
@@ -405,6 +517,42 @@
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/automation-and-ai-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/desk-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/how-settings-work/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/integration-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/print-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/security-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/system-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
+         <loc>https://www.dptnl.sh/frappe/develop/user-guide/settings/website-settings/</loc>
+         <lastmod>2026-11-22</lastmod>
+    </url>
+    <url>
          <loc>https://www.dptnl.sh/frappe/develop/user-guide/system-administration/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
@@ -414,10 +562,6 @@
     </url>
     <url>
          <loc>https://www.dptnl.sh/frappe/develop/user-guide/system-administration/logs-and-monitoring/</loc>
-         <lastmod>2026-11-22</lastmod>
-    </url>
-    <url>
-         <loc>https://www.dptnl.sh/frappe/develop/user-guide/system-administration/system-settings/</loc>
          <lastmod>2026-11-22</lastmod>
     </url>
     <url>

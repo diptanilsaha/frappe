@@ -1,0 +1,7705 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Reference for frappe.qb and frappe.query_builder - tables, fields, terms, functions, Case, Interval, run() options and every argument of frappe.qb.get_query.">
+      
+      
+      
+        <link rel="canonical" href="https://www.dptnl.sh/frappe/develop/reference/python/query-builder/">
+      
+      
+        <link rel="prev" href="../database/">
+      
+      
+        <link rel="next" href="../utils/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>frappe.qb - Frappe Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#frappeqb" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Frappe Framework" class="md-header__button md-logo" aria-label="Frappe Framework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Frappe Framework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              frappe.qb
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/diptanilsaha/frappe" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    diptanilsaha/frappe
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Frappe Framework" class="md-nav__button md-logo" aria-label="Frappe Framework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Frappe Framework
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/diptanilsaha/frappe" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    diptanilsaha/frappe
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What's New
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AGENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/basics/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk Basics
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desk Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/desk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/list-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/views/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Views
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/form-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/basics/collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Collaboration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/users-and-permissions/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users and Permissions
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Users and Permissions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/users-and-roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users and Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/users-and-permissions/user-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/customization/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customization
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Customization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/customization/customize-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customize Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/customization/workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/automation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation and Email
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automation and Email
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/automation-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/automation/email/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/data-and-reports/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data, Reports and Printing
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data, Reports and Printing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/data-import-export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Import and Export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/data-and-reports/printing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Printing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/website-and-integrations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website and Integrations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Website and Integrations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/website-and-integrations/website/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/website-and-integrations/integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/ai-and-app-builder/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI and App Builder
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI and App Builder
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/ai-and-app-builder/flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/ai-and-app-builder/studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/settings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Settings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/how-settings-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How Settings Work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/system-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/security-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security, Session Default and Log Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/desk-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/website-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/print-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/integration-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/settings/automation-and-ai-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation and AI Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/system-administration/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Administration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Administration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/system-administration/backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/system-administration/logs-and-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs and Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/building-apps/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Building Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/extending-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending Other Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/fixtures-and-patches/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fixtures and Patches
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/translations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Translations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/building-apps/app-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App State
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/data-model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/doctypes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DocTypes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/naming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Naming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/controllers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controllers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/data-model/files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/fields/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fields and Controls
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fields and Controls
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/field-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/text-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/number-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Number Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/date-and-time-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Date and Time Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/link-and-select-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link and Select Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/table-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/media-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media and Special Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/layout-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout and Display Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/fields/controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/database/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/database/database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/database/query-builder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/security/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions and Security
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Permissions and Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/security/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requests and APIs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requests and APIs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/request-lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Request Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/whitelisted-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Whitelisted Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/api-internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/customizing-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing APIs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/api/mcp-and-discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP and API Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/runtime/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jobs, Realtime and Caching
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Jobs, Realtime and Caching
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/background-jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background Jobs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/realtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/runtime/caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/desk-ui/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk UI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desk UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/form-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/list-view-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List View Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/client-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/desk-pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desk Pages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/workspaces-sidebar-dock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspaces, Sidebar and Dock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/desk-ui/islands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Islands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/website/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website and Portal
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Website and Portal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/website/website/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/website/web-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/output/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports, Printing and Email
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reports, Printing and Email
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/print-formats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/output/email-and-notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email and Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/low-code-and-ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Low-Code and AI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_12" id="__nav_6_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Low-Code and AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/server-and-client-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server Scripts and Client Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/automation-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/flow-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/low-code-and-ai/studio-development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Studio Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/testing-and-performance/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and Performance
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_13" id="__nav_6_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing and Performance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/testing-and-performance/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/testing-and-performance/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_14" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../developer-guide/operations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration and Operations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_14" id="__nav_6_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration and Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../developer-guide/operations/upgrading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frappe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe namespace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe.db
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe.qb
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe.qb
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-builder-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The builder classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-frappequery_builder-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The frappe.query_builder module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables-and-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables and fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-and-walk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run() and walk()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frappe-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frappe functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypika-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyPika functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-functions-and-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom functions and constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case-order-and-interval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case, Order and Interval
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_query
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_query">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-and-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order and group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe.utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions-and-sessions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions and Sessions API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jobs-cache-and-realtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jobs, Cache and Realtime API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-files-and-printing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email, Files and Printing API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../javascript/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JavaScript API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    JavaScript API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/frappe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frappe (JavaScript)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/utils-and-formatting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils and Formatting (JavaScript)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JavaScript Form API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/model-and-db/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JavaScript Model and DB API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/ui-components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI Components (JavaScript)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/list-and-report-views/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List and Report Views (JavaScript)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../http/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HTTP API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http/rest-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../configuration/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/site-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../data-model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_6" id="__nav_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Model Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-model/field-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-model/docfield-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DocField Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-model/doctypes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DocTypes Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-builder-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The builder classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-frappequery_builder-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The frappe.query_builder module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables-and-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables and fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-and-walk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run() and walk()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frappe-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frappe functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypika-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyPika functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-functions-and-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom functions and constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case-order-and-interval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case, Order and Interval
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_query
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_query">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-and-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order and group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="frappeqb">frappe.qb<a class="headerlink" href="#frappeqb" title="Permanent link">&para;</a></h1>
+<p><code>frappe.qb</code> builds SQL from Python objects. It is a <a href="https://github.com/kayak/pypika">PyPika</a> 0.51 dialect with Frappe additions. Use this page to look up a class, function or argument. For a guided introduction with joins, subqueries and updates, see <a href="../../../developer-guide/database/query-builder/">Query Builder</a>.</p>
+<p>All SQL on this page was made on a develop site with MariaDB. Values are shown inline for reading. <code>run()</code> sends them as bound parameters.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Queries built with <code>frappe.qb</code> skip permissions, validations, controller methods and <code>doc_events</code>. <code>UPDATE</code>, <code>INSERT</code> and <code>DELETE</code> do not set <code>modified</code> and do not clear the document cache. Only <code>frappe.qb.get_query(..., ignore_permissions=False)</code> checks permissions.</p>
+</div>
+<h2 id="the-builder-classes">The builder classes<a class="headerlink" href="#the-builder-classes" title="Permanent link">&para;</a></h2>
+<p><code>frappe.qb</code> is <code>frappe.local.qb</code>. <code>frappe.connect()</code> sets it to the class for <code>db_type</code> in the site config:</p>
+<table>
+<thead>
+<tr>
+<th><code>db_type</code></th>
+<th>Class</th>
+<th>PyPika base</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mariadb</code></td>
+<td><code>frappe.query_builder.builder.MariaDB</code></td>
+<td><code>MySQLQuery</code></td>
+</tr>
+<tr>
+<td><code>postgres</code></td>
+<td><code>frappe.query_builder.builder.Postgres</code></td>
+<td><code>PostgreSQLQuery</code></td>
+</tr>
+<tr>
+<td><code>sqlite</code></td>
+<td><code>frappe.query_builder.builder.SQLite</code></td>
+<td><code>SQLLiteQuery</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>frappe.db.qb</code> is the class for the dialect of that connection. Use it when the connection can be a replica or another database. <code>frappe.query_builder.get_query_builder(type_of_db: str)</code> returns the class for a <code>db_type</code>.</p>
+<p>Class attributes and methods:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DocType(table_name: str, *args, **kwargs) -&gt; Table</code></td>
+<td>Return the table <code>tab&lt;table_name&gt;</code>. Raises <code>frappe.ValidationError</code> ("Invalid DocType") if the name has characters other than letters, digits, <code>_</code>, space and <code>-</code>.</td>
+</tr>
+<tr>
+<td><code>Table(name, schema=None, alias=None)</code></td>
+<td>Return a PyPika table with the exact name, for tables such as <code>__Auth</code> or <code>tabSingles</code>.</td>
+</tr>
+<tr>
+<td><code>Schema(name)</code></td>
+<td>Return a schema. <code>frappe.qb.Schema("information_schema").tables</code> is a table in it. On Postgres, <code>information_schema.tables</code> maps to <code>pg_stat_all_tables</code>.</td>
+</tr>
+<tr>
+<td><code>Field(name, table=None, alias=None)</code></td>
+<td>Return a field. On Postgres, <code>table_name</code> maps to <code>relname</code> and <code>table_rows</code> to <code>n_tup_ins</code>.</td>
+</tr>
+<tr>
+<td><code>from_(table)</code></td>
+<td>Start a <code>SELECT</code>. A string is passed to <code>DocType()</code>.</td>
+</tr>
+<tr>
+<td><code>into(table)</code></td>
+<td>Start an <code>INSERT</code>. A string is passed to <code>DocType()</code>.</td>
+</tr>
+<tr>
+<td><code>update(table)</code></td>
+<td>Start an <code>UPDATE</code>. A string is passed to <code>DocType()</code>.</td>
+</tr>
+<tr>
+<td><code>select(*terms)</code></td>
+<td>Start a <code>SELECT</code> without a table.</td>
+</tr>
+<tr>
+<td><code>with_(table, name, recursive=False)</code></td>
+<td>Start a query with a <code>WITH</code> (CTE). <code>recursive=True</code> renders <code>WITH RECURSIVE</code>.</td>
+</tr>
+<tr>
+<td><code>get_query(...)</code></td>
+<td>Build a query from <code>fields</code> and <code>filters</code>. See <a href="#get_query">get_query</a>.</td>
+</tr>
+<tr>
+<td><code>max(dt, fieldname, filters=None, **kwargs)</code></td>
+<td>Return <code>MAX(fieldname)</code> for the filters, or <code>0</code>. <code>kwargs</code> go to <code>run()</code>.</td>
+</tr>
+<tr>
+<td><code>min(dt, fieldname, filters=None, **kwargs)</code></td>
+<td>Return <code>MIN(fieldname)</code>, or <code>0</code>.</td>
+</tr>
+<tr>
+<td><code>avg(dt, fieldname, filters=None, **kwargs)</code></td>
+<td>Return <code>AVG(fieldname)</code>, or <code>0</code>.</td>
+</tr>
+<tr>
+<td><code>sum(dt, fieldname, filters=None, **kwargs)</code></td>
+<td>Return <code>SUM(fieldname)</code>, or <code>0</code>.</td>
+</tr>
+<tr>
+<td><code>functions(name: str, *args, **kwargs) -&gt; Function</code></td>
+<td>Return the SQL function <code>name</code> with the arguments.</td>
+</tr>
+<tr>
+<td><code>terms</code></td>
+<td>A <code>frappe._dict</code> of all public names in <code>pypika.terms</code>.</td>
+</tr>
+<tr>
+<td><code>asc</code>, <code>desc</code></td>
+<td><code>Order.asc</code> and <code>Order.desc</code>.</td>
+</tr>
+<tr>
+<td><code>validate_doctype(doctype)</code></td>
+<td>The name check that <code>DocType()</code> runs.</td>
+</tr>
+<tr>
+<td><code>Tables(*names)</code>, <code>create_table</code>, <code>drop_table</code>, <code>create_index</code>, <code>drop_index</code>, <code>drop_database</code>, <code>drop_user</code>, <code>drop_view</code>, <code>load</code></td>
+<td>Inherited from PyPika <code>Query</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">,</span> <span class="s2">"rate"</span><span class="p">)</span>                                     <span class="c1"># 900.0</span>
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">,</span> <span class="s2">"rate"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">"category"</span><span class="p">:</span> <span class="s2">"Hardware"</span><span class="p">})</span>   <span class="c1"># 1195.0</span>
+
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s2">"__Auth"</span><span class="p">))</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name` FROM `__Auth`</span>
+</code></pre></div>
+<h2 id="the-frappequery_builder-module">The frappe.query_builder module<a class="headerlink" href="#the-frappequery_builder-module" title="Permanent link">&para;</a></h2>
+<p><code>frappe.query_builder</code> exports everything from <code>pypika</code> (with <code>from pypika import *</code>) and these Frappe names:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DocType(*args, **kwargs)</code></td>
+<td>Calls <code>frappe.qb.DocType</code>.</td>
+</tr>
+<tr>
+<td><code>Table(*args, **kwargs)</code></td>
+<td>Calls <code>frappe.qb.Table</code>.</td>
+</tr>
+<tr>
+<td><code>get_query(*args, **kwargs)</code></td>
+<td>Calls <code>frappe.database.query.Engine().get_query</code>. Same as <code>frappe.qb.get_query</code>.</td>
+</tr>
+<tr>
+<td><code>get_query_builder(type_of_db: str)</code></td>
+<td>Return the builder class for a <code>db_type</code>.</td>
+</tr>
+<tr>
+<td><code>Interval</code></td>
+<td>Frappe's <code>Interval</code>. It replaces PyPika's and also renders on SQLite.</td>
+</tr>
+<tr>
+<td><code>Field</code>, <code>Column</code></td>
+<td>PyPika <code>Field</code> and <code>Column</code>.</td>
+</tr>
+<tr>
+<td><code>ParameterizedValueWrapper</code>, <code>ParameterizedFunction</code></td>
+<td>Frappe classes that replace PyPika's <code>ValueWrapper</code> and <code>Function</code>, so values become bound parameters.</td>
+</tr>
+<tr>
+<td><code>patch_all()</code></td>
+<td>Apply the Frappe patches to PyPika. Runs on import.</td>
+</tr>
+</tbody>
+</table>
+<p>Common PyPika names from the same module: <code>Case</code>, <code>Criterion</code>, <code>EmptyCriterion</code>, <code>Order</code>, <code>Not</code>, <code>NULL</code>, <code>Tuple</code>, <code>Array</code>, <code>JSON</code>, <code>JoinType</code>, <code>CustomFunction</code>, <code>Parameter</code>, <code>Index</code>, <code>Rollup</code>, <code>Schema</code>, <code>AliasedQuery</code>, <code>Query</code>.</p>
+<p>Importing <code>frappe.query_builder</code> patches PyPika:</p>
+<ul>
+<li><code>table.field_name</code> and <code>table["field name"]</code> return a <code>Field</code> bound to the table.</li>
+<li><code>query.run()</code> and <code>query.walk()</code> are added to every query and union.</li>
+<li><code>.like()</code> and <code>.not_like()</code> render <code>ILIKE</code> and <code>NOT ILIKE</code> on Postgres.</li>
+<li><code>.regex()</code> renders <code>REGEXP</code> on MariaDB and SQLite, and <code>~*</code> on Postgres.</li>
+</ul>
+<h2 id="tables-and-fields">Tables and fields<a class="headerlink" href="#tables-and-fields" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">Item</span> <span class="o">=</span> <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">DocType</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">)</span>
+
+<span class="n">Item</span><span class="o">.</span><span class="n">rate</span>                 <span class="c1"># Field "rate" of `tabSample Item`</span>
+<span class="n">Item</span><span class="p">[</span><span class="s2">"item_name"</span><span class="p">]</span>         <span class="c1"># same, for any name</span>
+<span class="n">Item</span><span class="o">.</span><span class="n">star</span>                 <span class="c1"># *</span>
+<span class="n">Item</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"i"</span><span class="p">)</span>             <span class="c1"># table alias: `tabSample Item` `i`</span>
+<span class="n">Item</span><span class="o">.</span><span class="n">rate</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>    <span class="c1"># field alias</span>
+</code></pre></div>
+<h2 id="criteria">Criteria<a class="headerlink" href="#criteria" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Item.rate == 10</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+<td><code>=</code>, <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+</tr>
+<tr>
+<td><code>(a) &amp; (b)</code>, <code>(a) \| (b)</code></td>
+<td><code>AND</code>, <code>OR</code></td>
+</tr>
+<tr>
+<td><code>~(a)</code>, <code>Not(a)</code></td>
+<td><code>NOT</code></td>
+</tr>
+<tr>
+<td><code>Item.category.isin([...])</code>, <code>.notin([...])</code></td>
+<td><code>IN</code>, <code>NOT IN</code>. The value can be a subquery.</td>
+</tr>
+<tr>
+<td><code>Item.name.like("L%")</code>, <code>.not_like("L%")</code></td>
+<td><code>LIKE</code>, <code>NOT LIKE</code> (<code>ILIKE</code> on Postgres)</td>
+</tr>
+<tr>
+<td><code>Item.name.ilike("l%")</code></td>
+<td><code>ILIKE</code></td>
+</tr>
+<tr>
+<td><code>Item.name.regex("^L")</code></td>
+<td><code>REGEXP</code> (MariaDB, SQLite), <code>~*</code> (Postgres)</td>
+</tr>
+<tr>
+<td><code>Item.description.isnull()</code>, <code>.isnotnull()</code></td>
+<td><code>IS NULL</code>, <code>IS NOT NULL</code></td>
+</tr>
+<tr>
+<td><code>Item.rate[50:150]</code>, <code>Item.rate.between(50, 150)</code></td>
+<td><code>BETWEEN 50 AND 150</code></td>
+</tr>
+<tr>
+<td><code>Tuple(Item.category, Item.disabled).isin([("Hardware", 0)])</code></td>
+<td><code>(category, disabled) IN (('Hardware', 0))</code></td>
+</tr>
+<tr>
+<td><code>Criterion.all([a, b])</code>, <code>Criterion.any([a, b])</code></td>
+<td><code>a AND b</code>, <code>a OR b</code>. An empty list gives an <code>EmptyCriterion</code> that adds nothing.</td>
+</tr>
+</tbody>
+</table>
+<p>Put parentheses around each side of <code>&amp;</code> and <code>|</code>. Python binds <code>&amp;</code> before <code>==</code>.</p>
+<p><code>frappe.database.query.RawCriterion(sql_string)</code> is a criterion from a raw SQL string. It supports <code>&amp;</code>, <code>|</code> and <code>~</code>. Never put user input in it.</p>
+<h2 id="query-methods">Query methods<a class="headerlink" href="#query-methods" title="Permanent link">&para;</a></h2>
+<p>These come from PyPika. Each returns a new query.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.select(*terms)</code></td>
+<td><code>SELECT</code>. A string is a column name. <code>"*"</code> is all columns.</td>
+</tr>
+<tr>
+<td><code>.where(criterion)</code></td>
+<td><code>WHERE</code>. Many calls are joined with <code>AND</code>.</td>
+</tr>
+<tr>
+<td><code>.join(table, how=JoinType.inner).on(criterion)</code></td>
+<td><code>JOIN ... ON</code>.</td>
+</tr>
+<tr>
+<td><code>.left_join(table)</code>, <code>.inner_join(table)</code>, <code>.right_join(table)</code>, <code>.outer_join(table)</code>, <code>.cross_join(table)</code></td>
+<td>Join of that type.</td>
+</tr>
+<tr>
+<td><code>.groupby(*terms)</code>, <code>.having(criterion)</code></td>
+<td><code>GROUP BY</code>, <code>HAVING</code></td>
+</tr>
+<tr>
+<td><code>.orderby(*terms, order=None)</code></td>
+<td><code>ORDER BY</code>. Without <code>order</code>, no direction is written, so the database sorts <code>ASC</code>.</td>
+</tr>
+<tr>
+<td><code>.limit(n)</code>, <code>.offset(n)</code></td>
+<td><code>LIMIT</code>, <code>OFFSET</code></td>
+</tr>
+<tr>
+<td><code>.distinct()</code></td>
+<td><code>SELECT DISTINCT</code></td>
+</tr>
+<tr>
+<td><code>.for_update(nowait=False, skip_locked=False, of=())</code></td>
+<td><code>FOR UPDATE</code>, with <code>NOWAIT</code> or <code>SKIP LOCKED</code></td>
+</tr>
+<tr>
+<td><code>.delete()</code></td>
+<td><code>DELETE</code> (after <code>from_</code>)</td>
+</tr>
+<tr>
+<td><code>.set(field, value)</code></td>
+<td><code>SET</code> (after <code>update</code>)</td>
+</tr>
+<tr>
+<td><code>.columns(*names)</code>, <code>.insert(*rows)</code></td>
+<td>Columns and rows (after <code>into</code>)</td>
+</tr>
+<tr>
+<td><code>.ignore()</code></td>
+<td>Ignore duplicate rows. <code>frappe.db.bulk_insert</code> uses it on MariaDB and SQLite.</td>
+</tr>
+<tr>
+<td><code>.on_duplicate_key_update(field, value)</code></td>
+<td><code>ON DUPLICATE KEY UPDATE</code> (MariaDB)</td>
+</tr>
+<tr>
+<td><code>.on_conflict(*fields).do_nothing()</code>, <code>.do_update(field, value=None)</code></td>
+<td><code>ON CONFLICT</code> (Postgres, SQLite)</td>
+</tr>
+<tr>
+<td><code>query1 + query2</code>, <code>query1 * query2</code></td>
+<td><code>UNION</code>, <code>UNION ALL</code></td>
+</tr>
+<tr>
+<td><code>.get_sql()</code>, <code>str(query)</code></td>
+<td>The SQL with values inline. Use it to read the query only.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">Item</span> <span class="o">=</span> <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">DocType</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">)</span>
+<span class="p">(</span>
+    <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">rate</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">rate</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pluck</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># ['Laptop', 'Keyboard']</span>
+</code></pre></div>
+<h2 id="run-and-walk">run() and walk()<a class="headerlink" href="#run-and-walk" title="Permanent link">&para;</a></h2>
+<p><code>query.run(*args, **kwargs)</code> runs the query on <code>frappe.local.db</code>. To run on another connection, pass the query to that connection: <code>db.sql(query)</code>.</p>
+<p><code>run()</code> takes the keyword arguments of <a href="../database/#sql">frappe.db.sql</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none</td>
+<td>Tuple of tuples</td>
+</tr>
+<tr>
+<td><code>as_dict=True</code></td>
+<td>List of <code>frappe._dict</code></td>
+</tr>
+<tr>
+<td><code>as_list=True</code></td>
+<td>List of lists</td>
+</tr>
+<tr>
+<td><code>pluck=True</code></td>
+<td>List of the first column</td>
+</tr>
+<tr>
+<td><code>update={...}</code></td>
+<td>Dict merged into each row. Needs <code>as_dict</code>.</td>
+</tr>
+<tr>
+<td><code>debug=True</code></td>
+<td>Logs the query and its run time</td>
+</tr>
+<tr>
+<td><code>run=False</code></td>
+<td>Returns the SQL with placeholders. The values are not returned.</td>
+</tr>
+<tr>
+<td><code>as_iterator=True</code></td>
+<td>Generator of rows. See <code>frappe.db.unbuffered_cursor</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>After the query runs, <code>run()</code> also:</p>
+<ul>
+<li>runs the child queries of <code>get_query</code> and adds their rows (only with <code>as_dict=True</code>),</li>
+<li>masks the values of masked fields when the query came from <code>get_query(..., ignore_permissions=False)</code>,</li>
+<li>removes a <code>name</code> column that <code>get_query</code> added only for child queries.</li>
+</ul>
+<p><code>query.walk()</code> returns <code>(sql, params)</code>. The SQL has <code>%(paramN)s</code> placeholders. <code>frappe.db.sql(query)</code> calls <code>walk()</code> on a query object.</p>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">"category"</span><span class="p">:</span> <span class="s2">"Hardware"</span><span class="p">})</span><span class="o">.</span><span class="n">walk</span><span class="p">()</span>
+<span class="c1"># ('SELECT `name` FROM `tabSample Item` WHERE `category`=%(param1)s', {'param1': 'Hardware'})</span>
+</code></pre></div>
+<p>In a Server Script, <code>run()</code> raises <code>frappe.PermissionError</code> for a query that is not <code>SELECT</code> or <code>EXPLAIN</code>.</p>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<p>Import functions from <code>frappe.query_builder.functions</code>. It exports all of <code>pypika.functions</code> and adds the names below. A name in the "Per database" column renders differently for each engine.</p>
+<h3 id="frappe-functions">Frappe functions<a class="headerlink" href="#frappe-functions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>MariaDB</th>
+<th>Postgres</th>
+<th>SQLite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GroupConcat(column, separator=",", alias=None)</code></td>
+<td><code>GROUP_CONCAT(... SEPARATOR ',')</code></td>
+<td><code>STRING_AGG(..., ',')</code></td>
+<td><code>GROUP_CONCAT(..., ',')</code>. <code>DISTINCT</code> works only with <code>","</code></td>
+</tr>
+<tr>
+<td><code>Match(column).Against(text)</code></td>
+<td><code>MATCH(...) AGAINST ('+text*' IN BOOLEAN MODE)</code></td>
+<td><code>TO_TSVECTOR('english', ...) @@ PLAINTO_TSQUERY('english', text)</code></td>
+<td>FTS5 <code>MATCH</code></td>
+</tr>
+<tr>
+<td><code>Locate(needle, haystack)</code></td>
+<td><code>LOCATE(needle, haystack)</code></td>
+<td><code>STRPOS(haystack, needle)</code></td>
+<td><code>INSTR(haystack, needle)</code></td>
+</tr>
+<tr>
+<td><code>DateFormat(date, format)</code></td>
+<td><code>DATE_FORMAT</code></td>
+<td><code>TO_CHAR</code></td>
+<td><code>STRFTIME</code>, or a Frappe function for other tokens</td>
+</tr>
+<tr>
+<td><code>Timestamp(term, time=None, alias=None)</code></td>
+<td><code>TIMESTAMP(...)</code></td>
+<td><code>TIMESTAMP(...)</code></td>
+<td><code>DATETIME(...)</code></td>
+</tr>
+<tr>
+<td><code>CombineDatetime(date, time)</code></td>
+<td><code>TIMESTAMP(date, time)</code></td>
+<td><code>date + time</code> (strings cast to <code>date</code> and <code>time</code>)</td>
+<td>Frappe function</td>
+</tr>
+<tr>
+<td><code>UnixTimestamp(field)</code></td>
+<td><code>unix_timestamp(field)</code></td>
+<td><code>EXTRACT(EPOCH ...)</code> in the session time zone</td>
+<td>Frappe function</td>
+</tr>
+<tr>
+<td><code>DateDiff(date1, date2)</code></td>
+<td><code>DATEDIFF(date1, date2)</code></td>
+<td><code>CAST(date1 AS date) - CAST(date2 AS date)</code></td>
+<td><code>JULIANDAY</code> difference in days</td>
+</tr>
+<tr>
+<td><code>JSONExtract(field, path)</code></td>
+<td><code>JSON_EXTRACT</code></td>
+<td><code>field-&gt;path</code></td>
+<td><code>JSON_EXTRACT</code> with MariaDB quoting</td>
+</tr>
+<tr>
+<td><code>JSONValue(field, path)</code></td>
+<td><code>JSON_UNQUOTE(JSON_EXTRACT(...))</code></td>
+<td><code>field-&gt;&gt;path</code></td>
+<td>Unquoted scalar</td>
+</tr>
+<tr>
+<td><code>JSONContains(target, candidate)</code></td>
+<td><code>JSON_CONTAINS</code></td>
+<td><code>@&gt;</code></td>
+<td>Frappe function</td>
+</tr>
+<tr>
+<td><code>Month(field)</code>, <code>Year(field)</code>, <code>Quarter(field)</code></td>
+<td><code>MONTH</code>, <code>YEAR</code>, <code>QUARTER</code></td>
+<td><code>date_part(...)</code> cast to integer</td>
+<td><code>STRFTIME</code> cast to integer</td>
+</tr>
+<tr>
+<td><code>MonthName(field)</code></td>
+<td><code>MONTHNAME</code></td>
+<td><code>to_char(field, 'FMMonth')</code></td>
+<td><code>CASE</code> over <code>STRFTIME('%m')</code></td>
+</tr>
+<tr>
+<td><code>Now()</code></td>
+<td><code>NOW()</code></td>
+<td><code>NOW()</code></td>
+<td><code>NOW()</code> in the site time zone. <code>Now() + Interval(...)</code> uses <code>DATETIME</code></td>
+</tr>
+<tr>
+<td><code>Coalesce(*terms)</code></td>
+<td><code>COALESCE</code></td>
+<td><code>COALESCE</code></td>
+<td>Returns the argument alone when there is one</td>
+</tr>
+<tr>
+<td><code>CurDate()</code></td>
+<td><code>CURRENT_DATE</code></td>
+<td><code>CURRENT_DATE</code></td>
+<td><code>CURRENT_DATE</code></td>
+</tr>
+<tr>
+<td><code>Cast_(value, as_type, alias=None)</code></td>
+<td><code>CONCAT(value, '')</code> for <code>varchar</code>, else <code>CAST</code></td>
+<td><code>CAST</code></td>
+<td><code>CAST</code></td>
+</tr>
+<tr>
+<td><code>Abs(term)</code></td>
+<td><code>ABS</code> (scalar, not an aggregate)</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Round(term, decimal=0)</code></td>
+<td><code>ROUND</code></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Truncate(term, decimal)</code></td>
+<td><code>TRUNCATE</code></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Concat_ws(*terms)</code></td>
+<td><code>CONCAT_WS</code></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>YearWeek(term)</code></td>
+<td><code>YEARWEEK(term, 1)</code></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Strpos(needle, haystack)</code>, <code>Instr(needle, haystack)</code></td>
+<td><code>STRPOS(haystack, needle)</code>, <code>INSTR(haystack, needle)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Ifnull</code></td>
+<td>Alias of <code>IfNull</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pypika-functions">PyPika functions<a class="headerlink" href="#pypika-functions" title="Permanent link">&para;</a></h3>
+<p><code>Count</code>, <code>Sum</code>, <code>Avg</code>, <code>Max</code>, <code>Min</code>, <code>Std</code>, <code>StdDev</code>, <code>First</code>, <code>Last</code>, <code>ApproximatePercentile</code>, <code>IfNull</code>, <code>IsNull</code>, <code>NVL</code>, <code>NullIf</code>, <code>Coalesce</code>, <code>Concat</code>, <code>Upper</code>, <code>Lower</code>, <code>Length</code>, <code>Trim</code>, <code>Substring</code>, <code>Replace</code>, <code>Reverse</code>, <code>Insert</code>, <code>SplitPart</code>, <code>RegexpLike</code>, <code>RegexpMatches</code>, <code>Ascii</code>, <code>Bin</code>, <code>Floor</code>, <code>Sqrt</code>, <code>Cast</code>, <code>Convert</code>, <code>Signed</code>, <code>Unsigned</code>, <code>Date</code>, <code>DateAdd</code>, <code>TimeDiff</code>, <code>TimestampAdd</code>, <code>ToChar</code>, <code>ToDate</code>, <code>Extract</code>, <code>CurTime</code>, <code>CurTimestamp</code>, <code>UtcTimestamp</code>, <code>SqlTypes</code>.</p>
+<h3 id="custom-functions-and-constants">Custom functions and constants<a class="headerlink" href="#custom-functions-and-constants" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CustomFunction(name, ["arg1", ...])</code></td>
+<td>Make a function class. From <code>frappe.query_builder</code>.</td>
+</tr>
+<tr>
+<td><code>frappe.qb.functions("UPPER", Item.name)</code></td>
+<td>Call any SQL function by name.</td>
+</tr>
+<tr>
+<td><code>frappe.query_builder.custom.ConstantColumn(value)</code></td>
+<td>A column with the same string in every row. Its default alias is the value.</td>
+</tr>
+<tr>
+<td><code>frappe.query_builder.terms.SubQuery(query, alias=None)</code> (also <code>subqry</code>)</td>
+<td>Wrap a query as a criterion term, for <code>&gt;</code> or <code>=</code> against a subquery.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">frappe.query_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">frappe.query_builder.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstantColumn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">frappe.query_builder.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Count</span><span class="p">,</span> <span class="n">GroupConcat</span>
+
+<span class="n">Item</span> <span class="o">=</span> <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">DocType</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">)</span>
+<span class="n">DateOnly</span> <span class="o">=</span> <span class="n">CustomFunction</span><span class="p">(</span><span class="s2">"DATE"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"value"</span><span class="p">])</span>
+
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">Item</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
+    <span class="n">Count</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"count"</span><span class="p">),</span>
+    <span class="n">GroupConcat</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">"; "</span><span class="p">)</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"names"</span><span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `category`,COUNT(`name`) `count`,GROUP_CONCAT(`name` SEPARATOR '; ') `names`</span>
+<span class="c1"># FROM `tabSample Item` GROUP BY `category`</span>
+
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">DateOnly</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">creation</span><span class="p">)</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"d"</span><span class="p">),</span> <span class="n">ConstantColumn</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">)</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"doctype"</span><span class="p">))</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT DATE(`creation`) `d`,'Sample Item' `doctype` FROM `tabSample Item`</span>
+</code></pre></div>
+<h2 id="case-order-and-interval">Case, Order and Interval<a class="headerlink" href="#case-order-and-interval" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Case().when(criterion, value).else_(value)</code></td>
+<td><code>CASE WHEN ... THEN ... ELSE ... END</code>. Chain more <code>.when()</code> calls.</td>
+</tr>
+<tr>
+<td><code>Order.asc</code>, <code>Order.desc</code></td>
+<td>The <code>order</code> argument of <code>.orderby()</code>. Also <code>frappe.qb.asc</code> and <code>frappe.qb.desc</code>.</td>
+</tr>
+<tr>
+<td><code>Interval(years=0, months=0, days=0, hours=0, minutes=0, seconds=0, microseconds=0, quarters=0, weeks=0, dialect=None)</code></td>
+<td>A date interval. Add it to or subtract it from a date term.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">frappe.query_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Case</span><span class="p">,</span> <span class="n">Interval</span><span class="p">,</span> <span class="n">Order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">frappe.query_builder.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Now</span>
+
+<span class="n">Item</span> <span class="o">=</span> <span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">DocType</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">)</span>
+<span class="n">band</span> <span class="o">=</span> <span class="n">Case</span><span class="p">()</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">rate</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">"High"</span><span class="p">)</span><span class="o">.</span><span class="n">else_</span><span class="p">(</span><span class="s2">"Low"</span><span class="p">)</span>
+
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">as_</span><span class="p">(</span><span class="s2">"band"</span><span class="p">))</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">Item</span><span class="o">.</span><span class="n">creation</span> <span class="o">&gt;</span> <span class="n">Now</span><span class="p">()</span> <span class="o">-</span> <span class="n">Interval</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">orderby</span><span class="p">(</span><span class="n">Item</span><span class="o">.</span><span class="n">rate</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">Order</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name`,CASE WHEN `rate`&gt;=200 THEN 'High' ELSE 'Low' END `band` FROM `tabSample Item`</span>
+<span class="c1"># WHERE `creation`&gt;NOW()-INTERVAL '7' DAY ORDER BY `rate` DESC</span>
+</code></pre></div>
+<h2 id="get_query">get_query<a class="headerlink" href="#get_query" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span>
+    <span class="n">table</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Table</span><span class="p">,</span>
+    <span class="n">fields</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="nb">set</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">Criterion</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">group_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">distinct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">for_update</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">update</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">into</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">delete</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">validate_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">skip_locked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">wait</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">ignore_permissions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">ignore_user_permissions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">parent_doctype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">reference_doctype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">or_filters</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">db_query_compat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryBuilder</span>
+</code></pre></div>
+<p>Build a query from the <code>fields</code> and <code>filters</code> syntax of <code>frappe.get_all</code>. The returned query is immutable. Each method you chain, such as <code>.where()</code>, returns a new query. <code>frappe.db.get_value</code>, <code>get_values</code>, <code>count</code>, <code>set_value</code> and <code>delete</code> use it.</p>
+<p><code>frappe.database.query.Engine(db=None).get_query(...)</code> is the class behind it. Pass <code>db</code> to build for a connection other than <code>frappe.local.db</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>table</code></td>
+<td></td>
+<td>DocType name or a <code>Table</code>.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>["name"]</code></td>
+<td>Fields to select. See <a href="#fields">Fields</a>.</td>
+</tr>
+<tr>
+<td><code>filters</code></td>
+<td><code>None</code></td>
+<td>Conditions joined with <code>AND</code>. See <a href="#filters">Filters</a>.</td>
+</tr>
+<tr>
+<td><code>order_by</code></td>
+<td><code>None</code></td>
+<td>No <code>ORDER BY</code> when empty. <code>"KEEP_DEFAULT_ORDERING"</code> uses the sort settings of the DocType. See <a href="#order-and-group">Order and group</a>.</td>
+</tr>
+<tr>
+<td><code>group_by</code></td>
+<td><code>None</code></td>
+<td>Comma-separated fields.</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>None</code></td>
+<td>Non-negative <code>int</code>. Another type raises <code>TypeError</code>.</td>
+</tr>
+<tr>
+<td><code>offset</code></td>
+<td><code>None</code></td>
+<td>Non-negative <code>int</code>. Without <code>limit</code>, MariaDB gets <code>LIMIT 18446744073709551615</code> and SQLite gets <code>LIMIT -1</code>.</td>
+</tr>
+<tr>
+<td><code>distinct</code></td>
+<td><code>False</code></td>
+<td><code>SELECT DISTINCT</code>. On Postgres, an <code>order_by</code> field that is not selected is dropped with a <code>UserWarning</code>.</td>
+</tr>
+<tr>
+<td><code>for_update</code></td>
+<td><code>False</code></td>
+<td>Add <code>FOR UPDATE</code>.</td>
+</tr>
+<tr>
+<td><code>skip_locked</code></td>
+<td><code>False</code></td>
+<td>With <code>for_update</code>, add <code>SKIP LOCKED</code>.</td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><code>True</code></td>
+<td>With <code>for_update</code>, <code>False</code> adds <code>NOWAIT</code>.</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td><code>False</code></td>
+<td>Return an <code>UPDATE</code> with the filters. Chain <code>.set()</code>. <code>fields</code> is ignored.</td>
+</tr>
+<tr>
+<td><code>into</code></td>
+<td><code>False</code></td>
+<td>Return an <code>INSERT INTO</code>. Chain <code>.columns()</code> and <code>.insert()</code>.</td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td><code>False</code></td>
+<td>Return a <code>DELETE</code> with the filters.</td>
+</tr>
+<tr>
+<td><code>ignore_permissions</code></td>
+<td><code>True</code></td>
+<td><code>False</code> checks <code>select</code> or <code>read</code> permission, field permlevels, user permissions, <code>permission_query_conditions</code> and shares. Raises <code>frappe.PermissionError</code> when the user has no access.</td>
+</tr>
+<tr>
+<td><code>ignore_user_permissions</code></td>
+<td><code>False</code></td>
+<td>With permissions on, skip User Permission conditions.</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td><code>frappe.session.user</code></td>
+<td>User for the permission checks.</td>
+</tr>
+<tr>
+<td><code>parent_doctype</code></td>
+<td><code>None</code></td>
+<td>For a child DocType: check permissions on this parent and join it.</td>
+</tr>
+<tr>
+<td><code>reference_doctype</code></td>
+<td><code>None</code></td>
+<td>DocType of a link field. Applies User Permissions with "Applicable For" this DocType.</td>
+</tr>
+<tr>
+<td><code>or_filters</code></td>
+<td><code>None</code></td>
+<td>Conditions joined with <code>OR</code>, then added to <code>filters</code> with <code>AND</code>.</td>
+</tr>
+<tr>
+<td><code>db_query_compat</code></td>
+<td><code>False</code></td>
+<td><code>True</code> makes a field in <code>order_by</code> without a direction sort <code>ASC</code>, as in <code>frappe.get_list</code>. It also turns <code>None</code> in <code>in</code> and <code>not in</code> into <code>("",)</code>.</td>
+</tr>
+<tr>
+<td><code>validate_filters</code></td>
+<td><code>False</code></td>
+<td>Deprecated. Not used.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Example</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field name</td>
+<td><code>"rate"</code></td>
+<td><code>`rate`</code></td>
+</tr>
+<tr>
+<td>Comma-separated string</td>
+<td><code>"name, rate as price"</code></td>
+<td><code>`name`,`rate` `price`</code></td>
+</tr>
+<tr>
+<td>Alias</td>
+<td><code>"rate as price"</code></td>
+<td><code>`rate` `price`</code></td>
+</tr>
+<tr>
+<td>All columns</td>
+<td><code>"*"</code></td>
+<td><code>*</code> (with permissions on: all permitted fields)</td>
+</tr>
+<tr>
+<td>Table-qualified</td>
+<td><code>"`tabSample Item`.`rate`"</code></td>
+<td><code>`tabSample Item`.`rate`</code></td>
+</tr>
+<tr>
+<td>Link field</td>
+<td><code>"item.category"</code> (in <code>Sample Order Item</code>)</td>
+<td><code>LEFT JOIN</code> on the linked DocType with an alias such as <code>`tab_Sample Item_1`</code></td>
+</tr>
+<tr>
+<td>Child table field</td>
+<td><code>"items.item"</code> (in <code>Sample Order</code>)</td>
+<td><code>LEFT JOIN</code> on the child table with <code>parent</code>, <code>parenttype</code> and <code>parentfield</code></td>
+</tr>
+<tr>
+<td>Child query</td>
+<td><code>{"items": ["item", "qty"]}</code></td>
+<td>A second query per run. Rows go in a list under <code>items</code>. Needs <code>run(as_dict=True)</code>.</td>
+</tr>
+<tr>
+<td>Function</td>
+<td><code>{"COUNT": "*", "as": "n"}</code>, <code>{"SUM": "rate"}</code>, <code>{"IFNULL": ["description", "''"]}</code></td>
+<td><code>COUNT(*)</code>n<code>`,</code>SUM(<code>rate</code>)<code>,</code>IFNULL(<code>description</code>,'')`</td>
+</tr>
+<tr>
+<td>Arithmetic</td>
+<td><code>{"MUL": ["rate", 2], "as": "double"}</code></td>
+<td><code>`rate`*2 `double`</code></td>
+</tr>
+<tr>
+<td>Query builder term</td>
+<td><code>Count(Item.name)</code>, <code>Item.rate</code></td>
+<td>as built</td>
+</tr>
+</tbody>
+</table>
+<p>Function keys are <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MAX</code>, <code>MIN</code>, <code>ABS</code>, <code>EXTRACT</code>, <code>LOCATE</code>, <code>TIMESTAMP</code>, <code>IFNULL</code>, <code>CONCAT</code>, <code>NOW</code>, <code>NULLIF</code>, <code>MONTHNAME</code>, <code>QUARTER</code>, <code>MONTH</code>, <code>YEAR</code>. Arithmetic keys are <code>ADD</code>, <code>SUB</code>, <code>MUL</code> and <code>DIV</code>, with exactly two operands. Functions and operators can nest. A string argument is a field name, a number, <code>"*"</code> (<code>COUNT</code> only), or a quoted literal such as <code>"'text'"</code>. An alias must be a simple identifier.</p>
+<p>A function written as a string, such as <code>"count(name) as c"</code>, raises <code>frappe.ValidationError</code>. Any other field string that is not a plain, backticked, table-qualified or aliased name raises <code>frappe.PermissionError</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span>
+    <span class="s2">"Sample Item"</span><span class="p">,</span>
+    <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"category"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"COUNT"</span><span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span> <span class="s2">"as"</span><span class="p">:</span> <span class="s2">"n"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"SUM"</span><span class="p">:</span> <span class="s2">"rate"</span><span class="p">,</span> <span class="s2">"as"</span><span class="p">:</span> <span class="s2">"total"</span><span class="p">}],</span>
+    <span class="n">group_by</span><span class="o">=</span><span class="s2">"category"</span><span class="p">,</span>
+    <span class="n">order_by</span><span class="o">=</span><span class="s2">"total desc"</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">as_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span><span class="s2">"Sample Order"</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"items"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"item"</span><span class="p">,</span> <span class="s2">"qty"</span><span class="p">]}],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="s2">"name asc"</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">as_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># [{'name': 'SO-00001', 'items': [{'item': 'Laptop', 'qty': 2.0}, {'item': 'Monitor', 'qty': 2.0}]}]</span>
+</code></pre></div>
+<h3 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Example</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>"Laptop"</code></td>
+<td><code>name='Laptop'</code></td>
+</tr>
+<tr>
+<td>List of names</td>
+<td><code>["Laptop", "Monitor"]</code></td>
+<td><code>name IN ('Laptop','Monitor')</code></td>
+</tr>
+<tr>
+<td>Dict</td>
+<td><code>{"category": "Hardware", "rate": ["&gt;", 100]}</code></td>
+<td><code>category='Hardware' AND rate&gt;100</code></td>
+</tr>
+<tr>
+<td>List of conditions</td>
+<td><code>[["rate", "between", [10, 100]], ["item_name", "like", "%a%"]]</code></td>
+<td>joined with <code>AND</code></td>
+</tr>
+<tr>
+<td>Condition with DocType</td>
+<td><code>[["Sample Order Item", "item", "=", "Laptop"]]</code></td>
+<td>joins the child table</td>
+</tr>
+<tr>
+<td>Nested</td>
+<td><code>[["category", "=", "Hardware"], "or", [["rate", "&lt;", 50], "and", ["disabled", "=", 0]]]</code></td>
+<td><code>category='Hardware' OR (rate&lt;50 AND disabled=0)</code></td>
+</tr>
+<tr>
+<td>Criterion</td>
+<td><code>Item.rate &gt; 800</code></td>
+<td>as built</td>
+</tr>
+</tbody>
+</table>
+<p>A condition is <code>[field, value]</code>, <code>[field, operator, value]</code> or <code>[doctype, field, operator, value]</code>. A field can be a link or child table field (<code>"items.qty"</code>). A field that is not in the DocType but is in one of its child tables is looked up there, and the child table is joined.</p>
+<p>Operators:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>=&lt;</code>, <code>=&gt;</code></td>
+<td>value</td>
+<td><code>None</code> with <code>=</code> gives <code>IS NULL</code>. <code>None</code> with <code>!=</code> compares with the empty value of the field type.</td>
+</tr>
+<tr>
+<td><code>in</code>, <code>not in</code></td>
+<td>list, tuple, or comma-separated string</td>
+<td>An empty list with <code>in</code> gives <code>1=0</code>. An empty list with <code>not in</code> gives <code>1=1</code>. <code>""</code> or <code>None</code> in an <code>in</code> list also matches <code>NULL</code>.</td>
+</tr>
+<tr>
+<td><code>like</code>, <code>not like</code>, <code>ilike</code></td>
+<td>pattern</td>
+<td><code>like</code> is <code>ILIKE</code> on Postgres.</td>
+</tr>
+<tr>
+<td><code>regex</code></td>
+<td>pattern</td>
+<td></td>
+</tr>
+<tr>
+<td><code>between</code></td>
+<td><code>[from, to]</code></td>
+<td>Dates on a Datetime field become the start and end of the day.</td>
+</tr>
+<tr>
+<td><code>is</code></td>
+<td><code>"set"</code> or <code>"not set"</code></td>
+<td>Compares with <code>NULL</code> and the empty value of the field type.</td>
+</tr>
+<tr>
+<td><code>timespan</code></td>
+<td><code>"this month"</code>, <code>"last week"</code> and others</td>
+<td>Becomes <code>between</code>.</td>
+</tr>
+<tr>
+<td><code>previous</code>, <code>next</code></td>
+<td><code>"1 week"</code> and others</td>
+<td>Becomes <code>between</code>.</td>
+</tr>
+<tr>
+<td><code>ancestors of</code>, <code>descendants of</code>, <code>not ancestors of</code>, <code>not descendants of</code>, <code>descendants of (inclusive)</code></td>
+<td>document name</td>
+<td>For tree DocTypes. Uses <code>lft</code> and <code>rgt</code>.</td>
+</tr>
+<tr>
+<td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></td>
+<td>value</td>
+<td>Python arithmetic operators.</td>
+</tr>
+<tr>
+<td>Custom</td>
+<td></td>
+<td>Operators from the <code>filters_config</code> hook. See <a href="../../configuration/hooks/">Hooks</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>A filter field name with characters other than letters, digits and <code>_</code> raises <code>frappe.ValidationError</code>. On <code>_assign</code> and <code>_liked_by</code>, <code>=</code> and <code>!=</code> become <code>like</code> and <code>not like</code> with <code>%value%</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span>
+    <span class="s2">"Sample Item"</span><span class="p">,</span>
+    <span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s2">"disabled"</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="n">or_filters</span><span class="o">=</span><span class="p">{</span><span class="s2">"category"</span><span class="p">:</span> <span class="s2">"Hardware"</span><span class="p">,</span> <span class="s2">"rate"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"&gt;"</span><span class="p">,</span> <span class="mi">200</span><span class="p">]},</span>
+<span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name` FROM `tabSample Item` WHERE `disabled`=0 AND (`category`='Hardware' OR `rate`&gt;200)</span>
+</code></pre></div>
+<h3 id="order-and-group">Order and group<a class="headerlink" href="#order-and-group" title="Permanent link">&para;</a></h3>
+<p><code>order_by</code> and <code>group_by</code> take comma-separated fields: plain names, select aliases, result positions (<code>"1"</code>), link and child table fields, or backticked table-qualified names.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In <code>order_by</code>, a field without a direction sorts <code>DESC</code>. <code>frappe.get_list</code> sorts it <code>ASC</code>. Pass <code>db_query_compat=True</code> or write the direction.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">order_by</span><span class="o">=</span><span class="s2">"rate"</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name` FROM `tabSample Item` ORDER BY `rate` DESC</span>
+<span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span><span class="s2">"Sample Item"</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">order_by</span><span class="o">=</span><span class="s2">"KEEP_DEFAULT_ORDERING"</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name` FROM `tabSample Item` ORDER BY `modified` DESC</span>
+</code></pre></div>
+<p>On Postgres with <code>group_by</code> or an aggregate, an <code>order_by</code> field that is not grouped or aliased is wrapped in <code>MAX()</code>.</p>
+<h3 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">&para;</a></h3>
+<p>With <code>ignore_permissions=False</code>, <code>get_query</code>:</p>
+<ol>
+<li>Checks <code>select</code> permission on the DocType (or on <code>parent_doctype</code>) for <code>user</code>. Raises <code>frappe.PermissionError</code> if missing.</li>
+<li>Removes fields above the permlevels the user can read. <code>"*"</code> becomes the permitted fields.</li>
+<li>Adds the <code>if_owner</code> condition, or the User Permission conditions.</li>
+<li>Adds the conditions of <code>permission_query_conditions</code> hooks.</li>
+<li>Adds shared documents with <code>OR</code>. With no role permission, only shared documents match.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">frappe</span><span class="o">.</span><span class="n">qb</span><span class="o">.</span><span class="n">get_query</span><span class="p">(</span><span class="s2">"ToDo"</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">ignore_permissions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">"user1@example.com"</span><span class="p">)</span><span class="o">.</span><span class="n">get_sql</span><span class="p">()</span>
+<span class="c1"># SELECT `name` FROM `tabToDo` WHERE ((`tabToDo`.allocated_to = 'user1@example.com'</span>
+<span class="c1">#   or `tabToDo`.assigned_by = 'user1@example.com' or `tabToDo`.owner = 'user1@example.com'))</span>
+</code></pre></div>
+<p>See <a href="../../../developer-guide/security/permissions/">Permissions</a>.</p>
+<h2 id="deprecated">Deprecated<a class="headerlink" href="#deprecated" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Use instead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_query(..., validate_filters=...)</code></td>
+<td>Leave it out. It does nothing.</td>
+</tr>
+<tr>
+<td><code>frappe.query_builder.functions.Ifnull</code></td>
+<td><code>IfNull</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pitfalls">Pitfalls<a class="headerlink" href="#pitfalls" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>get_query</code> does not check that a field exists. A wrong field name fails when the query runs.</li>
+<li><code>get_query</code> applies no <code>ORDER BY</code> by default. <code>frappe.get_list</code> sorts by the DocType settings.</li>
+<li><code>run(run=False)</code> returns the SQL without its values. Use <code>walk()</code> to get both.</li>
+<li><code>str(query)</code> and <code>get_sql()</code> put values in the SQL. Do not run that string with <code>frappe.db.sql</code>. Pass the query object.</li>
+<li><code>query.run()</code> always uses <code>frappe.local.db</code>, even for a query from <code>frappe.db.qb</code> of a replica. Use <code>db.sql(query)</code> for another connection.</li>
+</ul>
+<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../../developer-guide/database/query-builder/">Query Builder</a></li>
+<li><a href="../database/">frappe.db</a></li>
+<li><a href="../../../developer-guide/database/database/">Database</a></li>
+<li><a href="../../../developer-guide/security/permissions/">Permissions</a></li>
+<li><a href="../../configuration/hooks/">Hooks</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
