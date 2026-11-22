@@ -17,6 +17,7 @@
 - [List View](user-guide/basics/list-view.md): Find, filter, sort and select documents in the Frappe v15 list view, use the group-by sidebar and saved filters, run bulk actions and set list settings.
 - [Views](user-guide/basics/views.md): Show the documents of a DocType in Frappe v15 as a report, kanban board, calendar, gantt chart, tree, dashboard, image grid, map or email inbox.
 - [Form View](user-guide/basics/form-view.md): Read and change one document in the Frappe v15 desk form - layout, save, submit, cancel and amend, timeline, attachments, sharing, print, email, links, duplicate, rename and form shortcuts.
+- [Fields](user-guide/basics/fields.md): Fill each kind of field in a desk form - text, numbers, check boxes, selects, links, dates, child tables, attachments, editors, signature, map, rating, duration, color and phone.
 - [Search](user-guide/basics/search.md): Find pages and documents in Frappe v15 with the awesomebar, global search, list filters and tags, and control what global search indexes.
 - [Collaboration](user-guide/basics/collaboration.md): Work on documents with other users in Frappe v15 - assignments and ToDo, sharing, comments and mentions, likes, follow, tags, energy points, activity and the notification log.
 
@@ -49,9 +50,18 @@
 - [Website](user-guide/website-and-integrations/website.md): Publish Web Pages, Web Forms, blog posts and newsletters, set up the site header, footer and home page in Website Settings, run the portal for website users, and track visits.
 - [Integrations](user-guide/website-and-integrations/integrations.md): Connect a Frappe site to other systems with Webhooks, OAuth clients, Connected Apps, Social Login Keys, LDAP, Google settings, push notifications and Dropbox, Google Drive or S3 backups.
 
+### Settings
+
+- [How Settings Work](user-guide/settings/how-settings-work.md): Settings pages are Single DocTypes stored in tabSingles. Learn where to open them, who can edit them, when a change takes effect, and how to read, write and build them in an app.
+- [System Settings](user-guide/settings/system-settings.md): Every field of System Settings, grouped by form tab, with its default, its effect and the server and desk code that reads it.
+- [Security, Session Default and Log Settings](user-guide/settings/security-settings.md): Field reference for Security Settings (security.txt), Session Default Settings and Log Settings, with where Frappe reads each field.
+- [Desk Settings](user-guide/settings/desk-settings.md): Field reference for Navbar, Global Search, Domain, Document Naming, Energy Point and per-user Notification Settings, with where Frappe reads each field.
+- [Website Settings](user-guide/settings/website-settings.md): Field reference for Website Settings, Portal Settings, Contact Us Settings, About Us Settings, Website Script and Blog Settings, with the website code that reads each field.
+- [Print Settings](user-guide/settings/print-settings.md): Field reference for Print Settings, with the effect of each field on the print view, PDF generation, letter heads, bulk print and email attachments.
+- [Integration Settings](user-guide/settings/integration-settings.md): Field reference for OAuth Provider Settings, LDAP Settings, Push Notification Settings, Google Settings, SMS Settings and the Dropbox, Google Drive and S3 backup settings, with where Frappe reads each field.
+
 ### System Administration
 
-- [System Settings](user-guide/system-administration/system-settings.md): Site-wide settings in System Settings (formats, login, password, email, files, backups, scheduler), plus the basics of Website Settings and Navbar Settings.
 - [Backups](user-guide/system-administration/backups.md): Take, download, schedule, encrypt and restore site backups with bench, the Download Backups page, and the Dropbox, Google Drive and S3 backup integrations.
 - [Logs and Monitoring](user-guide/system-administration/logs-and-monitoring.md): Find errors and check site health with Error Log, Activity Log, Access Log, Scheduled Job Log, RQ Job, RQ Worker, Recorder, System Health Report, System Console and Log Settings.
 
@@ -73,6 +83,18 @@
 - [Controllers](developer-guide/data-model/controllers.md): The Document class, controller lifecycle methods and their exact run order, doc_events, flags, db_set, change detection and whitelisted controller methods.
 - [Files](developer-guide/data-model/files.md): Store and attach files with the File DocType, upload them over HTTP, and choose public or private storage.
 
+### Fields and Controls
+
+- [Field Properties](developer-guide/fields/field-properties.md): How DocField properties behave on the desk and on the server - names, defaults, depends_on rules, fetch_from, constraints, permissions, list and print settings.
+- [Text Fields](developer-guide/fields/text-fields.md): How Data, Small Text, Text, Long Text, Text Editor, Markdown Editor, HTML Editor, Code, JSON, Password and Read Only fields store values, behave in the desk and validate on save.
+- [Number Fields](developer-guide/fields/number-fields.md): How Int, Float, Currency, Percent, Check, Rating and Duration fields store values, format numbers and currencies, and validate on save.
+- [Date and Time Fields](developer-guide/fields/date-and-time-fields.md): How Date, Datetime and Time fields store values, use the System Settings formats, convert between user and system time zones, and work with frappe.datetime and frappe.utils.
+- [Link and Select Fields](developer-guide/fields/link-and-select-fields.md): How Link, Dynamic Link, Select and Autocomplete fields store values, search and filter in the desk, and validate on save.
+- [Table Fields](developer-guide/fields/table-fields.md): How Table and Table MultiSelect fields store child rows, how the desk grid works, and the Python, JavaScript and REST APIs for rows.
+- [Media and Special Fields](developer-guide/fields/media-fields.md): How Attach, Attach Image, Image, Signature, Barcode, Geolocation, Color, Icon and Phone fields store values, behave in the desk and validate on save.
+- [Layout and Display Fields](developer-guide/fields/layout-fields.md): How the desk builds a form from Section Break, Column Break, Tab Break and Fold fields, and how Heading, HTML, Button and Attachment Gallery fields work.
+- [Controls](developer-guide/fields/controls.md): Use the desk control JavaScript API - control classes, make_control, control methods, FieldGroup and Dialog fields, dialog-only controls, and custom controls from an app.
+
 ### Database
 
 - [Database API](developer-guide/database/database.md): Read and write data with frappe.db and frappe.get_list / get_all, the filter syntax, and when Frappe commits or rolls back a transaction.
@@ -84,10 +106,13 @@
 - [Authentication](developer-guide/security/authentication.md): Authenticate HTTP requests with a session cookie, API key and secret, or an OAuth 2 bearer token, and how CSRF, two-factor login, guests and auth hooks work.
 - [Security](developer-guide/security/security.md): Write secure Frappe app code - permission checks in whitelisted methods, safe SQL, escaping, private files, rate limits, CSRF, secrets and the risks of ignore_permissions.
 
-### APIs
+### Requests and APIs
 
+- [Request Lifecycle](developer-guide/api/request-lifecycle.md): Follow one HTTP request through frappe.app.application in v15, from site resolution, session and auth to dispatch, commit, response, cleanup and errors.
 - [Whitelisted Methods](developer-guide/api/whitelisted-methods.md): Expose Python functions over HTTP with @frappe.whitelist, validate arguments with type annotations, restrict access by role, rate limit, and override methods of other apps.
 - [REST API](developer-guide/api/rest-api.md): Read and change documents and call whitelisted methods over HTTP with /api/v1 (resource, method) and /api/v2 (document, doctype, method), including list parameters, responses and errors.
+- [API Internals](developer-guide/api/api-internals.md): How Frappe v15 routes an /api request to a function, checks whitelist, guest and HTTP method rules, binds arguments, and turns frappe.response into JSON, files, redirects and errors.
+- [Customizing APIs](developer-guide/api/customizing-apis.md): Every way a v15 app can add or change API behavior in Frappe, from whitelisted methods and overrides to doc_events, permission hooks, request hooks, auth hooks, CORS, response formats, versioning and tests.
 
 ### Jobs, Realtime and Caching
 
@@ -133,13 +158,30 @@
 
 ## Reference
 
-### API Reference
+### Python API
 
-- [Python API](reference/api/python-api.md): Public functions and objects on the frappe module, grouped by theme, with signatures and one line each.
-- [Database API](reference/api/database-api.md): Methods on frappe.db with signatures, grouped by theme, and the differences between MariaDB and Postgres.
-- [Utilities](reference/api/utils.md): Commonly used helpers in frappe.utils for type conversion, dates, numbers, formatting, strings, URLs, files, HTML, passwords and caching, with signatures.
-- [JavaScript API](reference/api/js-api.md): Client-side frappe namespaces in desk (frappe.call, frappe.db, frappe.model, frappe.ui, frappe.datetime, frappe.utils and more) with signatures.
-- [REST Endpoints Reference](reference/api/rest-endpoints.md): Every route under /api in Frappe v15 (v1 and v2) and the most used whitelisted methods, with HTTP methods and permission checks.
+- [frappe namespace](reference/python/frappe.md): Every public name on the frappe Python module in version 15 with signature, defaults, return value and side effects, grouped by topic.
+- [Document](reference/python/document.md): Every public method and property of frappe.model.document.Document in version 15, the hook run order of each operation, behavior flags and the frappe.model helper modules.
+- [frappe.db](reference/python/database.md): Every public method and attribute of frappe.db in version 15 with signatures, defaults, return values, side effects and the differences between MariaDB and Postgres.
+- [frappe.qb](reference/python/query-builder.md): Reference for frappe.qb and frappe.query_builder in version 15 - tables, fields, terms, functions, Case, Interval, run() options and every argument of frappe.qb.get_query.
+- [frappe.utils](reference/python/utils.md): Reference of every public helper in frappe.utils and its most used submodules, with signatures, defaults, return values and side effects.
+- [Permissions and Sessions API](reference/python/permissions-and-sessions.md): Signatures and behavior of frappe.permissions, frappe.share, frappe.sessions, frappe.auth, User helpers, frappe.utils.user and frappe.defaults.
+- [Jobs, Cache and Realtime API](reference/python/jobs-cache-and-realtime.md): Signatures and behavior of frappe.enqueue, background job helpers, the scheduler, frappe.cache, caching decorators and frappe.publish_realtime.
+- [Email, Files and Printing API](reference/python/email-files-and-printing.md): Signatures and behavior of frappe.sendmail, the email queue, Communication make, the File DocType, file endpoints, get_print, attach_print, get_pdf and Jinja rendering.
+- [Testing API](reference/python/testing.md): Test classes, assertions, context managers, test record helpers and API test helpers in frappe.tests and frappe.test_runner, with their exact signatures and behavior.
+
+### JavaScript API
+
+- [frappe (JavaScript)](reference/javascript/frappe.md): Reference of the global frappe namespace in the v15 desk - server calls, messages, routing, realtime, boot, session, user, defaults, translation, metadata, toolbar and keyboard shortcuts.
+- [Utils and Formatting (JavaScript)](reference/javascript/utils-and-formatting.md): Reference of client-side helpers in the v15 desk - frappe.utils, frappe.datetime, frappe.format, number and currency formatting, flt, cint, cstr, frappe.dom, frappe.urllib and other globals.
+- [JavaScript Form API](reference/javascript/form.md): Reference for frappe.ui.form and the frm object in v15 desk JavaScript - form and child table events in trigger order, frm methods and properties, toolbar, dashboard, timeline, sidebar, ScriptManager, grid and quick entry.
+- [JavaScript Model and DB API](reference/javascript/model-and-db.md): Reference for frappe.model, locals, frappe.db, frappe.model.user_settings, frappe.perm and frappe.workflow in the v15 desk JavaScript, with signatures, return values and side effects.
+- [UI Components (JavaScript)](reference/javascript/ui-components.md): Reference of v15 desk UI classes - frappe.ui.Dialog, FieldGroup, MultiSelectDialog, Page, FileUploader, Capture, Scanner, Tags, Tree, Frappe Charts, notifications and the sidebar helper.
+- [List and Report Views (JavaScript)](reference/javascript/list-and-report-views.md): Reference of the v15 client registries that customize desk views - listview_settings, ListView members, query_reports, calendar, gantt, tree, map, kanban, dashboard chart sources and number cards.
+
+### HTTP API
+
+- [REST Endpoints Reference](reference/http/rest-endpoints.md): Every route under /api in Frappe v15 (v1 and v2) and the most used whitelisted methods, with HTTP methods and permission checks.
 
 ### Configuration Reference
 
@@ -150,5 +192,6 @@
 ### Data Model Reference
 
 - [Field Types](reference/data-model/field-types.md): Every DocField fieldtype with its database column type on MariaDB and Postgres, what Options means, and validation rules.
+- [DocField Properties](reference/data-model/docfield-properties.md): Every DocField property from docfield.json with its type, default, the fieldtypes it applies to, its effect, and whether Customize Form and Custom Field can set it.
 - [DocTypes Reference](reference/data-model/doctypes.md): Every DocType shipped with the frappe app, grouped by module, with flags and a one-line description.
 
