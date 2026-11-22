@@ -177,4 +177,4 @@ def get_open_orders(customer: str, limit: int = 20) -> list[dict]:
 - [Authentication](../security/authentication.md)
 - [Whitelisted Methods](whitelisted-methods.md)
 - [Flow (AI agents)](../../user-guide/ai-and-app-builder/flow.md)
-- [REST endpoints reference](../../reference/api/rest-endpoints.md)
+- [REST endpoints reference](../../reference/http/rest-endpoints.md)

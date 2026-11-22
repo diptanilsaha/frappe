@@ -1,6 +1,6 @@
 ---
 title: "Reference"
-description: "Complete lists generated from the code: APIs, configuration and the data model."
+description: "Complete lookups generated from the code: the Python, JavaScript and HTTP APIs, configuration and the data model."
 version: develop
 ---
 
@@ -8,10 +8,12 @@ version: develop
 
 # Reference
 
-Complete lists generated from the code: APIs, configuration and the data model.
+Complete lookups generated from the code: the Python, JavaScript and HTTP APIs, configuration and the data model.
 
 | Topic | What it covers |
 |---|---|
-| [API Reference](api/index.md) | Signatures of the Python, database, utils and JavaScript APIs, and every REST endpoint. |
+| [Python API](python/index.md) | Every public server-side function, class and method: the frappe namespace, Document, frappe.db, frappe.qb, frappe.utils, permissions, jobs, cache, realtime, email, files, printing and testing. |
+| [JavaScript API](javascript/index.md) | Every public client-side API: the frappe namespace, utilities and formatting, forms, model and db, UI components, and list and report views. |
+| [HTTP API](http/index.md) | Every REST endpoint and whitelisted method route, with methods and permission checks. |
 | [Configuration Reference](configuration/index.md) | Every hook key, site config key and bench command. |
-| [Data Model Reference](data-model/index.md) | Every field type and every DocType shipped with Frappe. |
+| [Data Model Reference](data-model/index.md) | Every field type, every DocField property and every DocType shipped with Frappe. |

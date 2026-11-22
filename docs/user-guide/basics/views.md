@@ -51,7 +51,7 @@ The switcher shows only the views that the DocType supports:
 | Calendar View, Gantt View | The DocType has calendar settings in `<doctype>_calendar.js`, or **Is Calendar and Gantt** is set. |
 | Image View | The DocType has an **Image Field**. |
 | Tree View | The DocType is a tree (**Is Tree**), or has tree settings in `<doctype>_tree.js`. |
-| Map View | The DocType has a Geolocation field named `location`, or fields named `latitude` and `longitude`, or list settings with `get_coords_method`. |
+| Map View | The DocType has a Geolocation field named `location`, or fields named `latitude` and `longitude`. `get_coords_method` in list settings only adds Map to the view switcher. The map still needs those fields. |
 | Inbox View | DocType `Communication`, and you have an email account. |
 
 If **Show view switcher** (`view_switcher`) is off on your User, the switcher does not show.
@@ -166,10 +166,10 @@ Inbox View shows `Communication` documents of your email account as an inbox. Se
 |---|---|
 | List, Report | `frappe.listview_settings` in `<doctype>_list.js` and the `doctype_list_js` hook. `reports` in list settings adds reports to the switcher. |
 | Kanban | `frappe.kanban_v2.settings["<DocType>"]` in `<doctype>_kanban.js` (`card_context_menu`, `bulk_actions`, `callbacks`, `select_styles`). Other apps use `frappe.kanban_v2.extend_settings()` and the `doctype_kanban_js` hook. A standard board is exported to `<module>/doctype/<doctype>/kanban_board/<board>.json`. |
-| Calendar, Gantt | `frappe.views.calendar["<DocType>"]` in `<doctype>_calendar.js` (`field_map`, `filters`, `get_events_method`, `gantt`). Other apps use the `doctype_calendar_js` hook. |
+| Calendar, Gantt | `frappe.views.calendar["<DocType>"]` in `<doctype>_calendar.js` (`field_map`, `get_events_method`, `gantt`). The calendar does not read a `filters` key. Other apps use the `doctype_calendar_js` hook. |
 | Tree | `frappe.treeview_settings["<DocType>"]` in `<doctype>_tree.js`, and the `doctype_tree_js` hook. The DocType has `is_tree` set. |
 | Image | `image_field` on the DocType. |
-| Map | `get_coords_method` in list settings, or the location fields. |
+| Map | The location fields (`location`, or `latitude` and `longitude`). `get_coords_method` only adds the switcher entry. |
 
 This example is the calendar of `ToDo` in `frappe/desk/doctype/todo/todo_calendar.js`:
 

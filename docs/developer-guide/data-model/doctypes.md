@@ -305,3 +305,5 @@ def on_doctype_update():
 - [Field Types](../../reference/data-model/field-types.md)
 - [DocTypes reference](../../reference/data-model/doctypes.md)
 - [Customize Form](../../user-guide/customization/customize-form.md)
+- [Field properties](../fields/field-properties.md)
+- [Fields and Controls](../fields/index.md)

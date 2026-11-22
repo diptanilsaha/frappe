@@ -95,7 +95,7 @@ The `fieldtype` of a DocField sets the database column, the desk control and the
 | `Section Break` | Not used. | Starts a section. |
 | `Column Break` | Not used. | Starts a column in a section. |
 | `Tab Break` | Not used. | Starts a tab. |
-| `Fold` | Not used. | Hides the rest of the form behind a "Show more" link. Only one per form, and it must be before a `Section Break`. |
+| `Fold` | Not used. | Hides the rest of the form behind a "Show more details" link. Only one per form, and it must be before a `Section Break`. |
 | `Heading` | Not used. | Shows the label as a heading. |
 | `HTML` | HTML to show. | Form scripts can set the content with `frm.get_field(fieldname).$wrapper.html(...)`. |
 | `Image` | Fieldname that holds the image URL. | Shows the image of that field. |
@@ -142,4 +142,6 @@ Each fieldtype has a control class `frappe.ui.form.Control<Fieldtype>` without s
 - [DocTypes](../../developer-guide/data-model/doctypes.md)
 - [Customize Form](../../user-guide/customization/customize-form.md)
 - [DocTypes reference](doctypes.md)
-- [JavaScript API](../api/js-api.md)
+- [JavaScript API](../javascript/frappe.md)
+- [Fields and Controls](../../developer-guide/fields/index.md)
+- [DocField properties](docfield-properties.md)

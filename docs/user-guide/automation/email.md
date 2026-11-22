@@ -158,5 +158,5 @@ When **Send unsubscribe message in email** is on, emails get an unsubscribe link
 
 - [Notifications](notifications.md)
 - [Reports](../data-and-reports/reports.md)
-- [System Settings](../system-administration/system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Form View](../basics/form-view.md)

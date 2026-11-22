@@ -184,6 +184,7 @@ Turn on **Enable in-app website tracking** in Website Settings. Each page visit 
 ## Related
 
 - [Users and Roles](../users-and-permissions/users-and-roles.md)
-- [System Settings](../system-administration/system-settings.md)
+- [System Settings](../settings/system-settings.md)
 - [Website (developer)](../../developer-guide/website/website.md)
 - [Web Forms (developer)](../../developer-guide/website/web-forms.md)
+- [Website settings](../settings/website-settings.md)

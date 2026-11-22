@@ -444,4 +444,4 @@ For child tables, the description names the parent DocType and the Table field. 
 
 - [DocTypes](../../developer-guide/data-model/doctypes.md)
 - [Field Types](field-types.md)
-- [Python API](../api/python-api.md)
+- [Python API](../python/frappe.md)

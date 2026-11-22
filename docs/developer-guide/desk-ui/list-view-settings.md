@@ -129,8 +129,9 @@ frappe.views.calendar["Sample Event"] = {
 |---|---|
 | `field_map` | Maps `start`, `end`, `id`, `title`, `allDay` and `convertToUserTz` to fieldnames. The gantt view also reads `progress`, `color`, `is_milestone` and `depends_on`. |
 | `get_events_method` | Dotted path of a whitelisted method. Default `frappe.desk.calendar.get_events`, which takes `doctype`, `start`, `end`, `field_map`, `filters`, `fields`, `order_by`. |
+| `update_event_method` | Dotted path of a whitelisted method that saves an event after the user drags or resizes it. Default `frappe.desk.calendar.update_event`, which takes `args` and `field_map`. |
 | `get_css_class(event)` | Return `danger`, `success`, `warning` or `default` to color an event. |
-| `fields` | Extra fields to fetch for each event. |
+| `fields` | Fields to fetch for each event. A set list replaces the default list (`field_map` start, end and title, and `name`), so include those fields too. |
 | `options` | Extra FullCalendar options. |
 | `gantt` | `true`, or an object of keys that override this object in the gantt view. |
 | `order_by` | Sort order of the gantt view. |

@@ -55,6 +55,7 @@ nav:
           - "List View": user-guide/basics/list-view.md
           - "Views": user-guide/basics/views.md
           - "Form View": user-guide/basics/form-view.md
+          - "Fields": user-guide/basics/fields.md
           - "Search": user-guide/basics/search.md
           - "Collaboration": user-guide/basics/collaboration.md
       - "Users and Permissions":
@@ -86,9 +87,18 @@ nav:
           - user-guide/ai-and-app-builder/index.md
           - "Flow": user-guide/ai-and-app-builder/flow.md
           - "Studio": user-guide/ai-and-app-builder/studio.md
+      - "Settings":
+          - user-guide/settings/index.md
+          - "How Settings Work": user-guide/settings/how-settings-work.md
+          - "System Settings": user-guide/settings/system-settings.md
+          - "Security, Session Default and Log Settings": user-guide/settings/security-settings.md
+          - "Desk Settings": user-guide/settings/desk-settings.md
+          - "Website Settings": user-guide/settings/website-settings.md
+          - "Print Settings": user-guide/settings/print-settings.md
+          - "Integration Settings": user-guide/settings/integration-settings.md
+          - "Automation and AI Settings": user-guide/settings/automation-and-ai-settings.md
       - "System Administration":
           - user-guide/system-administration/index.md
-          - "System Settings": user-guide/system-administration/system-settings.md
           - "Backups": user-guide/system-administration/backups.md
           - "Logs and Monitoring": user-guide/system-administration/logs-and-monitoring.md
   - Developer Guide:
@@ -107,6 +117,17 @@ nav:
           - "Naming": developer-guide/data-model/naming.md
           - "Controllers": developer-guide/data-model/controllers.md
           - "Files": developer-guide/data-model/files.md
+      - "Fields and Controls":
+          - developer-guide/fields/index.md
+          - "Field Properties": developer-guide/fields/field-properties.md
+          - "Text Fields": developer-guide/fields/text-fields.md
+          - "Number Fields": developer-guide/fields/number-fields.md
+          - "Date and Time Fields": developer-guide/fields/date-and-time-fields.md
+          - "Link and Select Fields": developer-guide/fields/link-and-select-fields.md
+          - "Table Fields": developer-guide/fields/table-fields.md
+          - "Media and Special Fields": developer-guide/fields/media-fields.md
+          - "Layout and Display Fields": developer-guide/fields/layout-fields.md
+          - "Controls": developer-guide/fields/controls.md
       - "Database":
           - developer-guide/database/index.md
           - "Database API": developer-guide/database/database.md
@@ -116,10 +137,13 @@ nav:
           - "Permissions": developer-guide/security/permissions.md
           - "Authentication": developer-guide/security/authentication.md
           - "Security": developer-guide/security/security.md
-      - "APIs":
+      - "Requests and APIs":
           - developer-guide/api/index.md
+          - "Request Lifecycle": developer-guide/api/request-lifecycle.md
           - "Whitelisted Methods": developer-guide/api/whitelisted-methods.md
           - "REST API": developer-guide/api/rest-api.md
+          - "API Internals": developer-guide/api/api-internals.md
+          - "Customizing APIs": developer-guide/api/customizing-apis.md
           - "MCP and API Discovery": developer-guide/api/mcp-and-discovery.md
       - "Jobs, Realtime and Caching":
           - developer-guide/runtime/index.md
@@ -161,13 +185,28 @@ nav:
           - "Upgrading": developer-guide/operations/upgrading.md
   - Reference:
       - reference/index.md
-      - "API Reference":
-          - reference/api/index.md
-          - "Python API": reference/api/python-api.md
-          - "Database API": reference/api/database-api.md
-          - "Utilities": reference/api/utils.md
-          - "JavaScript API": reference/api/js-api.md
-          - "REST Endpoints Reference": reference/api/rest-endpoints.md
+      - "Python API":
+          - reference/python/index.md
+          - "frappe namespace": reference/python/frappe.md
+          - "Document": reference/python/document.md
+          - "frappe.db": reference/python/database.md
+          - "frappe.qb": reference/python/query-builder.md
+          - "frappe.utils": reference/python/utils.md
+          - "Permissions and Sessions API": reference/python/permissions-and-sessions.md
+          - "Jobs, Cache and Realtime API": reference/python/jobs-cache-and-realtime.md
+          - "Email, Files and Printing API": reference/python/email-files-and-printing.md
+          - "Testing API": reference/python/testing.md
+      - "JavaScript API":
+          - reference/javascript/index.md
+          - "frappe (JavaScript)": reference/javascript/frappe.md
+          - "Utils and Formatting (JavaScript)": reference/javascript/utils-and-formatting.md
+          - "JavaScript Form API": reference/javascript/form.md
+          - "JavaScript Model and DB API": reference/javascript/model-and-db.md
+          - "UI Components (JavaScript)": reference/javascript/ui-components.md
+          - "List and Report Views (JavaScript)": reference/javascript/list-and-report-views.md
+      - "HTTP API":
+          - reference/http/index.md
+          - "REST Endpoints Reference": reference/http/rest-endpoints.md
       - "Configuration Reference":
           - reference/configuration/index.md
           - "Hooks Reference": reference/configuration/hooks.md
@@ -176,4 +215,5 @@ nav:
       - "Data Model Reference":
           - reference/data-model/index.md
           - "Field Types": reference/data-model/field-types.md
+          - "DocField Properties": reference/data-model/docfield-properties.md
           - "DocTypes Reference": reference/data-model/doctypes.md

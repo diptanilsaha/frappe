@@ -107,7 +107,7 @@ An app is live when at least one page is published. Published apps also show on 
 
 ## AI Assistant
 
-The **AI Assistant** in the left rail builds or changes pages from a prompt. It needs an OpenRouter API key in **Studio Settings** (`ai_api_key`), set from the Studio settings dialog. When Flow is set up, the panel can also open Flow.
+The **AI Assistant** in the left rail builds or changes pages from a prompt. It needs an OpenRouter API key in **Studio Settings** (`ai_api_key`). Set the key at `/desk/studio-settings`. The Studio settings dialog has no AI tab. When Flow is set up, the panel can also open Flow.
 
 ## Access
 

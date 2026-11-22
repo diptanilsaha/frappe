@@ -233,8 +233,12 @@ def validate_sample_header():
         return
     user = frappe.db.get_value("Sample Device", {"token": token, "enabled": 1}, "user")
     if user:
+        form_dict = frappe.local.form_dict
         frappe.set_user(user)
+        frappe.local.form_dict = form_dict
 ```
+
+`frappe.set_user` resets `frappe.local.form_dict`. Save it before the call and put it back after, as the built-in token and OAuth checks in `frappe/auth.py` do. Without this, the request loses its arguments.
 
 If a request has an `Authorization` header with two parts and no method sets a user, Frappe raises `frappe.AuthenticationError` (HTTP 401).
 
@@ -258,3 +262,4 @@ A request with a token or a bearer token can send `X-Frappe-Agent: <name>`. Frap
 - [Integrations](../../user-guide/website-and-integrations/integrations.md)
 - [Security](security.md)
 - [Configuration](../operations/configuration.md)
+- [Request lifecycle](../api/request-lifecycle.md)

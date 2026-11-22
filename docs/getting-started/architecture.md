@@ -172,3 +172,4 @@ A new app gets one module with the same name as the app title. `bench new-app` w
 - [Glossary](glossary.md)
 - [Hooks](../developer-guide/building-apps/hooks.md)
 - [Deployment](../developer-guide/operations/deployment.md)
+- [Request lifecycle](../developer-guide/api/request-lifecycle.md)

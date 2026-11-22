@@ -183,7 +183,7 @@ Fill **Google Settings** with the OAuth **Client ID**, **Client Secret** and **A
 
 ## Push notifications
 
-Turn on **Enable Push Notification Relay** in Push Notification Settings. Frappe registers with the relay server and saves the **API Key** and **API Secret**. The relay server URL comes from `push_relay_server_url` in the site config.
+Turn on **Enable Push Notification Relay** in Push Notification Settings. On the first call to the relay server, Frappe registers the site and saves the **API Key** and **API Secret**. The relay server URL comes from `push_relay_server_url` in the site config.
 
 ## For developers
 
@@ -204,3 +204,4 @@ Turn on **Enable Push Notification Relay** in Push Notification Settings. Frappe
 - [Authentication](../../developer-guide/security/authentication.md)
 - [REST API](../../developer-guide/api/rest-api.md)
 - [Background Jobs](../../developer-guide/runtime/background-jobs.md)
+- [Integration settings](../settings/integration-settings.md)
